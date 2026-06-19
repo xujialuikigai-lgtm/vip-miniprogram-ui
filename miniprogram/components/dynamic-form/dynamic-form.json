@@ -1,0 +1,15 @@
+{
+  "component": true,
+  "styleIsolation": "apply-shared",
+  "usingComponents": {
+    "t-input": "tdesign-miniprogram/input/input",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-radio-group": "tdesign-miniprogram/radio-group/radio-group",
+    "t-radio": "tdesign-miniprogram/radio/radio",
+    "t-checkbox-group": "tdesign-miniprogram/checkbox-group/checkbox-group",
+    "t-checkbox": "tdesign-miniprogram/checkbox/checkbox",
+    "t-picker": "tdesign-miniprogram/picker/picker",
+    "t-picker-item": "tdesign-miniprogram/picker-item/picker-item",
+    "t-cascader": "tdesign-miniprogram/cascader/cascader"
+  }
+}

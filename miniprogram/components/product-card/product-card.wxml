@@ -1,0 +1,52 @@
+<!-- 商品卡片组件：展示品牌图标、名称、标签、销量、现价与划线原价 -->
+<view
+  class="product-card"
+  hover-class="product-card--hover"
+  hover-stay-time="80"
+  bindtap="onTap"
+  aria-role="button"
+  aria-label="{{product.name}}，现价{{displayPrice}}元"
+>
+  <!-- 品牌图标，加载失败时展示名称首字占位 -->
+  <view class="product-card__media">
+    <image
+      wx:if="{{product.brandIcon && !iconError}}"
+      class="product-card__icon"
+      src="{{product.brandIcon}}"
+      mode="aspectFill"
+      lazy-load="{{true}}"
+      binderror="onIconError"
+    />
+    <view wx:else class="product-card__icon product-card__icon--placeholder">
+      {{product.name ? product.name[0] : '会'}}
+    </view>
+  </view>
+
+  <!-- 商品信息主体 -->
+  <view class="product-card__body">
+    <view class="product-card__name">{{product.name}}</view>
+
+    <!-- 标签 -->
+    <view class="product-card__tags" wx:if="{{product.tags && product.tags.length > 0}}">
+      <t-tag
+        wx:for="{{product.tags}}"
+        wx:key="*this"
+        wx:if="{{index < 3}}"
+        class="product-card__tag"
+        size="small"
+        variant="light"
+        theme="primary"
+      >{{item}}</t-tag>
+    </view>
+
+    <!-- 价格与销量 -->
+    <view class="product-card__footer">
+      <view class="product-card__price">
+        <text class="product-card__price-symbol">¥</text>
+        <text class="product-card__price-value">{{displayPrice}}</text>
+        <text wx:if="{{showOriginalPrice}}" class="product-card__price-origin">¥{{displayOriginalPrice}}</text>
+      </view>
+      <text class="product-card__sales" wx:if="{{salesText}}">{{salesText}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,123 @@
+<!-- 订单详情页（用户视角） -->
+<view class="page-order-detail">
+
+  <!-- 加载态 -->
+  <view class="state-box" wx:if="{{pageState === PageState.LOADING}}">
+    <t-loading theme="circular" size="48rpx" loading text="加载中..." />
+  </view>
+
+  <!-- 异常态 -->
+  <view class="state-box" wx:elif="{{pageState === PageState.ERROR}}">
+    <t-icon name="error-circle" size="80rpx" color="#cccccc" />
+    <view class="state-text">订单加载失败，请重试</view>
+    <t-button theme="primary" size="small" bindtap="onRetry">重新加载</t-button>
+  </view>
+
+  <!-- 内容态 -->
+  <block wx:elif="{{pageState === PageState.SUCCESS && order}}">
+
+    <!-- 状态 Hero 区（暗色卡片，需求 20.1、20.2、20.7） -->
+    <view class="hero">
+      <view class="hero__status">{{statusText}}</view>
+      <view class="hero__desc">{{heroDesc}}</view>
+
+      <!-- 开通失败原因 -->
+      <view class="hero__fail" wx:if="{{isFailed}}">
+        <t-icon name="info-circle" size="28rpx" color="#ffb4a8" />
+        <text class="hero__fail-text">{{failReason}}</text>
+      </view>
+
+      <!-- 三个指标：实付金额、下单时间、预计到账 -->
+      <view class="hero__metrics">
+        <view class="metric">
+          <view class="metric__value">¥{{amountText}}</view>
+          <view class="metric__label">实付金额</view>
+        </view>
+        <view class="metric metric--mid">
+          <view class="metric__value">{{createdTimeText}}</view>
+          <view class="metric__label">下单时间</view>
+        </view>
+        <view class="metric">
+          <view class="metric__value">{{estimatedText}}</view>
+          <view class="metric__label">预计到账</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 订单进度时间轴（需求 20.3） -->
+    <view class="card">
+      <view class="card__title">开通进度</view>
+      <timeline timeline="{{timeline}}" timeFormat="time" />
+    </view>
+
+    <!-- 订单信息卡片（需求 20.4） -->
+    <view class="card">
+      <view class="card__title">订单信息</view>
+
+      <view class="info-row" bindlongpress="onCopyOrderId" bindtap="onCopyOrderId">
+        <text class="info-row__label">订单号</text>
+        <view class="info-row__value">
+          <text class="info-row__text">{{order.orderId}}</text>
+          <t-icon name="file-copy" size="32rpx" color="#c99a3a" />
+        </view>
+      </view>
+
+      <view class="info-row">
+        <text class="info-row__label">商品名称</text>
+        <text class="info-row__text">{{order.productName}}</text>
+      </view>
+
+      <view class="info-row" wx:if="{{order.packageName}}">
+        <text class="info-row__label">套餐</text>
+        <text class="info-row__text">{{order.packageName}}</text>
+      </view>
+
+      <view class="info-row">
+        <text class="info-row__label">充值账号</text>
+        <text class="info-row__text">{{maskedAccount || '—'}}</text>
+      </view>
+
+      <view class="info-row">
+        <text class="info-row__label">订单状态</text>
+        <text class="info-row__text" style="color:{{statusColor}};">{{statusText}}</text>
+      </view>
+    </view>
+
+    <!-- 异常说明区（需求 20.6） -->
+    <view class="card notice">
+      <view class="card__title">温馨提示</view>
+      <view class="notice__item">· 超过 10 分钟未到账，系统将自动重新查询并更新进度</view>
+      <view class="notice__item">· 若开通失败，将按原支付路径退回您的实付金额</view>
+      <view class="notice__item">· 如有疑问，可复制订单号联系客服处理</view>
+    </view>
+
+    <!-- 占位，避免内容被底部固定栏遮挡 -->
+    <view class="bottom-placeholder"></view>
+
+    <!-- 底部固定操作栏 -->
+    <view class="footer">
+      <t-button
+        wx:if="{{showRefresh}}"
+        class="footer__btn"
+        theme="primary"
+        loading="{{refreshing}}"
+        bindtap="onRefresh"
+      >{{refreshing ? '刷新中...' : '刷新进度'}}</t-button>
+
+      <t-button
+        wx:if="{{showRebuy}}"
+        class="footer__btn"
+        theme="primary"
+        bindtap="onRebuy"
+      >再买一次</t-button>
+
+      <t-button
+        class="footer__btn footer__btn--plain"
+        theme="default"
+        variant="outline"
+        bindtap="onContactService"
+      >联系客服</t-button>
+    </view>
+
+  </block>
+</view>

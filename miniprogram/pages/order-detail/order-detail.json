@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "订单详情",
+  "usingComponents": {
+    "timeline": "/components/timeline/timeline",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-loading": "tdesign-miniprogram/loading/loading"
+  }
+}

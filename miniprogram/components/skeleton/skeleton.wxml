@@ -1,0 +1,53 @@
+<!-- 骨架屏组件 -->
+<view wx:if="{{loading}}" class="skeleton" aria-role="alert" aria-label="{{timedOut ? '加载失败' : '内容加载中'}}">
+
+  <!-- 加载中：渐变流光占位 -->
+  <block wx:if="{{!timedOut}}">
+    <!-- 列表型骨架：图标 + 多行文本 -->
+    <view wx:if="{{type === 'list'}}" class="skeleton__list">
+      <view class="skeleton__row" wx:for="{{rowList}}" wx:key="*this">
+        <view class="skeleton__avatar skeleton__shine"></view>
+        <view class="skeleton__lines">
+          <view class="skeleton__line skeleton__line--title skeleton__shine"></view>
+          <view class="skeleton__line skeleton__line--text skeleton__shine"></view>
+          <view class="skeleton__line skeleton__line--short skeleton__shine"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 卡片型骨架：大图块 + 标题 + 文本 -->
+    <view wx:elif="{{type === 'card'}}" class="skeleton__cards">
+      <view class="skeleton__card" wx:for="{{rowList}}" wx:key="*this">
+        <view class="skeleton__cover skeleton__shine"></view>
+        <view class="skeleton__line skeleton__line--title skeleton__shine"></view>
+        <view class="skeleton__line skeleton__line--text skeleton__shine"></view>
+      </view>
+    </view>
+
+    <!-- 文本型骨架：纯多行文本 -->
+    <view wx:else class="skeleton__text">
+      <view
+        class="skeleton__line skeleton__line--text skeleton__shine"
+        wx:for="{{rowList}}"
+        wx:key="*this"
+      ></view>
+    </view>
+  </block>
+
+  <!-- 超时：网络异常提示 + 重试 -->
+  <view wx:else class="skeleton__error">
+    <view class="skeleton__error-icon" aria-hidden="true">📡</view>
+    <view class="skeleton__error-text">网络似乎不太给力</view>
+    <view class="skeleton__error-tip">请检查网络后重试</view>
+    <t-button
+      class="skeleton__retry"
+      size="small"
+      theme="primary"
+      variant="outline"
+      bindtap="onRetry"
+      aria-label="重新加载"
+    >
+      重新加载
+    </t-button>
+  </view>
+</view>

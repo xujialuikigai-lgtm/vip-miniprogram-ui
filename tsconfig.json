@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "declaration": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "."
+  },
+  "include": [
+    "cloudfunctions/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "miniprogram"
+  ]
+}

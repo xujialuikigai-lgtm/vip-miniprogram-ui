@@ -1,0 +1,174 @@
+/* 个人中心样式 */
+.page-profile {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 40rpx;
+}
+
+/* 用户信息区 */
+.user-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 48rpx 32rpx;
+  background: linear-gradient(135deg, #c99a3a 0%, #e0b85a 100%);
+}
+
+.user-main {
+  display: flex;
+  align-items: center;
+}
+
+.avatar,
+.avatar-img {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  margin-right: 24rpx;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 52rpx;
+  font-weight: 600;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.user-sub {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 快速统计卡片 */
+.stats-card {
+  display: flex;
+  align-items: center;
+  margin: -32rpx 24rpx 0;
+  padding: 36rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.05);
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.stat-label {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #999999;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 56rpx;
+  background: #eeeeee;
+}
+
+/* 通用区块 */
+.section {
+  margin: 24rpx 24rpx 0;
+}
+
+.section-title {
+  margin: 0 8rpx 16rpx;
+  font-size: 26rpx;
+  color: #999999;
+}
+
+/* 服务保障说明 */
+.service-card {
+  margin: 32rpx 24rpx 0;
+  padding: 32rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+}
+
+.service-text {
+  margin-left: 16rpx;
+  font-size: 26rpx;
+  color: #666666;
+}
+
+/* 客服二维码弹窗 */
+.qrcode-popup {
+  width: 560rpx;
+  padding: 40rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrcode-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.qrcode-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400rpx;
+  height: 400rpx;
+  margin: 32rpx 0 16rpx;
+}
+
+.qrcode-img {
+  width: 400rpx;
+  height: 400rpx;
+}
+
+.qrcode-fallback {
+  font-size: 28rpx;
+  color: #999999;
+  text-align: center;
+}
+
+.qrcode-tip {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.qrcode-close {
+  margin-top: 32rpx;
+  width: 100%;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+  color: #c99a3a;
+  border-top: 1rpx solid #f0f0f0;
+}

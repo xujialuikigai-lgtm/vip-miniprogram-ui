@@ -1,0 +1,116 @@
+<!-- 动态表单：根据 attachTemplate 渲染各类型字段 -->
+<view class="dynamic-form">
+  <view
+    class="dynamic-form__item"
+    wx:for="{{fields}}"
+    wx:key="key"
+    wx:for-item="field"
+  >
+    <!-- 字段标题 -->
+    <view class="dynamic-form__label">
+      <text wx:if="{{field.required}}" class="dynamic-form__required">*</text>
+      <text>{{field.label}}</text>
+    </view>
+
+    <!-- text 文本输入 -->
+    <block wx:if="{{field.type === 'text'}}">
+      <t-input
+        class="dynamic-form__input"
+        value="{{field.value}}"
+        placeholder="{{field.tip || '请输入'}}"
+        type="{{field.isPhone ? 'number' : 'text'}}"
+        maxlength="{{field.isPhone ? 11 : -1}}"
+        borderless
+        data-key="{{field.key}}"
+        bindchange="onTextChange"
+        bind:change="onTextChange"
+      />
+    </block>
+
+    <!-- select 下拉选择（点击弹出 picker） -->
+    <block wx:elif="{{field.type === 'select'}}">
+      <t-cell
+        class="dynamic-form__select"
+        title=""
+        note="{{field.valueText || (field.tip || '请选择')}}"
+        arrow
+        hover
+        data-key="{{field.key}}"
+        bindtap="onSelectTap"
+      />
+    </block>
+
+    <!-- radio 单选 -->
+    <block wx:elif="{{field.type === 'radio'}}">
+      <t-radio-group
+        value="{{field.value}}"
+        data-key="{{field.key}}"
+        bindchange="onRadioChange"
+      >
+        <t-radio
+          wx:for="{{field.options}}"
+          wx:key="value"
+          wx:for-item="opt"
+          label="{{opt.label}}"
+          value="{{opt.value}}"
+        />
+      </t-radio-group>
+    </block>
+
+    <!-- checkbox 多选 -->
+    <block wx:elif="{{field.type === 'checkbox'}}">
+      <t-checkbox-group
+        value="{{field.value}}"
+        data-key="{{field.key}}"
+        bindchange="onCheckboxChange"
+      >
+        <t-checkbox
+          wx:for="{{field.options}}"
+          wx:key="value"
+          wx:for-item="opt"
+          label="{{opt.label}}"
+          value="{{opt.value}}"
+        />
+      </t-checkbox-group>
+    </block>
+
+    <!-- cascader 级联选择（点击弹出） -->
+    <block wx:elif="{{field.type === 'cascader'}}">
+      <t-cell
+        class="dynamic-form__select"
+        title=""
+        note="{{field.valueText || (field.tip || '请选择')}}"
+        arrow
+        hover
+        data-key="{{field.key}}"
+        bindtap="onCascaderTap"
+      />
+    </block>
+
+    <!-- 字段级错误提示（如手机号格式） -->
+    <view wx:if="{{field.error}}" class="dynamic-form__error">{{field.error}}</view>
+  </view>
+</view>
+
+<!-- select 选择器弹窗（多个 select 字段共用） -->
+<t-picker
+  visible="{{pickerVisible}}"
+  value="{{pickerValue}}"
+  title="{{pickerTitle}}"
+  cancelBtn="取消"
+  confirmBtn="确定"
+  usePopup
+  bindconfirm="onPickerConfirm"
+  bindcancel="onPickerCancel"
+>
+  <t-picker-item options="{{pickerOptions}}"></t-picker-item>
+</t-picker>
+
+<!-- cascader 级联选择器弹窗 -->
+<t-cascader
+  visible="{{cascaderVisible}}"
+  value="{{cascaderValue}}"
+  options="{{cascaderOptions}}"
+  bindchange="onCascaderChange"
+  bind:close="onCascaderVisibleChange"
+/>

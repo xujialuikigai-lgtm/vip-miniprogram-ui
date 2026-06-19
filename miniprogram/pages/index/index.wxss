@@ -1,0 +1,105 @@
+/* 首页样式 */
+.page-index {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 40rpx;
+  box-sizing: border-box;
+}
+
+/* 搜索栏 */
+.search-bar {
+  padding: 20rpx 24rpx;
+  background: #fff;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  height: 72rpx;
+  padding: 0 24rpx;
+  background: #f2f2f2;
+  border-radius: 36rpx;
+}
+.search-placeholder {
+  margin-left: 12rpx;
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 信任 Hero 区 */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 24rpx;
+  padding: 36rpx 0;
+  background: linear-gradient(135deg, #c99a3a, #e0bd6e);
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(201, 154, 58, 0.25);
+}
+.hero-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+.hero-value {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+.hero-label {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+.hero-divider {
+  width: 1rpx;
+  height: 56rpx;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* 分类 Tab */
+.tabs {
+  white-space: nowrap;
+  padding: 16rpx 12rpx;
+  background: #fff;
+  margin: 0 24rpx 16rpx;
+  border-radius: 16rpx;
+}
+.tab-item {
+  display: inline-block;
+  padding: 12rpx 32rpx;
+  margin: 0 8rpx;
+  font-size: 28rpx;
+  color: #666;
+  border-radius: 32rpx;
+  transition: all 0.2s;
+}
+.tab-item--active {
+  color: #fff;
+  font-weight: 600;
+  background: #c99a3a;
+}
+
+/* 商品列表区 */
+.product-area {
+  padding: 0 24rpx;
+}
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+/* 列表底部 */
+.list-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx 0;
+}
+.list-end {
+  font-size: 24rpx;
+  color: #bbb;
+}

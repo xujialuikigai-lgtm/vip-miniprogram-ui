@@ -1,0 +1,86 @@
+<!-- 分类页：左侧分类侧边栏 + 右侧商品面板 -->
+<view class="page-category">
+
+  <!-- 首次进入：整页骨架屏（含 10 秒超时异常切换） -->
+  <view wx:if="{{pageLoading}}" class="category-skeleton">
+    <skeleton loading="{{true}}" type="list" rows="{{8}}" bind:retry="onRetryCategories" />
+  </view>
+
+  <!-- 分类加载失败：整页异常态 -->
+  <view wx:elif="{{categoryError}}" class="category-error">
+    <empty-state
+      icon="📡"
+      description="加载失败"
+      tip="网络似乎不太给力，请稍后重试"
+      buttonText="重新加载"
+      bind:action="onRetryCategories"
+    />
+  </view>
+
+  <!-- 正常双栏布局 -->
+  <view wx:else class="category-layout">
+
+    <!-- 左侧分类侧边栏 -->
+    <scroll-view class="category-side" scroll-y enhanced show-scrollbar="{{false}}">
+      <view
+        wx:for="{{categories}}"
+        wx:key="categoryId"
+        class="category-side__item {{item.categoryId === activeCategoryId ? 'category-side__item--active' : ''}}"
+        data-id="{{item.categoryId}}"
+        data-name="{{item.name}}"
+        bindtap="onSelectCategory"
+      >
+        <text class="category-side__text">{{item.name}}</text>
+      </view>
+    </scroll-view>
+
+    <!-- 右侧商品面板 -->
+    <scroll-view class="category-main" scroll-y enhanced show-scrollbar="{{false}}">
+      <!-- 当前分类标题 + 数量统计 -->
+      <view class="category-main__header">
+        <text class="category-main__title">{{activeCategoryName}}</text>
+        <text class="category-main__count" wx:if="{{listState === 'success'}}">共 {{total}} 款</text>
+      </view>
+
+      <!-- 商品加载中：骨架屏 -->
+      <view wx:if="{{listState === 'loading'}}" class="category-main__skeleton">
+        <skeleton loading="{{true}}" type="list" rows="{{6}}" bind:retry="onRetryProducts" />
+      </view>
+
+      <!-- 商品加载失败：异常态 + 重试 -->
+      <view wx:elif="{{listState === 'error'}}" class="category-main__error">
+        <empty-state
+          icon="📡"
+          description="加载失败"
+          tip="网络似乎不太给力，请稍后重试"
+          buttonText="重新加载"
+          bind:action="onRetryProducts"
+        />
+      </view>
+
+      <!-- 当前分类无商品：空态 -->
+      <view wx:elif="{{listState === 'empty'}}" class="category-main__empty">
+        <empty-state icon="📦" description="当前分类暂无商品" />
+      </view>
+
+      <!-- 商品列表 -->
+      <view wx:else class="category-main__list">
+        <product-card
+          wx:for="{{products}}"
+          wx:key="productId"
+          class="category-main__card"
+          product="{{item}}"
+          bind:tap="onProductTap"
+        />
+
+        <!-- 触底加载提示 -->
+        <view class="category-main__loadmore" wx:if="{{loadingMore}}">
+          <t-loading theme="circular" size="36rpx" text="加载中..." />
+        </view>
+        <view class="category-main__nomore" wx:elif="{{!hasMore && products.length > 0}}">
+          <text>没有更多了</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

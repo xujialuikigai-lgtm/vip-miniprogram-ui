@@ -1,0 +1,82 @@
+{
+  "usingComponents": {
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-dialog": "tdesign-miniprogram/dialog/dialog",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
+    "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
+    "t-tag": "tdesign-miniprogram/tag/tag",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-input": "tdesign-miniprogram/input/input",
+    "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "t-empty": "tdesign-miniprogram/empty/empty",
+    "t-badge": "tdesign-miniprogram/badge/badge",
+    "t-switch": "tdesign-miniprogram/switch/switch",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-picker": "tdesign-miniprogram/picker/picker",
+    "t-textarea": "tdesign-miniprogram/textarea/textarea",
+    "t-search": "tdesign-miniprogram/search/search"
+  },
+  "pages": [
+    "pages/index/index",
+    "pages/category/category",
+    "pages/orders/orders",
+    "pages/profile/profile",
+    "pages/detail/detail",
+    "pages/pay-result/pay-result",
+    "pages/order-detail/order-detail",
+    "pages/search/search",
+    "pages/article/article",
+    "pages/admin/dashboard/dashboard",
+    "pages/admin/orders/orders",
+    "pages/admin/order-detail/order-detail",
+    "pages/admin/products/products",
+    "pages/admin/product-edit/product-edit"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "会员多多购",
+    "backgroundColor": "#f5f5f5",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#c99a3a",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/tab-home.png",
+        "selectedIconPath": "assets/icons/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/category/category",
+        "text": "分类",
+        "iconPath": "assets/icons/tab-category.png",
+        "selectedIconPath": "assets/icons/tab-category-active.png"
+      },
+      {
+        "pagePath": "pages/orders/orders",
+        "text": "订单",
+        "iconPath": "assets/icons/tab-order.png",
+        "selectedIconPath": "assets/icons/tab-order-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/icons/tab-profile.png",
+        "selectedIconPath": "assets/icons/tab-profile-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

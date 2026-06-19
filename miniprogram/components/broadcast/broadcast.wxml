@@ -1,0 +1,24 @@
+<!-- 购买播报组件：数量达标时展示 -->
+<view
+  wx:if="{{visible}}"
+  class="broadcast"
+  aria-role="text"
+  aria-label="实时购买播报：{{displayList[index].maskedPhone}} 刚刚购买 {{displayList[index].productName}}"
+>
+  <!-- 左侧喇叭图标 -->
+  <view class="broadcast__icon" aria-hidden="true">📢</view>
+
+  <!-- 滚动视窗：固定一行高度，溢出隐藏 -->
+  <view class="broadcast__viewport">
+    <view
+      class="broadcast__track"
+      style="transform: translateY({{offset}}rpx);"
+    >
+      <view class="broadcast__item" wx:for="{{displayList}}" wx:key="index">
+        <text class="broadcast__phone">{{item.maskedPhone}}</text>
+        <text class="broadcast__action"> 刚刚购买 </text>
+        <text class="broadcast__product">{{item.productName}}</text>
+      </view>
+    </view>
+  </view>
+</view>

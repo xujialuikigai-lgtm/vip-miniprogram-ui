@@ -1,0 +1,56 @@
+/* 搜索结果页样式 */
+.page-search {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* 顶部搜索框（吸顶） */
+.search-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 16rpx 24rpx;
+  background-color: #ffffff;
+}
+
+/* 排序 Tab 容器 */
+.sort-tabs {
+  position: sticky;
+  top: 96rpx;
+  z-index: 9;
+  background-color: #ffffff;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+/* 选中态文字使用主题色 */
+.sort-tabs__active {
+  color: #c99a3a !important;
+  font-weight: 600;
+}
+
+/* 结果提示条："找到 X 个相关会员权益" */
+.result-tip {
+  padding: 20rpx 32rpx;
+  font-size: 26rpx;
+  color: #888888;
+}
+
+.result-tip {
+  /* 强调数量主题色由整体文案承载，保持低调 */
+  letter-spacing: 1rpx;
+}
+
+.container {
+  padding: 0 24rpx 32rpx;
+}
+
+/* 结果列表 */
+.result-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-list__item {
+  display: block;
+  margin-bottom: 20rpx;
+}

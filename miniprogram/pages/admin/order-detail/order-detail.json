@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "订单详情",
+  "usingComponents": {
+    "timeline": "/components/timeline/timeline",
+    "confirm-dialog": "/components/confirm-dialog/confirm-dialog",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "t-tag": "tdesign-miniprogram/tag/tag",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-radio": "tdesign-miniprogram/radio/radio",
+    "t-radio-group": "tdesign-miniprogram/radio-group/radio-group",
+    "t-textarea": "tdesign-miniprogram/textarea/textarea"
+  }
+}

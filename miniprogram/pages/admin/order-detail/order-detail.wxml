@@ -1,0 +1,209 @@
+<!-- 管理端 - 订单详情处理页 -->
+<view class="page-admin-order-detail">
+
+  <!-- 加载态 -->
+  <view class="state-box" wx:if="{{pageState === PageState.LOADING}}">
+    <t-loading theme="circular" size="48rpx" loading text="加载中..." />
+  </view>
+
+  <!-- 异常态 -->
+  <view class="state-box" wx:elif="{{pageState === PageState.ERROR}}">
+    <t-icon name="error-circle" size="80rpx" color="#cccccc" />
+    <view class="state-text">订单加载失败，请重试</view>
+    <t-button theme="primary" size="small" bindtap="onReload">重新加载</t-button>
+  </view>
+
+  <!-- 内容态 -->
+  <block wx:elif="{{pageState === PageState.SUCCESS && order}}">
+
+    <!-- 状态头部 -->
+    <view class="hero">
+      <view class="hero__top">
+        <view class="hero__product">{{order.productName}}</view>
+        <t-tag variant="light" style="--td-tag-light-color:{{statusColor}};">{{statusText}}</t-tag>
+      </view>
+      <view class="hero__pkg" wx:if="{{order.packageName}}">{{order.packageName}}</view>
+
+      <!-- 失败原因（接口失败时展示） -->
+      <view class="hero__fail" wx:if="{{order.status === 'api_failed' && (order.failReason || order.rechargeHints)}}">
+        <t-icon name="error-circle" size="28rpx" color="#f44336" />
+        <text class="hero__fail-text">{{order.failReason || order.rechargeHints}}</text>
+      </view>
+
+      <!-- 金额指标：实付 / 成本 / 预计利润 -->
+      <view class="hero__metrics">
+        <view class="metric">
+          <view class="metric__value">¥{{amountText}}</view>
+          <view class="metric__label">用户实付</view>
+        </view>
+        <view class="metric metric--mid">
+          <view class="metric__value">¥{{costText}}</view>
+          <view class="metric__label">接口成本</view>
+        </view>
+        <view class="metric">
+          <view class="metric__value {{profitLoss ? 'metric__value--loss' : 'metric__value--profit'}}">¥{{profitText}}</view>
+          <view class="metric__label">预计利润</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 订单信息 -->
+    <view class="card">
+      <view class="card__title">订单信息</view>
+
+      <view class="info-row" bindtap="onCopy" data-text="{{order.orderId}}">
+        <text class="info-row__label">订单号</text>
+        <view class="info-row__value">
+          <text class="info-row__text">{{order.orderId}}</text>
+          <t-icon name="file-copy" size="32rpx" color="#c99a3a" />
+        </view>
+      </view>
+
+      <view class="info-row" wx:if="{{order.shunshiOrderSn}}" bindtap="onCopy" data-text="{{order.shunshiOrderSn}}">
+        <text class="info-row__label">三方单号</text>
+        <view class="info-row__value">
+          <text class="info-row__text">{{order.shunshiOrderSn}}</text>
+          <t-icon name="file-copy" size="32rpx" color="#c99a3a" />
+        </view>
+      </view>
+
+      <view class="info-row">
+        <text class="info-row__label">充值账号</text>
+        <text class="info-row__text">{{account}}</text>
+      </view>
+
+      <view class="info-row">
+        <text class="info-row__label">商品名称</text>
+        <text class="info-row__text">{{order.productName}}</text>
+      </view>
+
+      <view class="info-row" wx:if="{{order.categoryName}}">
+        <text class="info-row__label">商品分类</text>
+        <text class="info-row__text">{{order.categoryName}}</text>
+      </view>
+
+      <view class="info-row">
+        <text class="info-row__label">重试次数</text>
+        <text class="info-row__text">{{actions.retryCount}} / {{actions.maxRetry}}</text>
+      </view>
+
+      <view class="info-row">
+        <text class="info-row__label">下单时间</text>
+        <text class="info-row__text">{{createdTimeText}}</text>
+      </view>
+
+      <view class="info-row" wx:if="{{updatedTimeText}}">
+        <text class="info-row__label">最后更新</text>
+        <text class="info-row__text">{{updatedTimeText}}</text>
+      </view>
+    </view>
+
+    <!-- 状态时间轴 -->
+    <view class="card">
+      <view class="card__title">状态时间轴</view>
+      <timeline timeline="{{timeline}}" timeFormat="full" />
+    </view>
+
+    <!-- 接口调用日志（8.7） -->
+    <view class="card">
+      <view class="card__title">接口调用日志</view>
+
+      <view wx:if="{{logs.length === 0}}" class="logs__empty">暂无接口调用记录</view>
+
+      <view wx:else class="logs">
+        <view class="log-item" wx:for="{{logs}}" wx:key="index">
+          <view class="log-item__head">
+            <text class="log-item__time">{{item.time}}</text>
+            <text class="log-item__code">返回码 {{item.code || '—'}}</text>
+          </view>
+          <view class="log-item__desc">{{item.desc}}</view>
+          <view class="log-item__duration">耗时：{{item.duration === null ? '—' : item.duration + ' ms'}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 占位，避免被底部操作栏遮挡 -->
+    <view class="bottom-placeholder"></view>
+
+    <!-- 底部操作栏：按 actions 状态显隐 -->
+    <view class="footer" wx:if="{{actions.canQuery || actions.canRefund}}">
+      <!-- 重试开通：状态允许时展示，达到上限禁用 -->
+      <t-button
+        wx:if="{{actions.canQuery}}"
+        class="footer__btn"
+        theme="default"
+        variant="outline"
+        loading="{{retrying}}"
+        disabled="{{!actions.canRetry}}"
+        bindtap="onRetryActivation"
+      >{{actions.canRetry ? '重试开通' : '已达重试上限'}}</t-button>
+
+      <!-- 查询接口 -->
+      <t-button
+        wx:if="{{actions.canQuery}}"
+        class="footer__btn"
+        theme="default"
+        variant="outline"
+        loading="{{querying}}"
+        bindtap="onQueryShunshi"
+      >查询接口</t-button>
+
+      <!-- 发起退款 -->
+      <t-button
+        wx:if="{{actions.canRefund}}"
+        class="footer__btn"
+        theme="primary"
+        bindtap="onShowRefund"
+      >发起退款</t-button>
+    </view>
+  </block>
+
+  <!-- 退款表单弹窗：选择失败原因分类 + 补充说明 -->
+  <t-popup
+    visible="{{refundFormVisible}}"
+    placement="bottom"
+    bind:visible-change="onRefundFormVisibleChange"
+  >
+    <view class="refund-form">
+      <view class="refund-form__title">发起退款</view>
+      <view class="refund-form__tip">请选择失败原因分类，退款将按原路退回用户实付金额</view>
+
+      <view class="refund-form__section-label">失败原因分类</view>
+      <t-radio-group value="{{selectedReason}}" bind:change="onReasonChange">
+        <t-radio
+          wx:for="{{refundReasons}}"
+          wx:key="value"
+          value="{{item.value}}"
+          label="{{item.label}}"
+          borderless
+        />
+      </t-radio-group>
+
+      <view class="refund-form__section-label">补充说明（选填）</view>
+      <t-textarea
+        value="{{refundNote}}"
+        placeholder="可填写补充说明，最多 {{noteMaxLength}} 字"
+        maxlength="{{noteMaxLength}}"
+        indicator
+        bind:change="onNoteInput"
+      />
+
+      <view class="refund-form__actions">
+        <t-button class="refund-form__btn" theme="default" variant="outline" size="large" bindtap="onRefundFormCancel">取消</t-button>
+        <t-button class="refund-form__btn" theme="primary" size="large" bindtap="onRefundFormNext">下一步</t-button>
+      </view>
+    </view>
+  </t-popup>
+
+  <!-- 退款二次确认弹窗 -->
+  <confirm-dialog
+    visible="{{confirmVisible}}"
+    title="确认发起退款"
+    content="{{confirmContent}}"
+    confirmText="确认退款"
+    cancelText="再想想"
+    confirmLoading="{{refunding}}"
+    bind:confirm="onConfirmRefund"
+    bind:cancel="onConfirmCancel"
+  />
+</view>

@@ -1,0 +1,148 @@
+/* 管理端订单处理列表页样式 */
+.page-admin-orders {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+/* 顶部状态筛选 Tab，吸顶 */
+.admin-orders__tabs {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+}
+
+.container {
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+/* 订单卡片 */
+.admin-order-card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.admin-order-card--hover {
+  background: #faf6ec;
+}
+
+/* 头部：商品名 + 状态 */
+.admin-order-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-order-card__name {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-right: 16rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-order-card__status {
+  font-size: 26rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.admin-order-card__pkg {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* 信息行 */
+.admin-order-card__rows {
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.admin-order-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 44rpx;
+}
+
+.admin-order-card__label {
+  font-size: 24rpx;
+  color: #999999;
+  flex-shrink: 0;
+  margin-right: 24rpx;
+}
+
+.admin-order-card__val {
+  font-size: 24rpx;
+  color: #555555;
+  text-align: right;
+  word-break: break-all;
+}
+
+/* 金额区 */
+.admin-order-card__money {
+  display: flex;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.admin-order-card__money-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-order-card__money-label {
+  font-size: 22rpx;
+  color: #999999;
+  margin-bottom: 6rpx;
+}
+
+.admin-order-card__money-amount {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.admin-order-card__money-cost {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #888888;
+}
+
+/* 预计利润：默认主题金色，亏损时红色 */
+.admin-order-card__money-profit {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #c99a3a;
+}
+
+.admin-order-card__money-profit.is-loss {
+  color: #f44336;
+}
+
+/* 触底加载 / 到底提示 */
+.admin-orders__loadmore {
+  display: flex;
+  justify-content: center;
+  padding: 24rpx 0;
+  color: #999999;
+}
+
+.admin-orders__end {
+  text-align: center;
+  font-size: 24rpx;
+  color: #bbbbbb;
+  padding: 24rpx 0;
+}

@@ -1,0 +1,189 @@
+<!-- 商品详情页 -->
+<view class="page-detail">
+  <!-- 加载态：骨架屏（10 秒超时自动转异常并提供重试，Req 16.3） -->
+  <block wx:if="{{pageState === 'loading'}}">
+    <skeleton loading="{{true}}" type="card" rows="{{4}}" bind:retry="onRetry" />
+  </block>
+
+  <!-- 异常态：加载失败，点击重试（Req 16.4） -->
+  <block wx:elif="{{pageState === 'error'}}">
+    <empty-state
+      icon="⚠️"
+      description="加载失败，请稍后重试"
+      tip="网络异常或商品不存在"
+      button-text="重新加载"
+      bind:action="onRetry"
+    />
+  </block>
+
+  <!-- 成功态 -->
+  <block wx:else>
+    <!-- 品牌 Hero 区（Req 2.1） -->
+    <view class="hero">
+      <image
+        wx:if="{{product.brandIcon}}"
+        class="hero__icon"
+        src="{{product.brandIcon}}"
+        mode="aspectFit"
+      />
+      <view wx:else class="hero__icon hero__icon--placeholder">
+        {{product.name[0] || '会'}}
+      </view>
+      <view class="hero__info">
+        <view class="hero__name">{{product.name}}</view>
+        <view class="hero__tags">
+          <t-tag
+            wx:for="{{product.tags}}"
+            wx:key="*this"
+            theme="warning"
+            variant="light"
+            size="small"
+            class="hero__tag"
+          >
+            {{item}}
+          </t-tag>
+        </view>
+        <view wx:if="{{product.description}}" class="hero__desc">
+          {{product.description}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 会员类型选择（多类型才展示，切换刷新套餐与价格，Req 2.2） -->
+    <view wx:if="{{memberTypes.length > 1}}" class="section">
+      <view class="section__title">会员类型</view>
+      <view class="member-types">
+        <view
+          wx:for="{{memberTypes}}"
+          wx:key="*this"
+          class="member-type {{activeMemberType === item ? 'member-type--active' : ''}}"
+          data-type="{{item}}"
+          bindtap="onMemberTypeTap"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 套餐选择（切换同步底部金额，Req 2.3） -->
+    <view class="section">
+      <view class="section__title">选择套餐</view>
+      <view class="packages">
+        <view
+          wx:for="{{visiblePackages}}"
+          wx:key="packageId"
+          class="package {{selectedPackageId === item.packageId ? 'package--active' : ''}}"
+          data-id="{{item.packageId}}"
+          bindtap="onPackageTap"
+        >
+          <view class="package__name">{{item.name}}</view>
+          <view class="package__price">
+            <text class="package__symbol">¥</text>
+            <text class="package__value">{{item.price / 100}}</text>
+          </view>
+          <view
+            wx:if="{{item.faceValue && item.faceValue > item.price}}"
+            class="package__origin"
+          >
+            ¥{{item.faceValue / 100}}
+          </view>
+          <view wx:if="{{item.isDefault}}" class="package__badge">推荐</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 关键须知（售前规则，Req 2.1） -->
+    <view wx:if="{{product.rules}}" class="section">
+      <view class="section__title">关键须知</view>
+      <view class="rules">
+        <view wx:if="{{product.rules.deviceSupport}}" class="rule">
+          <text class="rule__label">设备支持</text>
+          <text class="rule__text">{{product.rules.deviceSupport}}</text>
+        </view>
+        <view wx:if="{{product.rules.arrivalTime}}" class="rule">
+          <text class="rule__label">到账时间</text>
+          <text class="rule__text">{{product.rules.arrivalTime}}</text>
+        </view>
+        <view wx:if="{{product.rules.safetyNote}}" class="rule">
+          <text class="rule__label">安全说明</text>
+          <text class="rule__text">{{product.rules.safetyNote}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 权益对比表（套餐 × 价格 / 面值，Req 2.1） -->
+    <view wx:if="{{visiblePackages.length > 0}}" class="section">
+      <view class="section__title">权益对比</view>
+      <view class="compare">
+        <view class="compare__head">
+          <text class="compare__cell compare__cell--name">套餐</text>
+          <text class="compare__cell">售价</text>
+          <text class="compare__cell">原价</text>
+        </view>
+        <view
+          wx:for="{{visiblePackages}}"
+          wx:key="packageId"
+          class="compare__row"
+        >
+          <text class="compare__cell compare__cell--name">{{item.name}}</text>
+          <text class="compare__cell compare__cell--price">
+            ¥{{item.price / 100}}
+          </text>
+          <text class="compare__cell compare__cell--origin">
+            {{item.faceValue ? '¥' + (item.faceValue / 100) : '-'}}
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部占位，避免内容被固定支付栏遮挡 -->
+    <view class="bottom-holder"></view>
+
+    <!-- 底部固定支付栏：动态表单 + 购买按钮（Req 2.4/2.6/2.7） -->
+    <view class="paybar">
+      <!-- 动态表单：根据 attachTemplate 渲染开通参数输入 -->
+      <view wx:if="{{attachTemplate.length > 0}}" class="paybar__form">
+        <dynamic-form
+          id="dynamicForm"
+          attach-template="{{attachTemplate}}"
+          form-values="{{formValues}}"
+          bind:change="onFormChange"
+          bind:statuschange="onFormStatusChange"
+        />
+      </view>
+
+      <!-- 金额 + 购买按钮 -->
+      <view class="paybar__action">
+        <view class="paybar__amount">
+          <text class="paybar__amount-label">合计</text>
+          <text class="paybar__amount-symbol">¥</text>
+          <text class="paybar__amount-value">{{amountText}}</text>
+        </view>
+        <t-button
+          class="paybar__btn"
+          theme="primary"
+          size="large"
+          disabled="{{!selectedPackage || (attachTemplate.length > 0 && !formComplete)}}"
+          bindtap="onBuyTap"
+        >
+          立即购买
+        </t-button>
+      </view>
+    </view>
+
+    <!-- 购买核对弹窗：二次确认（Req 3.1/3.6） -->
+    <confirm-dialog
+      visible="{{dialogVisible}}"
+      title="购买核对"
+      product-name="{{product.name}}"
+      member-type="{{activeMemberType}}"
+      package-name="{{selectedPackage.name}}"
+      account="{{dialogAccount}}"
+      amount="{{selectedPackage.price}}"
+      confirm-text="确认支付"
+      confirm-loading="{{confirmLoading}}"
+      bind:confirm="onConfirmPay"
+      bind:cancel="onDialogCancel"
+    />
+  </block>
+</view>

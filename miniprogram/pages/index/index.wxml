@@ -1,0 +1,95 @@
+<!-- 首页 -->
+<view class="page-index">
+  <!-- 搜索栏：点击整体跳转搜索页 -->
+  <view class="search-bar" bindtap="goSearch">
+    <view class="search-box">
+      <t-icon name="search" size="36rpx" color="#999" />
+      <text class="search-placeholder">搜索会员权益 / 视频 / 音乐 / 网盘</text>
+    </view>
+  </view>
+
+  <!-- 信任 Hero 区（22.1）：到账时间 / 累计订单数 / 续费说明 -->
+  <view class="hero">
+    <view class="hero-item">
+      <text class="hero-value">1-5分钟</text>
+      <text class="hero-label">常规到账</text>
+    </view>
+    <view class="hero-divider"></view>
+    <view class="hero-item">
+      <text class="hero-value">{{orderCount || '海量'}}</text>
+      <text class="hero-label">累计订单</text>
+    </view>
+    <view class="hero-divider"></view>
+    <view class="hero-item">
+      <text class="hero-value">0续费</text>
+      <text class="hero-label">无套路</text>
+    </view>
+  </view>
+
+  <!-- 实时购买播报（22.3/22.4/22.5）：少于阈值由组件自动隐藏 -->
+  <broadcast data-list="{{broadcastList}}" min-count="{{broadcastMin}}" />
+
+  <!-- 分类 Tab（1.2）：热门 + 后台配置的展示分类 -->
+  <scroll-view class="tabs" scroll-x enable-flex>
+    <view
+      wx:for="{{tabs}}"
+      wx:key="categoryId"
+      class="tab-item {{activeTab === index ? 'tab-item--active' : ''}}"
+      data-index="{{index}}"
+      bindtap="onTabChange"
+    >
+      {{item.label}}
+    </view>
+  </scroll-view>
+
+  <!-- 商品列表区 -->
+  <view class="product-area">
+    <!-- 加载态：骨架屏（10秒超时自动转异常并提供重试） -->
+    <block wx:if="{{listState === 'loading'}}">
+      <skeleton
+        loading="{{true}}"
+        type="card"
+        rows="{{5}}"
+        bind:retry="onRetry"
+      />
+    </block>
+
+    <!-- 异常态：加载失败，点击重试（16.3） -->
+    <block wx:elif="{{listState === 'error'}}">
+      <empty-state
+        icon="⚠️"
+        description="加载失败，请稍后重试"
+        tip="网络异常或服务繁忙"
+        button-text="重新加载"
+        bind:action="onRetry"
+      />
+    </block>
+
+    <!-- 空态：该分类暂无商品（16.2） -->
+    <block wx:elif="{{listState === 'empty'}}">
+      <empty-state
+        icon="📭"
+        description="该分类暂无商品"
+        tip="换个分类看看吧"
+      />
+    </block>
+
+    <!-- 成功态：商品列表（1.3 卡片由 product-card 渲染） -->
+    <block wx:else>
+      <view class="product-list">
+        <product-card
+          wx:for="{{products}}"
+          wx:key="productId"
+          product="{{item}}"
+          bind:tap="onProductTap"
+        />
+      </view>
+
+      <!-- 触底加载提示 -->
+      <view class="list-footer">
+        <t-loading wx:if="{{loadingMore}}" theme="dots" size="40rpx" text="加载中" />
+        <text wx:elif="{{!hasMore && products.length > 0}}" class="list-end">没有更多了</text>
+      </view>
+    </block>
+  </view>
+</view>

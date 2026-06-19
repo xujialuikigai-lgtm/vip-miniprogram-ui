@@ -1,0 +1,148 @@
+<!-- 管理端 - 商品运营列表页 -->
+<view class="page-products">
+  <!-- 数据概览卡片：全部/已上架/已下架数量（Req 9.1） -->
+  <view class="overview">
+    <view class="overview__item">
+      <view class="overview__num">{{stats.total}}</view>
+      <view class="overview__label">全部商品</view>
+    </view>
+    <view class="overview__divider"></view>
+    <view class="overview__item">
+      <view class="overview__num overview__num--on">{{stats.online}}</view>
+      <view class="overview__label">已上架</view>
+    </view>
+    <view class="overview__divider"></view>
+    <view class="overview__item">
+      <view class="overview__num overview__num--off">{{stats.offline}}</view>
+      <view class="overview__label">已下架</view>
+    </view>
+  </view>
+
+  <!-- 快捷操作按钮：同步商品、新增商品（Req 9.1、9.8） -->
+  <view class="actions">
+    <t-button
+      class="actions__btn"
+      theme="light"
+      size="medium"
+      icon="refresh"
+      loading="{{syncing}}"
+      disabled="{{syncing}}"
+      bind:tap="onSync"
+    >
+      {{syncing ? '同步中' : '同步商品'}}
+    </t-button>
+    <t-button
+      class="actions__btn actions__btn--primary"
+      theme="primary"
+      size="medium"
+      icon="add"
+      bind:tap="onAddProduct"
+    >
+      新增商品
+    </t-button>
+  </view>
+
+  <!-- 状态筛选 Tab -->
+  <view class="products-tabs">
+    <t-tabs
+      value="{{activeTab}}"
+      t-class-active="products-tabs__active"
+      bind:change="onTabChange"
+    >
+      <t-tab-panel
+        wx:for="{{tabs}}"
+        wx:key="value"
+        label="{{item.label}}"
+        value="{{item.value}}"
+      />
+    </t-tabs>
+  </view>
+
+  <view class="container">
+    <!-- 加载态：骨架屏（超时自动转异常并支持重试） -->
+    <skeleton
+      wx:if="{{state === 'loading'}}"
+      loading="{{true}}"
+      type="card"
+      rows="{{4}}"
+      bind:retry="onRetry"
+    />
+
+    <!-- 成功态：商品卡片列表 -->
+    <block wx:elif="{{state === 'success'}}">
+      <view
+        class="product-card"
+        wx:for="{{list}}"
+        wx:key="productId"
+        data-id="{{item.productId}}"
+        bind:tap="onCardTap"
+      >
+        <!-- 卡片头部：名称 + 上架状态标签 -->
+        <view class="product-card__head">
+          <view class="product-card__name">{{item.name}}</view>
+          <t-tag
+            theme="{{item.online ? 'success' : 'default'}}"
+            variant="light"
+            size="small"
+          >
+            {{item.online ? '已上架' : '已下架'}}
+          </t-tag>
+        </view>
+
+        <!-- 价格信息：售价 / 成本 / 单单利润 -->
+        <view class="product-card__prices">
+          <view class="price-item">
+            <text class="price-item__label">售价</text>
+            <text class="price-item__value price-item__value--price">¥{{item.priceText}}</text>
+          </view>
+          <view class="price-item">
+            <text class="price-item__label">成本</text>
+            <text class="price-item__value">¥{{item.costText}}</text>
+          </view>
+          <view class="price-item">
+            <text class="price-item__label">单单利润</text>
+            <text class="price-item__value {{item.loss ? 'price-item__value--loss' : 'price-item__value--profit'}}">¥{{item.profitText}}</text>
+          </view>
+        </view>
+
+        <!-- 卡片底部：接口商品ID / 今日销量 / 上下架开关 -->
+        <view class="product-card__foot">
+          <view class="product-card__meta">
+            <text class="meta-text">接口ID：{{item.shunshiGoodsId || '-'}}</text>
+            <text class="meta-text">今日销量：{{item.todaySales}}</text>
+          </view>
+          <!-- 开关点击需阻止冒泡，避免误触卡片跳转 -->
+          <view class="product-card__switch" catch:tap="noop">
+            <t-switch
+              value="{{item.online}}"
+              disabled="{{togglingId === item.productId}}"
+              data-id="{{item.productId}}"
+              data-name="{{item.name}}"
+              bind:change="onToggleOnline"
+            />
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空态：当前筛选下无商品 -->
+    <empty-state
+      wx:elif="{{state === 'empty'}}"
+      icon="📦"
+      description="暂无商品"
+      tip="点击上方「同步商品」从接口拉取，或「新增商品」手动添加"
+      button-text="同步商品"
+      bind:action="onSync"
+    />
+
+    <!-- 异常态：加载失败或无权限，提供重试 -->
+    <empty-state
+      wx:elif="{{state === 'error'}}"
+      icon="📡"
+      description="加载失败"
+      tip="请检查网络或权限后重试"
+      button-text="重新加载"
+      bind:action="onRetry"
+    />
+  </view>
+</view>

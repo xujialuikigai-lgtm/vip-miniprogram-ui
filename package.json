@@ -1,0 +1,22 @@
+{
+  "name": "vip-miniprogram",
+  "version": "1.0.0",
+  "description": "会员多多购微信小程序",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/jest": "^29.5.0",
+    "fast-check": "^3.15.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.3.0"
+  }
+}

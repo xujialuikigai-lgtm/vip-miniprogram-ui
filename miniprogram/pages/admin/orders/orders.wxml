@@ -1,0 +1,120 @@
+<!-- 管理端 - 订单处理列表页 -->
+<view class="page-admin-orders">
+  <!-- 状态筛选 Tab（全部/开通中/接口失败/退款中），默认"全部" -->
+  <view class="admin-orders__tabs">
+    <t-tabs value="{{activeTab}}" bind:change="onTabChange">
+      <t-tab-panel
+        wx:for="{{tabs}}"
+        wx:key="value"
+        label="{{item.label}}"
+        value="{{item.value}}"
+      />
+    </t-tabs>
+  </view>
+
+  <view class="container">
+    <!-- 加载态：骨架屏（超时自动转异常并支持重试） -->
+    <skeleton
+      wx:if="{{state === 'loading'}}"
+      loading="{{true}}"
+      type="card"
+      rows="{{4}}"
+      bind:retry="onRetry"
+    />
+
+    <!-- 成功态：管理端订单卡片列表 -->
+    <block wx:elif="{{state === 'success'}}">
+      <view
+        class="admin-order-card"
+        wx:for="{{list}}"
+        wx:key="orderId"
+        data-id="{{item.orderId}}"
+        bindtap="onCardTap"
+        hover-class="admin-order-card--hover"
+      >
+        <!-- 头部：商品名 + 状态 -->
+        <view class="admin-order-card__head">
+          <text class="admin-order-card__name">{{item.productName}}</text>
+          <text class="admin-order-card__status" style="color: {{item.statusColor}};">
+            {{item.statusName}}
+          </text>
+        </view>
+
+        <!-- 套餐名 -->
+        <view class="admin-order-card__pkg" wx:if="{{item.packageName}}">
+          {{item.packageName}}
+        </view>
+
+        <!-- 信息行：账号 / 订单号 / 三方单号 -->
+        <view class="admin-order-card__rows">
+          <view class="admin-order-card__row">
+            <text class="admin-order-card__label">充值账号</text>
+            <text class="admin-order-card__val">{{item.account || '-'}}</text>
+          </view>
+          <view class="admin-order-card__row">
+            <text class="admin-order-card__label">订单号</text>
+            <text class="admin-order-card__val">{{item.orderId}}</text>
+          </view>
+          <view class="admin-order-card__row">
+            <text class="admin-order-card__label">三方单号</text>
+            <text class="admin-order-card__val">{{item.shunshiOrderSn || '-'}}</text>
+          </view>
+          <view class="admin-order-card__row">
+            <text class="admin-order-card__label">下单时间</text>
+            <text class="admin-order-card__val">{{item.displayTime}}</text>
+          </view>
+        </view>
+
+        <!-- 金额区：实付 / 成本 / 预计利润 -->
+        <view class="admin-order-card__money">
+          <view class="admin-order-card__money-item">
+            <text class="admin-order-card__money-label">实付</text>
+            <text class="admin-order-card__money-amount">¥{{item.displayAmount}}</text>
+          </view>
+          <view class="admin-order-card__money-item">
+            <text class="admin-order-card__money-label">成本</text>
+            <text class="admin-order-card__money-cost">¥{{item.displayCost}}</text>
+          </view>
+          <view class="admin-order-card__money-item">
+            <text class="admin-order-card__money-label">预计利润</text>
+            <text class="admin-order-card__money-profit {{item.isLoss ? 'is-loss' : ''}}">
+              ¥{{item.displayProfit}}
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 触底加载提示 -->
+      <view class="admin-orders__loadmore" wx:if="{{loadingMore}}">
+        <t-loading theme="circular" size="36rpx" text="加载中..." inherit-color />
+      </view>
+      <view class="admin-orders__end" wx:elif="{{!hasMore}}">没有更多订单了</view>
+    </block>
+
+    <!-- 空态：当前筛选无订单 -->
+    <empty-state
+      wx:elif="{{state === 'empty'}}"
+      icon="📦"
+      description="暂无订单"
+      tip="该状态下还没有订单"
+    />
+
+    <!-- 异常态：网络错误，提供重试 -->
+    <empty-state
+      wx:elif="{{state === 'error'}}"
+      icon="📡"
+      description="网络似乎不太给力"
+      tip="请检查网络后重试"
+      button-text="重新加载"
+      bind:action="onRetry"
+    />
+
+    <!-- 无权限态 -->
+    <empty-state
+      wx:elif="{{state === 'noperm'}}"
+      icon="🔒"
+      description="无权限访问"
+      tip="{{permMsg}}"
+    />
+  </view>
+</view>

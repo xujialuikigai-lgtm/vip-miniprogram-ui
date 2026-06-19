@@ -1,0 +1,56 @@
+/* 购买播报样式 */
+.broadcast {
+  display: flex;
+  align-items: center;
+  height: 56rpx;
+  padding: 12rpx 24rpx;
+  margin: 16rpx 24rpx;
+  background: rgba(201, 154, 58, 0.08); /* 品牌金色浅底 */
+  border-radius: 28rpx;
+  box-sizing: content-box;
+}
+
+/* 喇叭图标 */
+.broadcast__icon {
+  font-size: 32rpx;
+  line-height: 56rpx;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+/* 滚动视窗：只露出一行 */
+.broadcast__viewport {
+  flex: 1;
+  height: 56rpx;
+  overflow: hidden;
+}
+
+/* 轮播轨道：纵向位移由 transform 控制 */
+.broadcast__track {
+  transition: transform 0.5s ease;
+}
+
+/* 单条播报，高度需与 ts 中 itemHeight 一致（56rpx） */
+.broadcast__item {
+  height: 56rpx;
+  line-height: 56rpx;
+  font-size: 26rpx;
+  color: #666666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.broadcast__phone {
+  color: #c99a3a;
+  font-weight: 600;
+}
+
+.broadcast__action {
+  color: #999999;
+}
+
+.broadcast__product {
+  color: #333333;
+  font-weight: 500;
+}

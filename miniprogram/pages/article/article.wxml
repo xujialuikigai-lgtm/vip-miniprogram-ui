@@ -1,0 +1,27 @@
+<!-- 富文本内容页 -->
+<view class="page-article">
+
+  <!-- 加载态 -->
+  <view class="state-block" wx:if="{{state === 'loading'}}">
+    <t-loading theme="circular" size="48rpx" text="加载中..." />
+  </view>
+
+  <!-- 异常态：可重试 -->
+  <view class="state-block" wx:elif="{{state === 'error'}}">
+    <t-icon name="info-circle" size="80rpx" color="#bbbbbb" />
+    <view class="state-block__text">{{errorMsg || '加载失败'}}</view>
+    <t-button theme="primary" size="medium" variant="outline" bind:tap="loadArticle">重新加载</t-button>
+  </view>
+
+  <!-- 空态：内容暂未配置 -->
+  <view class="state-block" wx:elif="{{state === 'empty'}}">
+    <t-icon name="file-1" size="80rpx" color="#bbbbbb" />
+    <view class="state-block__text">内容暂未配置</view>
+  </view>
+
+  <!-- 成功态：rich-text 渲染后台配置的富文本内容 -->
+  <view class="container" wx:elif="{{state === 'success'}}">
+    <rich-text class="article-content" nodes="{{content}}"></rich-text>
+  </view>
+
+</view>

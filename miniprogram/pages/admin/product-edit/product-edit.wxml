@@ -1,0 +1,286 @@
+<!-- 管理端 - 商品编辑 -->
+<view class="page-admin-product-edit">
+
+  <!-- 加载态 -->
+  <view wx:if="{{pageState === 'loading'}}" class="state-box">
+    <t-loading theme="circular" size="40rpx" text="加载中..." />
+  </view>
+
+  <!-- 异常态 -->
+  <view wx:elif="{{pageState === 'error'}}" class="state-box">
+    <empty-state
+      icon="⚠️"
+      description="加载失败"
+      tip="请检查网络后重试"
+      buttonText="重新加载"
+      bind:action="onRetry"
+    />
+  </view>
+
+  <!-- 表单主体 -->
+  <view wx:else class="form-body">
+
+    <!-- 基础信息 -->
+    <view class="section">
+      <view class="section-title">基础信息</view>
+
+      <view class="field">
+        <view class="field-label">商品名称<text class="req">*</text></view>
+        <view class="field-control">
+          <input
+            class="ipt"
+            placeholder="请输入商品名称"
+            value="{{name}}"
+            maxlength="{{nameMaxLength}}"
+            bindinput="onNameInput"
+          />
+          <text class="counter">{{name.length}}/{{nameMaxLength}}</text>
+        </view>
+      </view>
+
+      <view class="field" bindtap="openCategoryPicker">
+        <view class="field-label">所属分类<text class="req">*</text></view>
+        <view class="field-control">
+          <text class="{{categoryName ? 'value' : 'placeholder'}}">{{categoryName || '请选择分类'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+
+      <view class="field" bindtap="openRechargePicker">
+        <view class="field-label">充值方式</view>
+        <view class="field-control">
+          <text class="{{rechargeMethod ? 'value' : 'placeholder'}}">{{rechargeMethod || '请选择充值方式'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+
+      <view class="field">
+        <view class="field-label">账号类型</view>
+        <view class="field-control">
+          <input
+            class="ipt"
+            placeholder="如：大陆手机号"
+            value="{{accountType}}"
+            bindinput="onAccountTypeInput"
+          />
+        </view>
+      </view>
+
+      <view class="field">
+        <view class="field-label">接口商品ID<text class="req">*</text></view>
+        <view class="field-control">
+          <input
+            class="ipt"
+            type="number"
+            placeholder="对应顺势商品ID"
+            value="{{shunshiGoodsId}}"
+            bindinput="onShunshiGoodsIdInput"
+          />
+        </view>
+      </view>
+
+      <view class="field">
+        <view class="field-label">排序权重</view>
+        <view class="field-control">
+          <input
+            class="ipt"
+            type="number"
+            placeholder="0-9999，越小越靠前"
+            value="{{sortWeight}}"
+            bindinput="onSortWeightInput"
+          />
+        </view>
+      </view>
+
+      <view class="field">
+        <view class="field-label">自动开通</view>
+        <view class="field-control control-right">
+          <t-switch value="{{autoActivate}}" bind:change="onAutoActivateChange" />
+        </view>
+      </view>
+
+      <view class="field no-border">
+        <view class="field-label">上架状态</view>
+        <view class="field-control control-right">
+          <t-switch value="{{online}}" bind:change="onOnlineChange" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 套餐价格 -->
+    <view class="section">
+      <view class="section-title">
+        <text>套餐价格<text class="req">*</text></text>
+        <view class="add-btn" bindtap="onAddPackage">+ 新增套餐</view>
+      </view>
+
+      <view wx:if="{{packages.length === 0}}" class="pkg-empty">暂无套餐，请新增至少一个套餐</view>
+
+      <view
+        wx:for="{{packages}}"
+        wx:key="packageId"
+        class="pkg-card"
+      >
+        <view class="pkg-head">
+          <view class="pkg-name">
+            {{item.name}}
+            <t-tag wx:if="{{item.isDefault}}" theme="primary" variant="light" size="small">默认</t-tag>
+            <t-tag wx:if="{{!item.online}}" theme="default" variant="light" size="small">已下架</t-tag>
+          </view>
+          <view class="pkg-type">{{item.memberType}}</view>
+        </view>
+        <view class="pkg-body">
+          <view class="pkg-price">
+            <text class="price-now">¥{{item.priceText}}</text>
+            <text class="price-cost">成本 ¥{{item.costText}}</text>
+          </view>
+          <view class="pkg-ops">
+            <text class="op-edit" data-index="{{index}}" bindtap="onEditPackage">改价/编辑</text>
+            <text class="op-del" data-index="{{index}}" bindtap="onDeletePackage">删除</text>
+          </view>
+        </view>
+        <view wx:if="{{item.price < item.costPrice}}" class="loss-tip">⚠️ 售价低于成本，将产生亏损</view>
+      </view>
+    </view>
+
+    <!-- 售前规则 -->
+    <view class="section">
+      <view class="section-title">售前规则</view>
+
+      <view class="rule-field">
+        <view class="field-label">设备支持说明</view>
+        <textarea
+          class="txt"
+          placeholder="请输入设备支持说明"
+          value="{{rules.deviceSupport}}"
+          bindinput="onDeviceSupportInput"
+          maxlength="200"
+        />
+      </view>
+      <view class="rule-field">
+        <view class="field-label">到账时间说明</view>
+        <textarea
+          class="txt"
+          placeholder="请输入到账时间说明"
+          value="{{rules.arrivalTime}}"
+          bindinput="onArrivalTimeInput"
+          maxlength="200"
+        />
+      </view>
+      <view class="rule-field">
+        <view class="field-label">安全说明</view>
+        <textarea
+          class="txt"
+          placeholder="请输入安全说明"
+          value="{{rules.safetyNote}}"
+          bindinput="onSafetyNoteInput"
+          maxlength="200"
+        />
+      </view>
+    </view>
+
+    <view class="bottom-placeholder" />
+  </view>
+
+  <!-- 底部固定操作栏 -->
+  <view wx:if="{{pageState === 'success'}}" class="footer">
+    <view class="footer-btn preview" bindtap="onPreview">预览商品</view>
+    <view class="footer-btn save {{saving ? 'disabled' : ''}}" bindtap="onSave">
+      {{saving ? '保存中...' : '保存'}}
+    </view>
+  </view>
+
+  <!-- 分类选择弹窗 -->
+  <t-popup visible="{{categoryPickerVisible}}" placement="bottom" bind:visible-change="closeCategoryPicker">
+    <view class="popup">
+      <view class="popup-head">
+        <text>选择分类</text>
+        <text class="popup-close" bindtap="closeCategoryPicker">关闭</text>
+      </view>
+      <scroll-view scroll-y class="popup-list">
+        <view
+          wx:for="{{categories}}"
+          wx:key="categoryId"
+          class="popup-item {{item.categoryId === categoryId ? 'active' : ''}}"
+          data-id="{{item.categoryId}}"
+          data-name="{{item.name}}"
+          bindtap="onCategorySelect"
+        >
+          {{item.name}}
+        </view>
+        <view wx:if="{{categories.length === 0}}" class="popup-empty">暂无分类，请先同步商品</view>
+      </scroll-view>
+    </view>
+  </t-popup>
+
+  <!-- 充值方式弹窗 -->
+  <t-popup visible="{{rechargePickerVisible}}" placement="bottom" bind:visible-change="closeRechargePicker">
+    <view class="popup">
+      <view class="popup-head">
+        <text>选择充值方式</text>
+        <text class="popup-close" bindtap="closeRechargePicker">关闭</text>
+      </view>
+      <view class="popup-list">
+        <view
+          wx:for="{{rechargeMethods}}"
+          wx:key="*this"
+          class="popup-item {{item === rechargeMethod ? 'active' : ''}}"
+          data-method="{{item}}"
+          bindtap="onRechargeSelect"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </t-popup>
+
+  <!-- 套餐编辑弹窗 -->
+  <t-popup visible="{{packagePopupVisible}}" placement="bottom" bind:visible-change="closePackagePopup">
+    <view class="popup pkg-popup">
+      <view class="popup-head">
+        <text>{{editingIndex >= 0 ? '编辑套餐' : '新增套餐'}}</text>
+        <text class="popup-close" bindtap="closePackagePopup">关闭</text>
+      </view>
+      <view class="pkg-form">
+        <view class="field">
+          <view class="field-label">套餐名<text class="req">*</text></view>
+          <input class="ipt" placeholder="如：年卡" value="{{packageForm.name}}" bindinput="onPkgNameInput" />
+        </view>
+        <view class="field">
+          <view class="field-label">会员类型<text class="req">*</text></view>
+          <input class="ipt" placeholder="如：黄金会员" value="{{packageForm.memberType}}" bindinput="onPkgMemberTypeInput" />
+        </view>
+        <view class="field">
+          <view class="field-label">售价(元)<text class="req">*</text></view>
+          <input class="ipt" type="digit" placeholder="大于0" value="{{packageForm.price}}" bindinput="onPkgPriceInput" />
+        </view>
+        <view class="field">
+          <view class="field-label">成本价(元)<text class="req">*</text></view>
+          <input class="ipt" type="digit" placeholder="接口成本" value="{{packageForm.costPrice}}" bindinput="onPkgCostInput" />
+        </view>
+        <view class="field">
+          <view class="field-label">接口SKU<text class="req">*</text></view>
+          <input class="ipt" type="number" placeholder="顺势下单商品标识" value="{{packageForm.shunshiGoodsId}}" bindinput="onPkgSkuInput" />
+        </view>
+        <view class="field">
+          <view class="field-label">库存</view>
+          <input class="ipt" type="number" placeholder="-1 表示无限" value="{{packageForm.stock}}" bindinput="onPkgStockInput" />
+        </view>
+        <view class="field">
+          <view class="field-label">上架</view>
+          <view class="field-control control-right">
+            <t-switch value="{{packageForm.online}}" bind:change="onPkgOnlineChange" />
+          </view>
+        </view>
+        <view class="field no-border">
+          <view class="field-label">设为默认套餐</view>
+          <view class="field-control control-right">
+            <t-switch value="{{packageForm.isDefault}}" bind:change="onPkgDefaultChange" />
+          </view>
+        </view>
+      </view>
+      <view class="pkg-save-btn" bindtap="onSavePackage">确定</view>
+    </view>
+  </t-popup>
+
+</view>

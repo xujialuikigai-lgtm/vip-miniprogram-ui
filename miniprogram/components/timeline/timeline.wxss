@@ -1,0 +1,92 @@
+/* 订单状态时间轴样式 */
+.timeline {
+  padding: 8rpx 0;
+}
+
+/* 单个节点：左轴 + 右内容 */
+.timeline__item {
+  display: flex;
+  align-items: stretch;
+}
+
+/* 左侧轴线区域 */
+.timeline__axis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40rpx;
+  flex-shrink: 0;
+}
+
+/* 节点圆点 */
+.timeline__dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  margin-top: 8rpx;
+  background-color: #d0d0d0;
+  border: 2rpx solid #d0d0d0;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* 连接线 */
+.timeline__line {
+  width: 2rpx;
+  flex: 1;
+  min-height: 32rpx;
+  background-color: #e6e6e6;
+  margin: 4rpx 0;
+}
+
+/* 右侧内容区 */
+.timeline__content {
+  flex: 1;
+  padding: 0 0 32rpx 20rpx;
+}
+
+/* 状态 + 时间 一行 */
+.timeline__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.timeline__status {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #666666;
+}
+
+.timeline__time {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.timeline__desc {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: #999999;
+}
+
+/* 当前节点高亮：圆点放大 + 文案加深 */
+.timeline__item--current .timeline__dot {
+  width: 24rpx;
+  height: 24rpx;
+  box-shadow: 0 0 0 6rpx rgba(201, 154, 58, 0.15);
+}
+
+.timeline__item--current .timeline__status {
+  font-weight: 700;
+}
+
+/* 已完成节点：圆点为主题深色，描述更清晰 */
+.timeline__item--done .timeline__dot {
+  background-color: #c99a3a;
+  border-color: #c99a3a;
+}
+
+.timeline__item--done .timeline__status {
+  color: #333333;
+}

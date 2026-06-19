@@ -1,0 +1,34 @@
+/* 富文本内容页样式 */
+.page-article {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* 内容容器 */
+.container {
+  padding: 32rpx;
+}
+
+/* 富文本内容：保证图片自适应、文字可读 */
+.article-content {
+  display: block;
+  font-size: 28rpx;
+  line-height: 1.7;
+  color: #333333;
+  word-break: break-all;
+}
+
+/* 加载 / 异常 / 空态通用块 */
+.state-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 160rpx 48rpx;
+}
+
+.state-block__text {
+  margin: 24rpx 0 32rpx;
+  font-size: 28rpx;
+  color: #999999;
+}

@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "数据看板",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "empty-state": "../../../components/empty-state/empty-state",
+    "skeleton": "../../../components/skeleton/skeleton"
+  }
+}

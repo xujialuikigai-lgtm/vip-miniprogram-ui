@@ -1,0 +1,51 @@
+/* 动态表单样式 */
+.dynamic-form {
+  background: #ffffff;
+}
+
+/* 单个字段块 */
+.dynamic-form__item {
+  padding: 16rpx 24rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.dynamic-form__item:last-child {
+  border-bottom: none;
+}
+
+/* 字段标题 */
+.dynamic-form__label {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+/* 必填星号 */
+.dynamic-form__required {
+  color: #e34d59;
+  margin-right: 6rpx;
+  font-size: 28rpx;
+  line-height: 1;
+}
+
+/* 文本输入框：去除 TDesign 默认左右内边距，与标题对齐 */
+.dynamic-form__input {
+  --td-input-vertical-padding: 8rpx;
+  padding: 0;
+}
+
+/* select / cascader 单元格：去除默认内边距 */
+.dynamic-form__select {
+  --td-cell-horizontal-padding: 0;
+  --td-cell-vertical-padding: 8rpx;
+}
+
+/* 错误提示文案 */
+.dynamic-form__error {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #e34d59;
+  line-height: 1.4;
+}

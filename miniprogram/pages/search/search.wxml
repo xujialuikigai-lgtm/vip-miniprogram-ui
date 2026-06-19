@@ -1,0 +1,85 @@
+<!-- 搜索结果页 -->
+<view class="page-search">
+  <!-- 顶部搜索框（自动聚焦，支持清空重新搜索） -->
+  <view class="search-bar">
+    <t-search
+      value="{{keyword}}"
+      focus="{{autoFocus}}"
+      placeholder="搜索会员权益，如 视频会员、网盘"
+      clearable
+      shape="round"
+      bind:change="onSearchChange"
+      bind:submit="onSearchSubmit"
+      bind:clear="onSearchClear"
+    />
+  </view>
+
+  <!-- 排序筛选 Tab（综合/价格低/到账快/电视端） -->
+  <view class="sort-tabs" wx:if="{{state !== 'idle'}}">
+    <t-tabs
+      value="{{sortType}}"
+      t-class-active="sort-tabs__active"
+      bind:change="onSortChange"
+    >
+      <t-tab-panel
+        wx:for="{{sortTabs}}"
+        wx:key="value"
+        label="{{item.label}}"
+        value="{{item.value}}"
+      />
+    </t-tabs>
+  </view>
+
+  <!-- 结果提示条："找到 X 个相关会员权益" -->
+  <view class="result-tip" wx:if="{{state === 'success' && resultText}}">
+    {{resultText}}
+  </view>
+
+  <view class="container">
+    <!-- 加载态：骨架屏（超时自动转异常并支持重试） -->
+    <skeleton
+      wx:if="{{state === 'loading'}}"
+      loading="{{true}}"
+      type="list"
+      rows="{{6}}"
+      bind:retry="onRetry"
+    />
+
+    <!-- 成功态：商品结果列表 -->
+    <view wx:elif="{{state === 'success'}}" class="result-list">
+      <product-card
+        wx:for="{{list}}"
+        wx:key="productId"
+        class="result-list__item"
+        product="{{item}}"
+        bind:tap="onProductTap"
+      />
+    </view>
+
+    <!-- 空结果态 -->
+    <empty-state
+      wx:elif="{{state === 'empty'}}"
+      icon="🔍"
+      description="没有找到相关会员"
+      tip="换个关键词试试吧"
+    />
+
+    <!-- 异常态：网络错误，提供重试 -->
+    <empty-state
+      wx:elif="{{state === 'error'}}"
+      icon="📡"
+      description="网络似乎不太给力"
+      tip="请检查网络后重试"
+      button-text="重新加载"
+      bind:action="onRetry"
+    />
+
+    <!-- 初始态：尚未输入关键词 -->
+    <empty-state
+      wx:elif="{{state === 'idle'}}"
+      icon="🔍"
+      description="输入关键词搜索会员权益"
+      tip="支持按名称或分类搜索"
+    />
+  </view>
+</view>

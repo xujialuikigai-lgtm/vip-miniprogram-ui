@@ -1,0 +1,75 @@
+<!-- 确认弹窗：底部弹出，用于购买核对二次确认 -->
+<t-popup
+  visible="{{visible}}"
+  placement="bottom"
+  bind:visible-change="onVisibleChange"
+>
+  <view
+    class="confirm-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{title}}"
+  >
+    <!-- 标题 -->
+    <view class="confirm-dialog__title">{{title}}</view>
+
+    <!-- 通用文本内容（传入 content 时展示） -->
+    <view wx:if="{{content}}" class="confirm-dialog__content">{{content}}</view>
+
+    <!-- 结构化核对信息（购买核对场景） -->
+    <view class="confirm-dialog__info">
+      <view wx:if="{{productName}}" class="confirm-dialog__row">
+        <text class="confirm-dialog__label">开通商品</text>
+        <text class="confirm-dialog__value">{{productName}}</text>
+      </view>
+      <view wx:if="{{memberType}}" class="confirm-dialog__row">
+        <text class="confirm-dialog__label">会员类型</text>
+        <text class="confirm-dialog__value">{{memberType}}</text>
+      </view>
+      <view wx:if="{{packageName}}" class="confirm-dialog__row">
+        <text class="confirm-dialog__label">套餐周期</text>
+        <text class="confirm-dialog__value">{{packageName}}</text>
+      </view>
+      <view wx:if="{{maskedAccount}}" class="confirm-dialog__row">
+        <text class="confirm-dialog__label">充值账号</text>
+        <text class="confirm-dialog__value">{{maskedAccount}}</text>
+      </view>
+    </view>
+
+    <!-- 应付金额（amount 大于 0 时展示） -->
+    <view wx:if="{{amount > 0}}" class="confirm-dialog__amount">
+      <text class="confirm-dialog__amount-label">应付金额</text>
+      <view class="confirm-dialog__amount-num">
+        <text class="confirm-dialog__amount-symbol">¥</text>
+        <text class="confirm-dialog__amount-value">{{displayAmount}}</text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="confirm-dialog__actions">
+      <t-button
+        class="confirm-dialog__btn"
+        theme="default"
+        variant="outline"
+        size="large"
+        aria-role="button"
+        aria-label="{{cancelText}}"
+        bindtap="onCancel"
+      >
+        {{cancelText}}
+      </t-button>
+      <t-button
+        class="confirm-dialog__btn"
+        theme="primary"
+        size="large"
+        loading="{{confirmLoading}}"
+        disabled="{{confirmLoading}}"
+        aria-role="button"
+        aria-label="{{confirmText}}"
+        bindtap="onConfirm"
+      >
+        {{confirmText}}
+      </t-button>
+    </view>
+  </view>
+</t-popup>

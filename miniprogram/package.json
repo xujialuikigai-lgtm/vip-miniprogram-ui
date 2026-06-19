@@ -1,0 +1,11 @@
+{
+  "name": "vip-miniprogram",
+  "version": "1.0.0",
+  "description": "会员多多购微信小程序",
+  "dependencies": {
+    "tdesign-miniprogram": "^1.5.0"
+  },
+  "devDependencies": {
+    "miniprogram-api-typings": "^5.2.1"
+  }
+}

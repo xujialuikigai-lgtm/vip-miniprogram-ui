@@ -1,0 +1,68 @@
+<!-- 我的订单列表页 -->
+<view class="page-orders">
+  <!-- 状态筛选 Tab（全部/开通中/开通成功/退款），默认"全部" -->
+  <view class="orders-tabs">
+    <t-tabs
+      value="{{activeTab}}"
+      t-class-active="orders-tabs__active"
+      bind:change="onTabChange"
+    >
+      <t-tab-panel
+        wx:for="{{tabs}}"
+        wx:key="value"
+        label="{{item.label}}"
+        value="{{item.value}}"
+      />
+    </t-tabs>
+  </view>
+
+  <view class="container">
+    <!-- 加载态：骨架屏（超时自动转异常并支持重试） -->
+    <skeleton
+      wx:if="{{state === 'loading'}}"
+      loading="{{true}}"
+      type="card"
+      rows="{{4}}"
+      bind:retry="onRetry"
+    />
+
+    <!-- 成功态：订单卡片列表 -->
+    <block wx:elif="{{state === 'success'}}">
+      <order-card
+        wx:for="{{list}}"
+        wx:key="orderId"
+        order="{{item}}"
+        refreshing="{{item.orderId === refreshingId}}"
+        bind:tap="onCardTap"
+        bind:refresh="onRefresh"
+        bind:rebuy="onRebuy"
+      />
+
+      <!-- 触底加载提示 -->
+      <view class="orders-loadmore" wx:if="{{loadingMore}}">
+        <t-loading theme="circular" size="36rpx" text="加载中..." inherit-color />
+      </view>
+      <view class="orders-end" wx:elif="{{!hasMore}}">没有更多订单了</view>
+    </block>
+
+    <!-- 空态：无订单，引导前往首页（Req 16.1） -->
+    <empty-state
+      wx:elif="{{state === 'empty'}}"
+      icon="📦"
+      description="还没有订单"
+      tip="去首页挑选心仪的会员权益吧"
+      button-text="去首页看看"
+      bind:action="onGoHome"
+    />
+
+    <!-- 异常态：网络错误，提供重试 -->
+    <empty-state
+      wx:elif="{{state === 'error'}}"
+      icon="📡"
+      description="网络似乎不太给力"
+      tip="请检查网络后重试"
+      button-text="重新加载"
+      bind:action="onRetry"
+    />
+  </view>
+</view>

@@ -1,0 +1,44 @@
+/* 订单列表页样式 */
+.page-orders {
+  min-height: 100vh;
+  background: #f5f5f5;
+  /* 主题色变量，供子组件继承 */
+  --td-brand-color: #c99a3a;
+}
+
+/* 状态筛选 Tab：吸顶展示 */
+.orders-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+}
+
+/* 选中态文字使用主题色 */
+.orders-tabs__active {
+  color: #c99a3a !important;
+  font-weight: 600;
+}
+
+/* 列表容器：底部留白，避免最后一张卡片贴边 */
+.container {
+  padding: 16rpx 0 40rpx;
+}
+
+/* 触底加载提示 */
+.orders-loadmore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 0;
+  color: #999999;
+  font-size: 24rpx;
+}
+
+/* 到底文案 */
+.orders-end {
+  text-align: center;
+  padding: 24rpx 0;
+  color: #bbbbbb;
+  font-size: 24rpx;
+}

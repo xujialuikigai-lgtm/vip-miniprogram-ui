@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "strict": false,
+    "noEmit": false,
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "outDir": ".",
+    "rootDir": ".",
+    "declaration": false,
+    "sourceMap": false,
+    "skipLibCheck": true,
+    "noImplicitAny": false
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules"]
+}

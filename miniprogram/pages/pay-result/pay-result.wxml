@@ -1,0 +1,75 @@
+<!-- 支付结果页 -->
+<view class="page-pay-result">
+
+  <!-- 加载态 -->
+  <view class="state-block" wx:if="{{state === 'loading'}}">
+    <t-loading theme="circular" size="48rpx" text="加载中..." />
+  </view>
+
+  <!-- 异常态 -->
+  <view class="state-block" wx:elif="{{state === 'error'}}">
+    <t-icon name="info-circle" size="80rpx" color="#bbbbbb" />
+    <view class="state-block__text">{{errorMsg || '加载失败'}}</view>
+    <t-button theme="primary" size="medium" variant="outline" bind:tap="loadDetail">重新加载</t-button>
+  </view>
+
+  <!-- 成功态 -->
+  <block wx:elif="{{state === 'success'}}">
+    <!-- Hero 区：支付/开通状态 -->
+    <view class="hero">
+      <t-icon name="{{hero.icon}}" size="120rpx" color="#ffffff" class="hero__icon" />
+      <view class="hero__title">{{hero.title}}</view>
+      <view class="hero__subtitle">{{hero.subtitle}}</view>
+      <view class="hero__amount">¥{{amountText}}</view>
+    </view>
+
+    <!-- 订单摘要 -->
+    <view class="card">
+      <view class="card__title">订单信息</view>
+      <view class="summary-row">
+        <text class="summary-row__label">商品名称</text>
+        <text class="summary-row__value">{{order.productName}}</text>
+      </view>
+      <view class="summary-row" wx:if="{{order.packageName}}">
+        <text class="summary-row__label">套餐</text>
+        <text class="summary-row__value">{{order.packageName}}</text>
+      </view>
+      <view class="summary-row">
+        <text class="summary-row__label">实付金额</text>
+        <text class="summary-row__value summary-row__value--amount">¥{{amountText}}</text>
+      </view>
+      <view class="summary-row" bind:longpress="onCopyOrderId">
+        <text class="summary-row__label">订单号</text>
+        <text class="summary-row__value summary-row__value--copy">{{orderId}}<text class="summary-row__copy-tip">长按复制</text></text>
+      </view>
+    </view>
+
+    <!-- 失败原因（开通失败时展示） -->
+    <view class="card card--alert" wx:if="{{failReason}}">
+      <view class="card__title card__title--alert">失败原因</view>
+      <view class="alert-text">{{failReason}}</view>
+    </view>
+
+    <!-- 开通进度时间轴 -->
+    <view class="card" wx:if="{{timeline.length > 0}}">
+      <view class="card__title-row">
+        <view class="card__title">开通进度</view>
+        <t-button
+          size="extra-small"
+          variant="outline"
+          theme="primary"
+          loading="{{refreshing}}"
+          bind:tap="onRefresh"
+        >刷新进度</t-button>
+      </view>
+      <timeline timeline="{{timeline}}" />
+    </view>
+
+    <!-- 底部操作 -->
+    <view class="footer">
+      <t-button class="footer__btn" theme="primary" size="large" bind:tap="onViewOrder">查看订单</t-button>
+      <t-button class="footer__btn" theme="default" variant="outline" size="large" bind:tap="onBackHome">返回首页</t-button>
+    </view>
+  </block>
+
+</view>

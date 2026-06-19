@@ -1,0 +1,94 @@
+/* 订单卡片样式 */
+.order-card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin: 16rpx 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+/* 顶部：订单号 + 状态 */
+.order-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.order-card__order-no {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+/* 中部：商品信息 */
+.order-card__body {
+  padding: 16rpx 0;
+}
+
+.order-card__name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 12rpx;
+}
+
+.order-card__row {
+  display: flex;
+  align-items: center;
+  font-size: 26rpx;
+  line-height: 1.8;
+}
+
+.order-card__label {
+  width: 80rpx;
+  color: #999999;
+  flex-shrink: 0;
+}
+
+.order-card__value {
+  color: #666666;
+  flex: 1;
+}
+
+/* 底部：金额 + 操作 */
+.order-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.order-card__amount {
+  display: flex;
+  align-items: baseline;
+}
+
+.order-card__amount-label {
+  font-size: 24rpx;
+  color: #999999;
+  margin-right: 8rpx;
+}
+
+.order-card__amount-symbol {
+  font-size: 24rpx;
+  color: #c99a3a;
+  font-weight: 600;
+}
+
+.order-card__amount-value {
+  font-size: 36rpx;
+  color: #c99a3a;
+  font-weight: 700;
+}
+
+/* 操作按钮区 */
+.order-card__actions {
+  display: flex;
+  align-items: center;
+}
+
+.order-card__btn {
+  margin-left: 16rpx;
+}

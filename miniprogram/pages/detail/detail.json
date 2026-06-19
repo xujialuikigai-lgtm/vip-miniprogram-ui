@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "商品详情",
+  "backgroundColor": "#f5f5f5",
+  "usingComponents": {
+    "dynamic-form": "../../components/dynamic-form/dynamic-form",
+    "confirm-dialog": "../../components/confirm-dialog/confirm-dialog",
+    "skeleton": "../../components/skeleton/skeleton",
+    "empty-state": "../../components/empty-state/empty-state"
+  }
+}

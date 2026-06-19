@@ -1,0 +1,110 @@
+/* 分类页样式：左右双栏布局，主题色 #c99a3a */
+.page-category {
+  height: 100vh;
+  background: #f5f5f5;
+  box-sizing: border-box;
+}
+
+/* 首次加载骨架 / 整页异常 */
+.category-skeleton {
+  padding: 24rpx;
+}
+.category-error {
+  padding-top: 160rpx;
+}
+
+/* 双栏容器 */
+.category-layout {
+  display: flex;
+  height: 100vh;
+}
+
+/* ===== 左侧分类侧边栏 ===== */
+.category-side {
+  width: 200rpx;
+  height: 100%;
+  background: #f0f0f0;
+  box-sizing: border-box;
+}
+.category-side__item {
+  position: relative;
+  min-height: 100rpx;
+  padding: 24rpx 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #666;
+  text-align: center;
+}
+/* 选中态：白色底 + 主题色文字 + 左侧色条 */
+.category-side__item--active {
+  background: #fff;
+  color: #c99a3a;
+  font-weight: 600;
+}
+.category-side__item--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6rpx;
+  height: 40rpx;
+  background: #c99a3a;
+  border-radius: 0 6rpx 6rpx 0;
+}
+.category-side__text {
+  line-height: 1.4;
+}
+
+/* ===== 右侧商品面板 ===== */
+.category-main {
+  flex: 1;
+  height: 100%;
+  background: #f5f5f5;
+  box-sizing: border-box;
+}
+.category-main__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 28rpx 24rpx 12rpx;
+}
+.category-main__title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+.category-main__count {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.category-main__skeleton {
+  padding: 12rpx 24rpx;
+}
+.category-main__error,
+.category-main__empty {
+  padding-top: 120rpx;
+}
+
+/* 商品列表 */
+.category-main__list {
+  padding: 8rpx 24rpx 40rpx;
+}
+.category-main__card {
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+/* 触底加载/到底提示 */
+.category-main__loadmore,
+.category-main__nomore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28rpx 0;
+  font-size: 24rpx;
+  color: #999;
+}

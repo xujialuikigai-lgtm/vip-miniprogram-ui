@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "订单处理",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "skeleton": "../../../components/skeleton/skeleton",
+    "empty-state": "../../../components/empty-state/empty-state"
+  }
+}

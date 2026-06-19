@@ -1,0 +1,172 @@
+/* 管理端商品运营列表页样式 */
+.page-products {
+  min-height: 100vh;
+  background: #f5f5f5;
+  /* 主题色变量，供 TDesign 子组件继承 */
+  --td-brand-color: #c99a3a;
+  padding-bottom: 40rpx;
+}
+
+/* ============ 数据概览卡片 ============ */
+.overview {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  margin: 24rpx;
+  padding: 32rpx 0;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.overview__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.overview__num {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #333333;
+  line-height: 1.2;
+}
+
+.overview__num--on {
+  color: #4caf50;
+}
+
+.overview__num--off {
+  color: #999999;
+}
+
+.overview__label {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.overview__divider {
+  width: 1rpx;
+  height: 56rpx;
+  background: #eeeeee;
+}
+
+/* ============ 快捷操作按钮 ============ */
+.actions {
+  display: flex;
+  gap: 24rpx;
+  padding: 0 24rpx 8rpx;
+}
+
+.actions__btn {
+  flex: 1;
+}
+
+/* ============ 状态筛选 Tab ============ */
+.products-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  margin-top: 16rpx;
+}
+
+.products-tabs__active {
+  color: #c99a3a !important;
+  font-weight: 600;
+}
+
+/* ============ 列表容器 ============ */
+.container {
+  padding: 16rpx 24rpx 0;
+}
+
+/* ============ 商品卡片 ============ */
+.product-card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.product-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-card__name {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333333;
+  margin-right: 16rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 价格信息行 */
+.product-card__prices {
+  display: flex;
+  margin-top: 24rpx;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #f5f5f5;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.price-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.price-item__label {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.price-item__value {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.price-item__value--price {
+  color: #c99a3a;
+}
+
+.price-item__value--profit {
+  color: #4caf50;
+}
+
+.price-item__value--loss {
+  color: #f44336;
+}
+
+/* 卡片底部 */
+.product-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+
+.product-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.meta-text {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.product-card__switch {
+  display: flex;
+  align-items: center;
+}

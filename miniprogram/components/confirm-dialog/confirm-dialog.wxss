@@ -1,0 +1,102 @@
+/* 确认弹窗样式（底部弹出） */
+.confirm-dialog {
+  padding: 40rpx 32rpx calc(32rpx + env(safe-area-inset-bottom));
+  border-radius: 24rpx 24rpx 0 0;
+  background: #ffffff;
+}
+
+/* 标题 */
+.confirm-dialog__title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333333;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+/* 通用文本内容 */
+.confirm-dialog__content {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 1.6;
+  margin-bottom: 24rpx;
+}
+
+/* 核对信息区 */
+.confirm-dialog__info {
+  background: #fafafa;
+  border-radius: 16rpx;
+  padding: 8rpx 24rpx;
+}
+
+.confirm-dialog__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+.confirm-dialog__row + .confirm-dialog__row {
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.confirm-dialog__label {
+  color: #999999;
+  flex-shrink: 0;
+  margin-right: 24rpx;
+}
+
+.confirm-dialog__value {
+  color: #333333;
+  text-align: right;
+  flex: 1;
+  word-break: break-all;
+}
+
+/* 应付金额 */
+.confirm-dialog__amount {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 8rpx 8rpx;
+}
+
+.confirm-dialog__amount-label {
+  font-size: 28rpx;
+  color: #333333;
+}
+
+.confirm-dialog__amount-num {
+  display: flex;
+  align-items: baseline;
+}
+
+.confirm-dialog__amount-symbol {
+  font-size: 28rpx;
+  color: #c99a3a;
+  font-weight: 600;
+  margin-right: 4rpx;
+}
+
+.confirm-dialog__amount-value {
+  font-size: 44rpx;
+  color: #c99a3a;
+  font-weight: 700;
+}
+
+/* 操作按钮 */
+.confirm-dialog__actions {
+  display: flex;
+  align-items: center;
+  margin-top: 40rpx;
+}
+
+.confirm-dialog__btn {
+  flex: 1;
+}
+
+.confirm-dialog__btn + .confirm-dialog__btn {
+  margin-left: 24rpx;
+}

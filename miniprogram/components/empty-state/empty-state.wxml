@@ -1,0 +1,30 @@
+<!-- 空状态组件 -->
+<view class="empty-state" aria-role="text" aria-label="{{description}}">
+  <!-- 图标：图片 URL 或 emoji/文本 -->
+  <image
+    wx:if="{{isImage}}"
+    class="empty-state__icon-img"
+    src="{{icon}}"
+    mode="aspectFit"
+    aria-hidden="true"
+  />
+  <view wx:else class="empty-state__icon" aria-hidden="true">{{icon}}</view>
+
+  <!-- 主文案 -->
+  <view class="empty-state__desc">{{description}}</view>
+
+  <!-- 辅助说明 -->
+  <view wx:if="{{tip}}" class="empty-state__tip">{{tip}}</view>
+
+  <!-- 引导操作按钮 -->
+  <t-button
+    wx:if="{{showButton}}"
+    class="empty-state__btn"
+    size="medium"
+    theme="primary"
+    bindtap="onActionTap"
+    aria-label="{{buttonText}}"
+  >
+    {{buttonText}}
+  </t-button>
+</view>

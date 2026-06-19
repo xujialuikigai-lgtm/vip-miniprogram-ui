@@ -1,0 +1,15 @@
+{
+  "name": "payment",
+  "version": "1.0.0",
+  "description": "支付业务云函数",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  }
+}

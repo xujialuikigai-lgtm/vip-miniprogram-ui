@@ -1,0 +1,108 @@
+<!-- 个人中心页 -->
+<view class="page-profile">
+
+  <!-- 用户信息区 -->
+  <view class="user-card">
+    <view class="user-main">
+      <!-- 头像：未授权展示占位符 U -->
+      <view class="avatar" wx:if="{{!userInfo}}">U</view>
+      <image wx:else class="avatar-img" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+      <view class="user-meta">
+        <view class="user-name">{{userInfo ? userInfo.nickName : '微信用户'}}</view>
+        <view class="user-sub">官方直充 · 安全无忧</view>
+      </view>
+    </view>
+    <!-- 未授权展示登录按钮 -->
+    <t-button
+      wx:if="{{!userInfo}}"
+      size="small"
+      theme="primary"
+      variant="outline"
+      bind:tap="handleLogin"
+    >登录</t-button>
+  </view>
+
+  <!-- 快速统计卡片（3 列） -->
+  <view class="stats-card">
+    <view class="stat-item" data-tab="all" bind:tap="onStatTap">
+      <view class="stat-num">{{statsLoading ? '-' : stats.total}}</view>
+      <view class="stat-label">全部订单</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item" data-tab="activating" bind:tap="onStatTap">
+      <view class="stat-num">{{statsLoading ? '-' : stats.activating}}</view>
+      <view class="stat-label">处理中</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item" data-tab="refund" bind:tap="onStatTap">
+      <view class="stat-num">{{statsLoading ? '-' : stats.refunding}}</view>
+      <view class="stat-label">待退款</view>
+    </view>
+  </view>
+
+  <!-- 常用功能菜单 -->
+  <view class="section">
+    <view class="section-title">常用功能</view>
+    <t-cell-group theme="card">
+      <t-cell
+        wx:for="{{menuList}}"
+        wx:key="title"
+        title="{{item.title}}"
+        description="{{item.desc}}"
+        arrow
+        data-index="{{index}}"
+        bind:click="onMenuTap"
+      >
+        <t-icon slot="left-icon" name="{{item.icon}}" size="44rpx" color="#c99a3a" />
+      </t-cell>
+    </t-cell-group>
+  </view>
+
+  <!-- 客服入口 -->
+  <view class="section">
+    <t-cell-group theme="card">
+      <t-cell title="联系客服" description="扫码添加专属客服" arrow bind:click="showQrcode">
+        <t-icon slot="left-icon" name="service" size="44rpx" color="#c99a3a" />
+      </t-cell>
+    </t-cell-group>
+  </view>
+
+  <!-- 管理员入口（非管理员隐藏） -->
+  <view class="section" wx:if="{{isAdmin}}">
+    <t-cell-group theme="card">
+      <t-cell title="管理后台" description="数据看板 · 订单处理 · 商品运营" arrow bind:click="goAdmin">
+        <t-icon slot="left-icon" name="setting" size="44rpx" color="#c99a3a" />
+      </t-cell>
+    </t-cell-group>
+  </view>
+
+  <!-- 底部服务保障说明 -->
+  <view class="service-card">
+    <view class="service-item" wx:for="{{serviceList}}" wx:key="*this">
+      <t-icon name="check-circle" size="32rpx" color="#c99a3a" />
+      <text class="service-text">{{item}}</text>
+    </view>
+  </view>
+
+</view>
+
+<!-- 客服二维码弹窗 -->
+<t-popup visible="{{qrcodeVisible}}" placement="center" bind:visible-change="hideQrcode">
+  <view class="qrcode-popup">
+    <view class="qrcode-title">添加专属客服</view>
+    <view class="qrcode-body">
+      <t-loading wx:if="{{qrcodeLoading}}" theme="circular" size="48rpx" />
+      <view wx:elif="{{qrcodeError || !qrcodeUrl}}" class="qrcode-fallback">客服暂不可用，请稍后再试</view>
+      <image
+        wx:else
+        class="qrcode-img"
+        src="{{qrcodeUrl}}"
+        mode="aspectFit"
+        show-menu-by-longpress
+        bind:error="onQrcodeError"
+      />
+    </view>
+    <view class="qrcode-tip" wx:if="{{qrcodeUrl && !qrcodeError}}">长按二维码保存或识别</view>
+    <view class="qrcode-close" bind:tap="hideQrcode">关闭</view>
+  </view>
+</t-popup>

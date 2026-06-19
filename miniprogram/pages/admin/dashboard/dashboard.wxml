@@ -1,0 +1,150 @@
+<!-- 管理端 - 数据看板 -->
+<view class="page-admin-dashboard">
+  <!-- 加载态：骨架屏（超时切换异常并支持重试） -->
+  <skeleton
+    wx:if="{{state === 'loading'}}"
+    loading="{{true}}"
+    type="card"
+    rows="{{5}}"
+    bind:retry="onRetry"
+  />
+
+  <!-- 异常态：加载失败 / 无权限 -->
+  <empty-state
+    wx:elif="{{state === 'error'}}"
+    icon="📡"
+    description="数据加载失败"
+    tip="请检查网络或权限后重试"
+    button-text="重新加载"
+    bind:action="onRetry"
+  />
+
+  <!-- 成功态 -->
+  <block wx:elif="{{state === 'success'}}">
+    <!-- 一、四大核心指标卡片（10.1） -->
+    <view class="cards">
+      <view class="card" wx:for="{{cards}}" wx:key="label">
+        <view class="card__value" style="color: {{item.color}}">
+          {{item.value}}<text class="card__unit">{{item.unit}}</text>
+        </view>
+        <view class="card__label">{{item.label}}</view>
+      </view>
+    </view>
+
+    <!-- 二、近7日销售额 + 订单量趋势（10.2） -->
+    <view class="panel">
+      <view class="panel__head">
+        <text class="panel__title">近7日趋势</text>
+        <view class="legend">
+          <text class="legend__item"><text class="legend__dot legend__dot--sales"></text>销售额</text>
+          <text class="legend__item"><text class="legend__dot legend__dot--count"></text>订单量</text>
+        </view>
+      </view>
+      <view class="chart">
+        <view class="chart__col" wx:for="{{trend}}" wx:key="label">
+          <view class="chart__bars">
+            <view class="chart__bar chart__bar--sales" style="height: {{item.salesH}}%"></view>
+            <view class="chart__bar chart__bar--count" style="height: {{item.countH}}%"></view>
+          </view>
+          <text class="chart__amount">{{item.salesText}}</text>
+          <text class="chart__date">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 三、近30日分类占比（10.3） -->
+    <view class="panel">
+      <view class="panel__head">
+        <text class="panel__title">近30日分类占比</text>
+      </view>
+      <block wx:if="{{categoryRatio.length > 0}}">
+        <view class="ratio" wx:for="{{categoryRatio}}" wx:key="categoryName">
+          <view class="ratio__head">
+            <text class="ratio__name">
+              <text class="ratio__dot" style="background: {{item.color}}"></text>{{item.categoryName}}
+            </text>
+            <text class="ratio__val">{{item.ratioText}}% · {{item.count}}单</text>
+          </view>
+          <view class="ratio__track">
+            <view class="ratio__fill" style="width: {{item.ratio}}%; background: {{item.color}}"></view>
+          </view>
+        </view>
+      </block>
+      <view class="panel__empty" wx:else>近30日暂无开通成功订单</view>
+    </view>
+
+    <!-- 四、商品销量排行 Top10（10.6） -->
+    <view class="panel">
+      <view class="panel__head">
+        <text class="panel__title">销量排行 Top10</text>
+        <text class="panel__sub">近7日</text>
+      </view>
+      <block wx:if="{{ranking.length > 0}}">
+        <view class="rank" wx:for="{{ranking}}" wx:key="productId">
+          <text class="rank__no {{index < 3 ? 'rank__no--top' : ''}}">{{index + 1}}</text>
+          <text class="rank__name">{{item.productName}}</text>
+          <text class="rank__count">{{item.salesCount}} 单</text>
+        </view>
+      </block>
+      <view class="panel__empty" wx:else>近7日暂无销量数据</view>
+    </view>
+
+    <!-- 五、待办订单（状态筛选，最多50条）（10.4） -->
+    <view class="panel">
+      <view class="panel__head">
+        <text class="panel__title">待办订单</text>
+      </view>
+      <view class="todo-tabs">
+        <t-tabs
+          value="{{activeTodoStatus}}"
+          t-class-active="todo-tabs__active"
+          bind:change="onTodoTabChange"
+        >
+          <t-tab-panel
+            wx:for="{{todoTabs}}"
+            wx:key="value"
+            label="{{item.label}}"
+            value="{{item.value}}"
+          />
+        </t-tabs>
+      </view>
+      <block wx:if="{{todoOrders.length > 0}}">
+        <view
+          class="todo"
+          wx:for="{{todoOrders}}"
+          wx:key="orderId"
+          data-id="{{item.orderId}}"
+          bindtap="onTodoTap"
+        >
+          <view class="todo__main">
+            <text class="todo__name">{{item.productName}}</text>
+            <text class="todo__meta">{{item.orderId}} · {{item.account}}</text>
+          </view>
+          <view class="todo__right">
+            <text class="todo__status" style="color: {{item.statusColor}}">{{item.statusText}}</text>
+            <text class="todo__amount">¥{{item.amountText}}</text>
+          </view>
+        </view>
+      </block>
+      <view class="panel__empty" wx:else>暂无待办订单</view>
+    </view>
+
+    <!-- 六、最近审计日志（最多20条）（10.5） -->
+    <view class="panel">
+      <view class="panel__head">
+        <text class="panel__title">最近操作日志</text>
+      </view>
+      <block wx:if="{{auditLogs.length > 0}}">
+        <view class="log" wx:for="{{auditLogs}}" wx:key="index">
+          <view class="log__line">
+            <text class="log__operator">{{item.operatorName}}</text>
+            <text class="log__time">{{item.time}}</text>
+          </view>
+          <text class="log__action">{{item.action}}</text>
+          <text class="log__note" wx:if="{{item.note}}">{{item.note}}</text>
+        </view>
+      </block>
+      <view class="panel__empty" wx:else>暂无操作日志</view>
+    </view>
+  </block>
+</view>

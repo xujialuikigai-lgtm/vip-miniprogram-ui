@@ -1,0 +1,30 @@
+<!-- 订单状态时间轴：按时间正序竖向展示 -->
+<view class="timeline" wx:if="{{nodes.length > 0}}">
+  <view
+    class="timeline__item {{item.isCurrent ? 'timeline__item--current' : 'timeline__item--done'}}"
+    wx:for="{{nodes}}"
+    wx:key="index"
+  >
+    <!-- 左侧：节点圆点 + 连接线 -->
+    <view class="timeline__axis">
+      <view
+        class="timeline__dot"
+        style="{{item.isCurrent ? 'background-color:' + item.statusColor + ';border-color:' + item.statusColor + ';' : ''}}"
+      ></view>
+      <!-- 非最后一个节点绘制竖向连接线 -->
+      <view class="timeline__line" wx:if="{{index < nodes.length - 1}}"></view>
+    </view>
+
+    <!-- 右侧：状态文案 + 时间 + 描述 -->
+    <view class="timeline__content">
+      <view class="timeline__head">
+        <text
+          class="timeline__status"
+          style="{{item.isCurrent ? 'color:' + item.statusColor + ';' : ''}}"
+        >{{item.statusText}}</text>
+        <text class="timeline__time">{{item.timeStr}}</text>
+      </view>
+      <view class="timeline__desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+    </view>
+  </view>
+</view>
