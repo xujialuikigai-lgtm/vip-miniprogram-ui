@@ -44,6 +44,9 @@ async function unifiedOrder(db, openid, params, payClient) {
     if (order.status !== order_1.OrderStatus.PENDING_PAY) {
         return { success: false, errCode: 'ORDER_STATUS_INVALID', errMsg: '订单状态异常，无法支付' };
     }
+    if (typeof order.amount !== 'number' || order.amount <= 0) {
+        return { success: false, errCode: 'INVALID_AMOUNT', errMsg: '订单金额异常，无法支付' };
+    }
     // 3. 重新校验价格一致性（弹窗校验）
     const productRes = await db
         .collection('products')
@@ -65,6 +68,9 @@ async function unifiedOrder(db, openid, params, payClient) {
             errCode: 'PRICE_CHANGED',
             errMsg: '套餐价格已变更，请重新选择套餐'
         };
+    }
+    if (typeof pkg.price !== 'number' || pkg.price <= 0) {
+        return { success: false, errCode: 'PACKAGE_NOT_READY', errMsg: '该商品正在配置中，暂不可购买' };
     }
     // 4. 调用微信支付统一下单
     // ====== Mock 模式：跳过真实微信支付，直接模拟支付成功+开通成功 ======

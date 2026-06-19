@@ -33,6 +33,10 @@ Component({
     displayOriginalPrice: '',
     // 是否展示划线原价（仅当原价高于现价时展示）
     showOriginalPrice: false,
+    // 是否待配置售价 / 可售套餐
+    pricePending: false,
+    // 商品图：优先后台配置 brandIcon，兜底顺势图片
+    displayIcon: '',
     // 销量文案
     salesText: '',
     // 品牌图标是否加载失败（失败时展示文字占位符）
@@ -49,6 +53,8 @@ Component({
           displayPrice: '0.00',
           displayOriginalPrice: '',
           showOriginalPrice: false,
+          pricePending: false,
+          displayIcon: '',
           salesText: '',
           iconError: false,
         });
@@ -59,17 +65,20 @@ Component({
       const pkg = this.pickPackage(product.packages || []);
       const price = pkg ? pkg.price : 0;
       const faceValue = pkg ? pkg.faceValue : 0;
+      const pricePending = !pkg || !pkg.online || price <= 0;
 
       // 现价（元）
       const displayPrice = formatPrice(price);
       // 仅当面值（划线原价）高于现价时才展示
-      const showOriginalPrice = faceValue > price && price > 0;
+      const showOriginalPrice = !pricePending && faceValue > price && price > 0;
       const displayOriginalPrice = showOriginalPrice ? formatPrice(faceValue) : '';
 
       this.setData({
-        displayPrice,
+        displayPrice: pricePending ? '待配置' : displayPrice,
         displayOriginalPrice,
         showOriginalPrice,
+        pricePending,
+        displayIcon: product.brandIcon || product.shunshiImg || '',
         salesText: this.buildSalesText(product.salesCount || 0),
         iconError: false,
       });

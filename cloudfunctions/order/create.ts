@@ -93,6 +93,9 @@ export async function createOrder(
   if (!pkg.online) {
     return { success: false, errCode: 'PACKAGE_OFFLINE', errMsg: '该套餐已下架，请重新选择' };
   }
+  if (typeof pkg.price !== 'number' || pkg.price <= 0) {
+    return { success: false, errCode: 'PACKAGE_NOT_READY', errMsg: '该商品正在配置中，暂不可购买' };
+  }
 
   // 3. 锁定当前价格：下单时套餐 price 即为用户实付金额，写入订单后不再变更
   const amount = pkg.price;

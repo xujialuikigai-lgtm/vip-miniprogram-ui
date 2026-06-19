@@ -16,6 +16,12 @@ import {
   PageState
 } from '../../utils/types';
 
+type DisplayPackage = Package & {
+  pricePending: boolean;
+  priceText: string;
+  faceValueText: string;
+};
+
 /** 微信支付参数（与云函数 payment.unifiedOrder 返回的 payParams 对齐） */
 interface PayParams {
   timeStamp: string;
@@ -31,6 +37,8 @@ Page({
     pageState: PageState.LOADING,
     // 商品信息
     product: null as Product | null,
+    // 商品图：优先后台配置 brandIcon，兜底顺势图片
+    productIcon: '',
     // 动态表单模板
     attachTemplate: [] as AttachTemplate[],
 
@@ -41,8 +49,8 @@ Page({
     activeMemberType: '',
 
     // —— 套餐 ——
-    // 当前会员类型下的可选套餐（仅上架）
-    visiblePackages: [] as Package[],
+    // 当前会员类型下的可选套餐（含待配置套餐，展示但禁购）
+    visiblePackages: [] as DisplayPackage[],
     // 当前选中套餐 ID
     selectedPackageId: '',
     // 当前选中套餐对象
@@ -101,9 +109,7 @@ Page({
     }
 
     const product = res.data.product;
-    const packages = (res.data.packages || product.packages || []).filter(
-      (p) => p.online
-    );
+    const packages = res.data.packages || product.packages || [];
 
     // 会员类型去重（保留套餐定义顺序）
     const memberTypes: string[] = [];
@@ -121,6 +127,7 @@ Page({
       {
         pageState: PageState.SUCCESS,
         product,
+        productIcon: product.brandIcon || product.shunshiImg || '',
         attachTemplate: product.attachTemplate || [],
         memberTypes
       },
@@ -176,9 +183,9 @@ Page({
    */
   refreshMemberType(this: any, memberType: string, preferPackageId: string) {
     const all: Package[] = this._allPackages || [];
-    const visiblePackages = all.filter(
-      (p) => (p.memberType || '默认') === memberType
-    );
+    const visiblePackages = all
+      .filter((p) => (p.memberType || '默认') === memberType)
+      .map((p) => this.toDisplayPackage(p));
 
     let selected: Package | undefined;
     if (preferPackageId) {
@@ -192,7 +199,7 @@ Page({
       visiblePackages,
       selectedPackageId: selected ? selected.packageId : '',
       selectedPackage: selected || null,
-      amountText: selected ? formatPrice(selected.price) : '0.00'
+      amountText: selected && selected.online && selected.price > 0 ? formatPrice(selected.price) : '待配置'
     });
   },
 
@@ -202,14 +209,14 @@ Page({
   onPackageTap(this: any, e: any) {
     const packageId = e.currentTarget.dataset.id;
     if (!packageId || packageId === this.data.selectedPackageId) return;
-    const selected = (this.data.visiblePackages as Package[]).find(
+    const selected = (this.data.visiblePackages as DisplayPackage[]).find(
       (p) => p.packageId === packageId
     );
     if (!selected) return;
     this.setData({
       selectedPackageId: packageId,
       selectedPackage: selected,
-      amountText: formatPrice(selected.price)
+      amountText: selected.online && selected.price > 0 ? formatPrice(selected.price) : '待配置'
     });
   },
 
@@ -258,6 +265,16 @@ Page({
     return '';
   },
 
+  toDisplayPackage(this: any, pkg: Package): DisplayPackage {
+    const pricePending = !pkg.online || pkg.price <= 0;
+    return {
+      ...pkg,
+      pricePending,
+      priceText: pricePending ? '待配置' : formatPrice(pkg.price),
+      faceValueText: pkg.faceValue ? formatPrice(pkg.faceValue) : ''
+    };
+  },
+
   /**
    * 点击购买：校验表单 → 价格一致性校验 → 弹出购买核对弹窗（Req 3.1/3.2）
    */
@@ -265,6 +282,10 @@ Page({
     const pkg: Package | null = this.data.selectedPackage;
     if (!pkg) {
       wx.showToast({ title: '请选择套餐', icon: 'none' });
+      return;
+    }
+    if (!pkg.online || pkg.price <= 0) {
+      wx.showToast({ title: '商品正在配置中，暂不可购买', icon: 'none' });
       return;
     }
 
@@ -290,7 +311,7 @@ Page({
         (p) => p.packageId === pkg.packageId
       );
       // 套餐下架或价格变更：提示重新选择并刷新页面（保留表单）
-      if (!latest || !latest.online || latest.price !== pkg.price) {
+      if (!latest || !latest.online || latest.price <= 0 || latest.price !== pkg.price) {
         wx.showToast({ title: '套餐价格已变更，请重新选择', icon: 'none' });
         this.loadDetail(true);
         return;

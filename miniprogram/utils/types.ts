@@ -66,6 +66,8 @@ export interface Product {
   categoryId: string;
   categoryName: string;
   brandIcon: string;
+  shunshiImg?: string;
+  shunshiName?: string;
   tags: string[];
   description: string;
   rechargeMethod: string;

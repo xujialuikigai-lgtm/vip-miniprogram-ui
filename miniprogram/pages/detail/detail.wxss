@@ -125,6 +125,11 @@
   border-color: #c99a3a;
 }
 
+.package--pending {
+  background: #fafafa;
+  border-color: #ece4d4;
+}
+
 .package__name {
   font-size: 26rpx;
   color: #333;
@@ -142,6 +147,20 @@
 
 .package__value {
   font-size: 40rpx;
+}
+
+.package__pending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12rpx;
+  height: 44rpx;
+  padding: 0 16rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #9a6a18;
+  background: #fbf3e1;
+  border-radius: 8rpx;
 }
 
 .package__origin {
@@ -222,6 +241,10 @@
   font-weight: 600;
 }
 
+.compare__cell--pending {
+  color: #9a6a18;
+}
+
 .compare__cell--origin {
   color: #bbb;
 }
@@ -276,6 +299,11 @@
 .paybar__amount-value {
   font-size: 44rpx;
   font-weight: 700;
+}
+
+.paybar__amount-value--pending {
+  font-size: 32rpx;
+  color: #9a6a18;
 }
 
 .paybar__btn {

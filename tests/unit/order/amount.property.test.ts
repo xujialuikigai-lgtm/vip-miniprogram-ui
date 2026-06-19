@@ -1,5 +1,6 @@
 import * as fc from 'fast-check';
 import { createOrder, CreateOrderParams } from '../../../cloudfunctions/order/create';
+import { unifiedOrder } from '../../../cloudfunctions/payment/unifiedOrder';
 import { OrderStatus } from '../../../cloudfunctions/shared/types/order';
 import { Product, Package } from '../../../cloudfunctions/shared/types/product';
 
@@ -104,12 +105,12 @@ describe('Property 5: 订单金额锁定不变量', () => {
   /**
    * **Validates: Requirements 3.7**
    *
-   * 对任意商品套餐价格 price（正整数，单位分），
+   * 对任意商品套餐价格 price（正数，单位元），
    * createOrder 生成的订单 amount 恒等于下单时的 pkg.price，
    * 后续价格变更不影响已创建订单。
    */
   it('对任意正整数价格，订单 amount 等于下单时锁定的套餐 price', async () => {
-    // 生成器：正整数价格（1分 ~ 100万分）
+    // 生成器：正整数价格（1元 ~ 100万元）
     const priceArb = fc.integer({ min: 1, max: 1000000 });
     // 成本价生成器
     const costPriceArb = fc.integer({ min: 1, max: 500000 });
@@ -195,6 +196,63 @@ describe('Property 5: 订单金额锁定不变量', () => {
       }),
       { numRuns: 50 }
     );
+  });
+
+  it('0 元套餐不创建订单，返回 PACKAGE_NOT_READY', async () => {
+    const packageId = 'pkg_zero_price';
+    const product = buildProduct(0, 0, packageId);
+    const { db, addedOrders } = createMockDb(product);
+
+    const result = await createOrder(db, 'openid_zero_price', {
+      productId: 'prod_001',
+      packageId,
+      attach: { recharge_account: '13800138000' }
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errCode).toBe('PACKAGE_NOT_READY');
+    expect(addedOrders.length).toBe(0);
+  });
+});
+
+describe('支付金额安全兜底', () => {
+  it('0 元异常订单不能进入统一下单', async () => {
+    const order = {
+      orderId: 'VIP_ZERO_AMOUNT',
+      openid: 'openid_zero_amount',
+      productId: 'prod_001',
+      productName: '测试商品',
+      packageId: 'pkg_zero_price',
+      packageName: '测试套餐',
+      categoryName: '视频会员',
+      attach: {},
+      amount: 0,
+      costPrice: 0,
+      status: OrderStatus.PENDING_PAY,
+      retryCount: 0,
+      timeline: [],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    const db = {
+      collection: (name: string) => {
+        if (name === 'orders') {
+          return {
+            where: () => ({
+              limit: () => ({
+                get: async () => ({ data: [order] })
+              })
+            })
+          };
+        }
+        throw new Error(`products should not be queried for invalid amount, got ${name}`);
+      }
+    };
+
+    const result = await unifiedOrder(db, 'openid_zero_amount', { orderId: order.orderId });
+
+    expect(result.success).toBe(false);
+    expect(result.errCode).toBe('INVALID_AMOUNT');
   });
 });
 

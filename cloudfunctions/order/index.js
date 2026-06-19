@@ -52,19 +52,19 @@ async function main(event, context) {
     switch (action) {
         case 'create':
             // 创建订单
-            return (0, create_1.createOrder)(db, OPENID, event);
+            return (0, create_1.createOrder)(db, OPENID || '', event);
         case 'list':
             // 订单列表
-            return (0, list_1.listOrders)(db, OPENID, event);
+            return (0, list_1.listOrders)(db, OPENID || '', event);
         case 'detail':
             // 订单详情
-            return (0, detail_1.getOrderDetail)(db, OPENID, event);
+            return (0, detail_1.getOrderDetail)(db, OPENID || '', event);
         case 'refresh':
             // 刷新订单状态
-            return (0, refresh_1.refreshOrder)(db, OPENID, event);
+            return (0, refresh_1.refreshOrder)(db, OPENID || '', event);
         case 'stats':
             // 用户订单统计
-            return (0, stats_1.getOrderStats)(db, OPENID);
+            return (0, stats_1.getOrderStats)(db, OPENID || '');
         case 'rebuyCheck':
             // 再买一次验证
             return (0, rebuyCheck_1.rebuyCheck)(db, event);

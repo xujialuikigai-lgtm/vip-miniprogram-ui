@@ -21,9 +21,9 @@
     <!-- 品牌 Hero 区（Req 2.1） -->
     <view class="hero">
       <image
-        wx:if="{{product.brandIcon}}"
+        wx:if="{{productIcon}}"
         class="hero__icon"
-        src="{{product.brandIcon}}"
+        src="{{productIcon}}"
         mode="aspectFit"
       />
       <view wx:else class="hero__icon hero__icon--placeholder">
@@ -72,20 +72,21 @@
         <view
           wx:for="{{visiblePackages}}"
           wx:key="packageId"
-          class="package {{selectedPackageId === item.packageId ? 'package--active' : ''}}"
+          class="package {{selectedPackageId === item.packageId ? 'package--active' : ''}} {{item.pricePending ? 'package--pending' : ''}}"
           data-id="{{item.packageId}}"
           bindtap="onPackageTap"
         >
           <view class="package__name">{{item.name}}</view>
-          <view class="package__price">
+          <view wx:if="{{!item.pricePending}}" class="package__price">
             <text class="package__symbol">¥</text>
-            <text class="package__value">{{item.price / 100}}</text>
+            <text class="package__value">{{item.priceText}}</text>
           </view>
+          <view wx:else class="package__pending">{{item.priceText}}</view>
           <view
-            wx:if="{{item.faceValue && item.faceValue > item.price}}"
+            wx:if="{{!item.pricePending && item.faceValue && item.faceValue > item.price}}"
             class="package__origin"
           >
-            ¥{{item.faceValue / 100}}
+            ¥{{item.faceValueText}}
           </view>
           <view wx:if="{{item.isDefault}}" class="package__badge">推荐</view>
         </view>
@@ -126,11 +127,11 @@
           class="compare__row"
         >
           <text class="compare__cell compare__cell--name">{{item.name}}</text>
-          <text class="compare__cell compare__cell--price">
-            ¥{{item.price / 100}}
+          <text class="compare__cell compare__cell--price {{item.pricePending ? 'compare__cell--pending' : ''}}">
+            {{item.pricePending ? item.priceText : '¥' + item.priceText}}
           </text>
           <text class="compare__cell compare__cell--origin">
-            {{item.faceValue ? '¥' + (item.faceValue / 100) : '-'}}
+            {{item.faceValueText ? '¥' + item.faceValueText : '-'}}
           </text>
         </view>
       </view>
@@ -156,17 +157,17 @@
       <view class="paybar__action">
         <view class="paybar__amount">
           <text class="paybar__amount-label">合计</text>
-          <text class="paybar__amount-symbol">¥</text>
-          <text class="paybar__amount-value">{{amountText}}</text>
+          <text wx:if="{{amountText !== '待配置'}}" class="paybar__amount-symbol">¥</text>
+          <text class="paybar__amount-value {{amountText === '待配置' ? 'paybar__amount-value--pending' : ''}}">{{amountText}}</text>
         </view>
         <t-button
           class="paybar__btn"
           theme="primary"
           size="large"
-          disabled="{{!selectedPackage || (attachTemplate.length > 0 && !formComplete)}}"
+          disabled="{{!selectedPackage || !selectedPackage.online || selectedPackage.price <= 0 || (attachTemplate.length > 0 && !formComplete)}}"
           bindtap="onBuyTap"
         >
-          立即购买
+          {{selectedPackage && selectedPackage.online && selectedPackage.price > 0 ? '立即购买' : '待配置'}}
         </t-button>
       </view>
     </view>

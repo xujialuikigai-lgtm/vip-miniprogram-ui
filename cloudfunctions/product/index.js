@@ -305,6 +305,57 @@ const DB_CONCURRENCY = 10;
 const IN_CHUNK_SIZE = 200;
 /** 批次同步每次拉取的商品条数；按页处理，避免单次云函数超过 60 秒 */
 const SYNC_PAGE_SIZE = 100;
+/** 目标商品池：只同步这些品牌关键词，避免拉取顺势全量商品池 */
+const TARGET_SYNC_GROUPS = [
+    {
+        id: -900001,
+        categoryId: 'target_video',
+        name: '视频会员',
+        keywords: ['腾讯视频', '腾讯体育', '爱奇艺', '芒果TV', '优酷视频', '哔哩哔哩', '咪咕视频', '央视频']
+    },
+    {
+        id: -900002,
+        categoryId: 'target_music',
+        name: '音乐',
+        keywords: ['汽水音乐', 'QQ音乐', '喜马拉雅', '网易音乐', '全民K歌', '酷狗音乐', '酷我音乐']
+    },
+    {
+        id: -900003,
+        categoryId: 'target_audio_book',
+        name: '阅读听书',
+        keywords: ['懒人听书', '蜻蜓FM', 'QQ阅读', '樊登读书']
+    },
+    {
+        id: -900004,
+        categoryId: 'target_cloud',
+        name: '网盘',
+        keywords: ['百度网盘', '夸克', '迅雷']
+    },
+    {
+        id: -900005,
+        categoryId: 'target_tool',
+        name: '办公工具',
+        keywords: ['剪映', 'WPS', '醒图', '百度文库', '乐播投屏']
+    },
+    {
+        id: -900006,
+        categoryId: 'target_fitness',
+        name: '运动健身',
+        keywords: []
+    },
+    {
+        id: -900007,
+        categoryId: 'target_bike',
+        name: '共享单车',
+        keywords: ['哈罗', '美团', '青橘']
+    }
+];
+const TARGET_SYNC_ITEMS = [];
+for (const group of TARGET_SYNC_GROUPS) {
+    for (const keyword of group.keywords) {
+        TARGET_SYNC_ITEMS.push({ group, keyword });
+    }
+}
 /**
  * 带并发上限的 map：以 limit 个 worker 轮流取任务执行，结果按原索引回填（保持顺序）。
  * 用于把原本串行的网络/数据库调用并行化，同时避免一次性发起过多请求。
@@ -366,18 +417,14 @@ async function loadExistingProducts(ids) {
 }
 /**
  * 同步商品（任务 5.3，需求 17.1-17.6）
- * 1. 调用顺势 getCategories（返回数组）同步分类树（递归拍平，保留管理员字段，仅更新 name/parentId/level）
- * 2. 因商品列表无 cate_id，遍历各分类调用 getProductList({cate_id, page, limit:100}) 自动翻页，
- *    将商品关联到对应分类（按商品 id 去重，保留首个分类）
+ * 1. 同步本地目标分类（来自 会员多多.docx）
+ * 2. 按目标品牌关键词调用 getProductList({keyword, page, limit:100})，不再遍历顺势全量分类
  * 3. 同步商品（已批量查出存在记录后并发处理）：
  *    - 已存在：仅更新顺势字段（复用 computeSyncUpdateData），保留管理员配置
- *    - 新增：仅用列表基础字段写入，attachTemplate/description 留空（不拉详情），默认下架
+ *    - 新增：仅用列表基础字段写入，attachTemplate/description 留空（不拉详情），默认展示但禁购
  *    - status=2/3 自动下架（原为上架才计入 offlined），status=1 不改 online
  * 4. 返回 { added, updated, offlined, duration }
  * 5. 任一接口异常 catch 返回 { success:false, errCode:'SYNC_FAILED', errMsg }
- *
- * 性能优化（方案 A）：分类拉取、详情拉取、DB 读写均改为带并发上限的并行，
- * 已存在商品改为一次性批量查询，避免逐条串行往返导致 60s 超时。
  */
 async function handleSyncProducts(event = {}) {
     const startedAt = Date.now();
@@ -386,20 +433,18 @@ async function handleSyncProducts(event = {}) {
         const batchMode = !!event.batch;
         const cursor = Math.max(0, normalizeNonNegativeInt(event.cursor, 0));
         const page = normalizePositiveInt(event.page, 1);
-        // 步骤 1：同步分类树（接口 data 直接是数组）
-        const cateNodes = await client.getCategories();
-        const flatCategories = flattenCategories(cateNodes || []);
-        await syncCategories(flatCategories);
+        // 步骤 1：同步本地目标分类，不再拉取顺势全量分类树
+        await syncTargetCategories(TARGET_SYNC_GROUPS);
         // 分类 ID -> 名称映射，用于新增商品时回填 categoryName
         const cateNameMap = new Map();
-        flatCategories.forEach((c) => cateNameMap.set(c.id, c.name));
+        TARGET_SYNC_GROUPS.forEach((c) => cateNameMap.set(c.id, c.name));
         let shunshiProducts = [];
-        let nextCursor = flatCategories.length;
+        let nextCursor = TARGET_SYNC_ITEMS.length;
         let nextPage = 1;
         let done = true;
-        let processedCategories = flatCategories.length;
+        let processedCategories = TARGET_SYNC_ITEMS.length;
         if (batchMode) {
-            if (cursor >= flatCategories.length) {
+            if (cursor >= TARGET_SYNC_ITEMS.length) {
                 return {
                     success: true,
                     data: {
@@ -408,48 +453,55 @@ async function handleSyncProducts(event = {}) {
                         offlined: 0,
                         duration: Date.now() - startedAt,
                         processedCategories: 0,
-                        totalCategories: flatCategories.length,
-                        nextCursor: flatCategories.length,
+                        totalCategories: TARGET_SYNC_ITEMS.length,
+                        totalTargets: TARGET_SYNC_ITEMS.length,
+                        nextCursor: TARGET_SYNC_ITEMS.length,
                         nextPage: 1,
                         done: true
                     }
                 };
             }
-            // 批次模式：一次只处理一个分类的一页商品，彻底避免全量同步触发 60 秒上限。
-            const cate = flatCategories[cursor];
-            const res = await client.getProductList({ cate_id: cate.id, page, limit: SYNC_PAGE_SIZE });
-            const list = res.list || [];
-            shunshiProducts = list.map((item) => ({ item, cate_id: cate.id }));
-            const categoryDone = list.length < SYNC_PAGE_SIZE || page * SYNC_PAGE_SIZE >= (res.total || 0);
+            // 批次模式：一次只处理一个目标关键词的一页商品。
+            const target = TARGET_SYNC_ITEMS[cursor];
+            const res = await client.getProductList({ keyword: target.keyword, page, limit: SYNC_PAGE_SIZE });
+            const rawList = res.list || [];
+            const list = rawList.filter((item) => matchesTargetKeyword(item, target.keyword));
+            shunshiProducts = list.map((item) => ({
+                item,
+                cate_id: target.group.id,
+                categoryId: target.group.categoryId,
+                categoryName: target.group.name
+            }));
+            const categoryDone = rawList.length < SYNC_PAGE_SIZE || page * SYNC_PAGE_SIZE >= (res.total || 0);
             nextCursor = categoryDone ? cursor + 1 : cursor;
             nextPage = categoryDone ? 1 : page + 1;
-            done = nextCursor >= flatCategories.length;
+            done = nextCursor >= TARGET_SYNC_ITEMS.length;
             processedCategories = categoryDone ? 1 : 0;
         }
         else {
-            // 兼容旧调用：仍支持一次性全量同步，但大数据量下推荐前端批次模式。
-            shunshiProducts = await fetchAllShunshiProducts(client, flatCategories);
+            // 兼容旧调用：一次性同步目标关键词，不再全量同步顺势商品池。
+            shunshiProducts = await fetchAllTargetProducts(client);
         }
         // 步骤 3：一次性批量查出已存在商品，按是否存在拆分为「更新」与「新增」两组
         const existingMap = await loadExistingProducts(shunshiProducts.map((p) => p.item.id));
         const toUpdate = [];
         const toAdd = [];
-        for (const { item, cate_id } of shunshiProducts) {
+        for (const { item, cate_id, categoryId, categoryName } of shunshiProducts) {
             const existing = existingMap.get(item.id);
             if (existing) {
-                toUpdate.push({ existing, item });
+                toUpdate.push({ existing, item, categoryId, categoryName });
             }
             else {
-                toAdd.push({ item, cate_id });
+                toAdd.push({ item, cate_id, categoryId, categoryName });
             }
         }
         // 并发更新已存在商品，汇总自动下架计数
-        const offlinedDeltas = await mapWithConcurrency(toUpdate, DB_CONCURRENCY, ({ existing, item }) => updateExistingProduct(existing, item));
+        const offlinedDeltas = await mapWithConcurrency(toUpdate, DB_CONCURRENCY, ({ existing, item, categoryId, categoryName }) => updateExistingProduct(existing, item, categoryId, categoryName));
         const offlined = offlinedDeltas.reduce((sum, d) => sum + d, 0);
         // 并发新增商品（仅写入，不逐个拉详情）。
         // 不调用 getProductDetail：首次同步全部为新增时，逐个详情请求会拖垮 60s 限制。
         // attachTemplate 留空、description 留空，由管理员在商品编辑页按需配置。
-        await mapWithConcurrency(toAdd, DB_CONCURRENCY, ({ item, cate_id }) => addNewProduct(item, cate_id, cateNameMap.get(cate_id) || ''));
+        await mapWithConcurrency(toAdd, DB_CONCURRENCY, ({ item, cate_id, categoryId, categoryName }) => addNewProduct(item, cate_id, categoryName || cateNameMap.get(cate_id) || '', categoryId));
         return {
             success: true,
             data: {
@@ -458,7 +510,8 @@ async function handleSyncProducts(event = {}) {
                 offlined,
                 duration: Date.now() - startedAt,
                 processedCategories,
-                totalCategories: flatCategories.length,
+                totalCategories: TARGET_SYNC_ITEMS.length,
+                totalTargets: TARGET_SYNC_ITEMS.length,
                 nextCursor,
                 nextPage,
                 done
@@ -483,6 +536,95 @@ function normalizeNonNegativeInt(value, fallback) {
         return fallback;
     }
     return num;
+}
+/**
+ * 目标关键词匹配：顺势 keyword 搜索结果可能较宽，这里再做一层本地包含校验。
+ */
+function matchesTargetKeyword(item, keyword) {
+    const name = normalizeSearchText(item.goods_name || '');
+    const key = normalizeSearchText(keyword);
+    return !!key && name.indexOf(key) >= 0;
+}
+function normalizeSearchText(text) {
+    return String(text || '').replace(/\s+/g, '').toLowerCase();
+}
+/**
+ * 同步本地目标分类。目标分类不是顺势原始分类，使用负数 shunshiCateId 避免和上游分类冲突。
+ */
+async function syncTargetCategories(groups) {
+    if (groups.length === 0)
+        return;
+    const existingMap = await loadExistingCategories(groups.map((g) => g.id));
+    await mapWithConcurrency(groups, DB_CONCURRENCY, async (group, index) => {
+        const now = new Date();
+        const existed = existingMap.get(group.id);
+        if (existed) {
+            await db.collection('categories').doc(existed._id).update({
+                data: {
+                    categoryId: group.categoryId,
+                    name: group.name,
+                    parentId: '',
+                    level: 1,
+                    showInTab: true,
+                    tabSort: index + 1,
+                    updatedAt: now
+                }
+            });
+            return;
+        }
+        const category = {
+            categoryId: group.categoryId,
+            shunshiCateId: group.id,
+            name: group.name,
+            icon: '',
+            parentId: '',
+            level: 1,
+            sortWeight: index + 1,
+            productCount: 0,
+            showInTab: true,
+            tabSort: index + 1,
+            createdAt: now,
+            updatedAt: now
+        };
+        await db.collection('categories').add({ data: category });
+    });
+}
+/**
+ * 兼容非 batch 调用：一次性拉取目标关键词商品，而不是全量遍历顺势分类。
+ */
+async function fetchAllTargetProducts(client) {
+    const perTarget = await mapWithConcurrency(TARGET_SYNC_ITEMS, NET_CONCURRENCY, async (target) => {
+        const items = [];
+        let page = 1;
+        let fetched = 0;
+        while (true) {
+            const res = await client.getProductList({ keyword: target.keyword, page, limit: SYNC_PAGE_SIZE });
+            const list = (res.list || []).filter((item) => matchesTargetKeyword(item, target.keyword));
+            items.push(...list);
+            fetched += res.list ? res.list.length : 0;
+            if ((res.list || []).length < SYNC_PAGE_SIZE || fetched >= (res.total || 0)) {
+                break;
+            }
+            page += 1;
+        }
+        return { target, items };
+    });
+    const seen = new Set();
+    const all = [];
+    for (const { target, items } of perTarget) {
+        for (const item of items) {
+            if (!seen.has(item.id)) {
+                seen.add(item.id);
+                all.push({
+                    item,
+                    cate_id: target.group.id,
+                    categoryId: target.group.categoryId,
+                    categoryName: target.group.name
+                });
+            }
+        }
+    }
+    return all;
 }
 /**
  * 递归拍平顺势分类树（最多三级），按递归深度推导 level（顶级1）
@@ -616,8 +758,14 @@ async function fetchAllShunshiProducts(client, flatCategories) {
  * 保留管理员配置（name/sortWeight/online/packages[].price），不覆盖 attachTemplate/description。
  * @returns 本次自动下架计数增量（0 或 1）
  */
-async function updateExistingProduct(existing, item) {
+async function updateExistingProduct(existing, item, categoryId, categoryName) {
     const { data, offlinedDelta } = (0, syncMerge_1.computeSyncUpdateData)(existing, item);
+    if (categoryId) {
+        data.categoryId = categoryId;
+    }
+    if (categoryName) {
+        data.categoryName = categoryName;
+    }
     await db.collection('products').doc(existing._id).update({ data });
     return offlinedDelta;
 }
@@ -628,7 +776,7 @@ async function updateExistingProduct(existing, item) {
  * 以避免首次全量同步时逐个详情请求导致 60s 超时。
  * face_value/goods_price 为字符串，用 Number()/parseFloat 转数字存储。
  */
-async function addNewProduct(item, cateId, categoryName) {
+async function addNewProduct(item, cateId, categoryName, categoryId) {
     const now = new Date();
     // 默认套餐：售价 price=0，由管理员后续配置；成本/面值/库存来自顺势（字符串转数字）
     const defaultPackage = {
@@ -640,7 +788,8 @@ async function addNewProduct(item, cateId, categoryName) {
         faceValue: parseFloat(item.face_value),
         shunshiGoodsId: item.id,
         stock: Number(item.stock_num),
-        online: true,
+        // 初始售价需要人工配置；套餐默认不可售，避免 0 元购买。
+        online: false,
         isDefault: true,
         sortWeight: 0
     };
@@ -649,7 +798,7 @@ async function addNewProduct(item, cateId, categoryName) {
         shunshiGoodsId: item.id,
         name: item.goods_name,
         shunshiName: item.goods_name,
-        categoryId: `cate_${cateId}`,
+        categoryId: categoryId || `cate_${cateId}`,
         categoryName,
         brandIcon: '',
         shunshiImg: item.goods_img,
@@ -658,7 +807,8 @@ async function addNewProduct(item, cateId, categoryName) {
         rechargeMethod: '',
         accountType: '',
         autoActivate: false,
-        online: false,
+        // 商品先展示到前台，套餐未定价前由前端和下单云函数共同禁购。
+        online: true,
         sortWeight: 0,
         salesCount: 0,
         todaySales: 0,

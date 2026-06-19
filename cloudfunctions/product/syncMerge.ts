@@ -34,6 +34,8 @@ export interface MergeUpdateData {
   stockNum: number;
   packages: Package[];
   updatedAt: Date;
+  categoryId?: string;
+  categoryName?: string;
   online?: boolean;
 }
 

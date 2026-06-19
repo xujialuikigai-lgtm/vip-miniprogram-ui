@@ -5,14 +5,14 @@
   hover-stay-time="80"
   bindtap="onTap"
   aria-role="button"
-  aria-label="{{product.name}}，现价{{displayPrice}}元"
+  aria-label="{{product.name}}"
 >
   <!-- 品牌图标，加载失败时展示名称首字占位 -->
   <view class="product-card__media">
     <image
-      wx:if="{{product.brandIcon && !iconError}}"
+      wx:if="{{displayIcon && !iconError}}"
       class="product-card__icon"
-      src="{{product.brandIcon}}"
+      src="{{displayIcon}}"
       mode="aspectFill"
       lazy-load="{{true}}"
       binderror="onIconError"
@@ -42,8 +42,13 @@
     <!-- 价格与销量 -->
     <view class="product-card__footer">
       <view class="product-card__price">
-        <text class="product-card__price-symbol">¥</text>
-        <text class="product-card__price-value">{{displayPrice}}</text>
+        <block wx:if="{{pricePending}}">
+          <text class="product-card__pending">{{displayPrice}}</text>
+        </block>
+        <block wx:else>
+          <text class="product-card__price-symbol">¥</text>
+          <text class="product-card__price-value">{{displayPrice}}</text>
+        </block>
         <text wx:if="{{showOriginalPrice}}" class="product-card__price-origin">¥{{displayOriginalPrice}}</text>
       </view>
       <text class="product-card__sales" wx:if="{{salesText}}">{{salesText}}</text>
