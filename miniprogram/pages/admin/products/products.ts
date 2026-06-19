@@ -44,6 +44,11 @@ interface SyncResult {
   updated: number;
   offlined: number;
   duration: number;
+  processedCategories?: number;
+  totalCategories?: number;
+  nextCursor?: number;
+  nextPage?: number;
+  done?: boolean;
 }
 
 /** 渲染用商品项（在 ProductListItem 基础上补充格式化字段） */
@@ -270,7 +275,7 @@ Page({
   },
 
   /**
-   * 同步商品：调用 product.syncProducts，完成后展示结果摘要并刷新列表
+   * 同步商品：分批调用 product.syncProducts，避免单次云函数超过 60 秒上限。
    */
   async onSync(this: any): Promise<void> {
     if (this.data.syncing) return;
@@ -278,35 +283,64 @@ Page({
     this.setData({ syncing: true });
     wx.showLoading({ title: '正在同步...', mask: true });
 
-    const res = await requestSilent<SyncResult>({
-      name: 'product',
-      action: 'syncProducts',
-      data: {}
-    });
+    let cursor = 0;
+    let page = 1;
+    let done = false;
+    let totalCategories = 0;
+    const total: SyncResult = { added: 0, updated: 0, offlined: 0, duration: 0 };
+
+    while (!done) {
+      wx.showLoading({
+        title: totalCategories > 0 ? `同步 ${Math.min(cursor, totalCategories)}/${totalCategories}` : '正在同步...',
+        mask: true
+      });
+
+      const res = await requestSilent<SyncResult>({
+        name: 'product',
+        action: 'syncProducts',
+        data: {
+          batch: true,
+          cursor,
+          page
+        }
+      });
+
+      if (!res.success) {
+        wx.hideLoading();
+        this.setData({ syncing: false });
+        if (PERMISSION_ERR_CODES.indexOf(res.errCode || '') !== -1) {
+          wx.showToast({ title: res.errMsg || '无权限操作', icon: 'none' });
+          return;
+        }
+        wx.showModal({
+          title: '同步失败',
+          content: res.errMsg || '商品同步失败，请稍后重试',
+          showCancel: false,
+          confirmText: '我知道了',
+          confirmColor: PRIMARY_COLOR
+        });
+        return;
+      }
+
+      const data = res.data || { added: 0, updated: 0, offlined: 0, duration: 0, done: true };
+      total.added += data.added || 0;
+      total.updated += data.updated || 0;
+      total.offlined += data.offlined || 0;
+      total.duration += data.duration || 0;
+
+      totalCategories = data.totalCategories || totalCategories;
+      cursor = typeof data.nextCursor === 'number' ? data.nextCursor : cursor + 1;
+      page = typeof data.nextPage === 'number' ? data.nextPage : 1;
+      done = !!data.done;
+    }
 
     wx.hideLoading();
     this.setData({ syncing: false });
 
-    if (!res.success) {
-      if (PERMISSION_ERR_CODES.indexOf(res.errCode || '') !== -1) {
-        wx.showToast({ title: res.errMsg || '无权限操作', icon: 'none' });
-        return;
-      }
-      wx.showModal({
-        title: '同步失败',
-        content: res.errMsg || '商品同步失败，请稍后重试',
-        showCancel: false,
-        confirmText: '我知道了',
-        confirmColor: PRIMARY_COLOR
-      });
-      return;
-    }
-
-    const data = res.data || { added: 0, updated: 0, offlined: 0, duration: 0 };
-    const seconds = (data.duration / 1000).toFixed(1);
+    const seconds = (total.duration / 1000).toFixed(1);
     wx.showModal({
       title: '同步完成',
-      content: `新增 ${data.added} 个，更新 ${data.updated} 个，自动下架 ${data.offlined} 个，耗时 ${seconds} 秒。`,
+      content: `新增 ${total.added} 个，更新 ${total.updated} 个，自动下架 ${total.offlined} 个，累计耗时 ${seconds} 秒。`,
       showCancel: false,
       confirmText: '完成',
       confirmColor: PRIMARY_COLOR,

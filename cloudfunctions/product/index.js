@@ -72,7 +72,7 @@ async function main(event, context) {
             return handleGetArticle(event);
         case 'syncProducts':
             // 同步商品（任务 5.3）——仅此 action 需管理员鉴权，面向用户端的 action 保持无需鉴权
-            return handleSyncProductsWithAuth();
+            return handleSyncProductsWithAuth(event);
         default:
             return { success: false, errCode: 'INVALID_ACTION', errMsg: '无效的操作类型' };
     }
@@ -286,7 +286,7 @@ async function handleGetArticle(event) {
  * - 鉴权不通过时直接返回其错误结构（NO_PERMISSION / MISSING_IDENTITY / AUTH_SYSTEM_ERROR），与管理端一致
  * - 鉴权通过后再执行既有同步逻辑（逻辑保持不变）
  */
-async function handleSyncProductsWithAuth() {
+async function handleSyncProductsWithAuth(event) {
     // 取调用者 openid（与管理端一致：cloud.getWXContext().OPENID）
     const { OPENID } = cloud.getWXContext();
     const auth = await (0, adminAuth_1.requireAdmin)(db, OPENID || '', { action: 'syncProducts' });
@@ -295,7 +295,7 @@ async function handleSyncProductsWithAuth() {
         return auth.error;
     }
     // 鉴权通过，执行原有同步逻辑
-    return handleSyncProducts();
+    return handleSyncProducts(event);
 }
 /** 顺势接口并发上限（控制对上游 API 的并发请求数，避免被限流） */
 const NET_CONCURRENCY = 8;
@@ -303,6 +303,8 @@ const NET_CONCURRENCY = 8;
 const DB_CONCURRENCY = 10;
 /** 数据库 in 查询单批 ID 数量上限 */
 const IN_CHUNK_SIZE = 200;
+/** 批次同步每次拉取的商品条数；按页处理，避免单次云函数超过 60 秒 */
+const SYNC_PAGE_SIZE = 100;
 /**
  * 带并发上限的 map：以 limit 个 worker 轮流取任务执行，结果按原索引回填（保持顺序）。
  * 用于把原本串行的网络/数据库调用并行化，同时避免一次性发起过多请求。
@@ -377,10 +379,13 @@ async function loadExistingProducts(ids) {
  * 性能优化（方案 A）：分类拉取、详情拉取、DB 读写均改为带并发上限的并行，
  * 已存在商品改为一次性批量查询，避免逐条串行往返导致 60s 超时。
  */
-async function handleSyncProducts() {
+async function handleSyncProducts(event = {}) {
     const startedAt = Date.now();
     try {
         const client = (0, shunshi_1.getShunshiClient)();
+        const batchMode = !!event.batch;
+        const cursor = Math.max(0, normalizeNonNegativeInt(event.cursor, 0));
+        const page = normalizePositiveInt(event.page, 1);
         // 步骤 1：同步分类树（接口 data 直接是数组）
         const cateNodes = await client.getCategories();
         const flatCategories = flattenCategories(cateNodes || []);
@@ -388,8 +393,43 @@ async function handleSyncProducts() {
         // 分类 ID -> 名称映射，用于新增商品时回填 categoryName
         const cateNameMap = new Map();
         flatCategories.forEach((c) => cateNameMap.set(c.id, c.name));
-        // 步骤 2：并发拉取各分类商品（列表无 cate_id，靠遍历分类关联）
-        const shunshiProducts = await fetchAllShunshiProducts(client, flatCategories);
+        let shunshiProducts = [];
+        let nextCursor = flatCategories.length;
+        let nextPage = 1;
+        let done = true;
+        let processedCategories = flatCategories.length;
+        if (batchMode) {
+            if (cursor >= flatCategories.length) {
+                return {
+                    success: true,
+                    data: {
+                        added: 0,
+                        updated: 0,
+                        offlined: 0,
+                        duration: Date.now() - startedAt,
+                        processedCategories: 0,
+                        totalCategories: flatCategories.length,
+                        nextCursor: flatCategories.length,
+                        nextPage: 1,
+                        done: true
+                    }
+                };
+            }
+            // 批次模式：一次只处理一个分类的一页商品，彻底避免全量同步触发 60 秒上限。
+            const cate = flatCategories[cursor];
+            const res = await client.getProductList({ cate_id: cate.id, page, limit: SYNC_PAGE_SIZE });
+            const list = res.list || [];
+            shunshiProducts = list.map((item) => ({ item, cate_id: cate.id }));
+            const categoryDone = list.length < SYNC_PAGE_SIZE || page * SYNC_PAGE_SIZE >= (res.total || 0);
+            nextCursor = categoryDone ? cursor + 1 : cursor;
+            nextPage = categoryDone ? 1 : page + 1;
+            done = nextCursor >= flatCategories.length;
+            processedCategories = categoryDone ? 1 : 0;
+        }
+        else {
+            // 兼容旧调用：仍支持一次性全量同步，但大数据量下推荐前端批次模式。
+            shunshiProducts = await fetchAllShunshiProducts(client, flatCategories);
+        }
         // 步骤 3：一次性批量查出已存在商品，按是否存在拆分为「更新」与「新增」两组
         const existingMap = await loadExistingProducts(shunshiProducts.map((p) => p.item.id));
         const toUpdate = [];
@@ -416,7 +456,12 @@ async function handleSyncProducts() {
                 added: toAdd.length,
                 updated: toUpdate.length,
                 offlined,
-                duration: Date.now() - startedAt
+                duration: Date.now() - startedAt,
+                processedCategories,
+                totalCategories: flatCategories.length,
+                nextCursor,
+                nextPage,
+                done
             }
         };
     }
@@ -428,6 +473,16 @@ async function handleSyncProducts() {
             errMsg: err && err.message ? err.message : String(err)
         };
     }
+}
+/**
+ * 将入参规范化为非负整数，非法时回退到默认值。
+ */
+function normalizeNonNegativeInt(value, fallback) {
+    const num = Number(value);
+    if (!Number.isInteger(num) || num < 0) {
+        return fallback;
+    }
+    return num;
 }
 /**
  * 递归拍平顺势分类树（最多三级），按递归深度推导 level（顶级1）
