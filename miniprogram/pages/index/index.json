@@ -4,6 +4,7 @@
   "backgroundColor": "#f5f5f5",
   "backgroundTextStyle": "dark",
   "usingComponents": {
+    "product-card": "../../components/product-card/product-card",
     "broadcast": "../../components/broadcast/broadcast",
     "skeleton": "../../components/skeleton/skeleton",
     "empty-state": "../../components/empty-state/empty-state"

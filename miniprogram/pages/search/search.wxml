@@ -47,25 +47,13 @@
 
     <!-- 成功态：商品结果列表 -->
     <view wx:elif="{{state === 'success'}}" class="result-list">
-      <view
+      <product-card
         wx:for="{{list}}"
         wx:key="productId"
-        class="inline-product-card result-list__item"
-        data-id="{{item.productId}}"
-        bindtap="onProductTap"
-      >
-        <view class="inline-product-card__icon">{{item.name ? item.name[0] : '会'}}</view>
-        <view class="inline-product-card__body">
-          <view class="inline-product-card__name">{{item.name}}</view>
-          <view class="inline-product-card__meta">{{item.categoryName}}</view>
-          <view class="inline-product-card__footer">
-            <view wx:if="{{item.packages && item.packages.length && item.packages[0].online && item.packages[0].price > 0}}" class="inline-product-card__price">
-              ¥{{item.packages[0].price}}
-            </view>
-            <view wx:else class="inline-product-card__pending">待配置</view>
-          </view>
-        </view>
-      </view>
+        class="result-list__item"
+        product="{{item}}"
+        bind:tap="onProductTap"
+      />
     </view>
 
     <!-- 空结果态 -->

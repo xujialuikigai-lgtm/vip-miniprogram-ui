@@ -238,6 +238,11 @@ Page({
     });
   },
 
+  /** 进入商品运营 */
+  goProducts(): void {
+    wx.navigateTo({ url: '/pages/admin/products/products' });
+  },
+
   /** 重试加载 */
   onRetry(this: any): void {
     this.loadDashboard();

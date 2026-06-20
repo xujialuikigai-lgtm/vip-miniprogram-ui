@@ -66,6 +66,7 @@ export interface Product {
   categoryId: string;
   categoryName: string;
   brandIcon: string;
+  displayIcon?: string;
   shunshiImg?: string;
   shunshiName?: string;
   tags: string[];

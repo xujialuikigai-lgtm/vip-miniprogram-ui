@@ -4,12 +4,12 @@ import { CloudFunctionResult } from '../shared/types/api';
 import { unifiedOrder, UnifiedOrderParams } from './unifiedOrder';
 import { refund, RefundParams } from './refund';
 
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV as any });
 
 // action 路由分发
 export async function main(event: any, context: any): Promise<CloudFunctionResult> {
   const { action } = event;
-  const db = cloud.database();
+  const db: any = cloud.database();
   const { OPENID } = cloud.getWXContext();
 
   switch (action) {

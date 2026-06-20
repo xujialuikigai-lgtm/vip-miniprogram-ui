@@ -157,7 +157,8 @@ Page({
     const { list, total } = res.data;
     this._total = total;
 
-    const products = reset ? list : this.data.products.concat(list);
+    const decorated = this.decorateProducts(list);
+    const products = reset ? decorated : this.data.products.concat(decorated);
     const hasMore = products.length < total;
 
     this.setData({
@@ -190,6 +191,21 @@ Page({
   onRetry(this: any) {
     this.setData({ listState: PageState.LOADING });
     this.loadProducts(true);
+  },
+
+  decorateProducts(products: Product[]): Product[] {
+    return (products || []).map((product) => ({
+      ...product,
+      displayIcon: this.pickRenderableImageUrl(product.brandIcon)
+    }));
+  },
+
+  pickRenderableImageUrl(url?: string): string {
+    const value = String(url || '').trim();
+    if (/^https:\/\//i.test(value) || /^cloud:\/\//i.test(value) || /^\//.test(value)) {
+      return value;
+    }
+    return '';
   },
 
   /**

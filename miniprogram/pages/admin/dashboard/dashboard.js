@@ -128,6 +128,10 @@ Page({
             url: `/pages/admin/order-detail/order-detail?orderId=${orderId}`
         });
     },
+    /** 进入商品运营 */
+    goProducts() {
+        wx.navigateTo({ url: '/pages/admin/products/products' });
+    },
     /** 重试加载 */
     onRetry() {
         this.loadDashboard();

@@ -115,6 +115,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 14rpx;
+  background: #f5f5f5;
+}
+
+.inline-product-card__icon--text {
   background: #c99a3a;
   color: #fff;
   font-size: 36rpx;

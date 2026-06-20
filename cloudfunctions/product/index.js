@@ -823,7 +823,7 @@ async function addNewProduct(item, cateId, categoryName, categoryId) {
         shunshiName: item.goods_name,
         categoryId: categoryId || `cate_${cateId}`,
         categoryName,
-        brandIcon: '',
+        brandIcon: toHttpsImageUrl(item.goods_img),
         shunshiImg: item.goods_img,
         tags: [],
         description: '',
@@ -844,4 +844,13 @@ async function addNewProduct(item, cateId, categoryName, categoryId) {
         updatedAt: now
     };
     await db.collection('products').add({ data: newProduct });
+}
+function toHttpsImageUrl(url) {
+    const value = String(url || '').trim();
+    if (!value)
+        return '';
+    if (/^http:\/\//i.test(value)) {
+        return value.replace(/^http:\/\//i, 'https://');
+    }
+    return value;
 }

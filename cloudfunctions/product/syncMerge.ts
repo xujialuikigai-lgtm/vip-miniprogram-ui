@@ -29,6 +29,7 @@ export interface ShunshiProductData {
 /** 合并后的更新数据 */
 export interface MergeUpdateData {
   shunshiName: string;
+  brandIcon: string;
   shunshiImg: string;
   shunshiStatus: number;
   stockNum: number;
@@ -67,6 +68,7 @@ export function computeSyncUpdateData(
 
   const data: MergeUpdateData = {
     shunshiName: sp.goods_name,
+    brandIcon: toHttpsImageUrl(sp.goods_img),
     shunshiImg: sp.goods_img,
     shunshiStatus: sp.status,
     stockNum: Number(sp.stock_num),
@@ -88,4 +90,13 @@ export function computeSyncUpdateData(
   // status=1（销售中）不修改 online，保留管理员手动下架决定
 
   return { data, offlinedDelta };
+}
+
+function toHttpsImageUrl(url: string): string {
+  const value = String(url || '').trim();
+  if (!value) return '';
+  if (/^http:\/\//i.test(value)) {
+    return value.replace(/^http:\/\//i, 'https://');
+  }
+  return value;
 }

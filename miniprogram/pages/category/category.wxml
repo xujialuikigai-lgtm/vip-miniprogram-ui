@@ -65,25 +65,13 @@
 
       <!-- 商品列表 -->
       <view wx:else class="category-main__list">
-        <view
+        <product-card
           wx:for="{{products}}"
           wx:key="productId"
-          class="inline-product-card category-main__card"
-          data-id="{{item.productId}}"
-          bindtap="onProductTap"
-        >
-          <view class="inline-product-card__icon">{{item.name ? item.name[0] : '会'}}</view>
-          <view class="inline-product-card__body">
-            <view class="inline-product-card__name">{{item.name}}</view>
-            <view class="inline-product-card__meta">{{item.categoryName}}</view>
-            <view class="inline-product-card__footer">
-              <view wx:if="{{item.packages && item.packages.length && item.packages[0].online && item.packages[0].price > 0}}" class="inline-product-card__price">
-                ¥{{item.packages[0].price}}
-              </view>
-              <view wx:else class="inline-product-card__pending">待配置</view>
-            </view>
-          </view>
-        </view>
+          class="category-main__card"
+          product="{{item}}"
+          bind:tap="onProductTap"
+        />
 
         <!-- 触底加载提示 -->
         <view class="category-main__loadmore" wx:if="{{loadingMore}}">

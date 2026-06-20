@@ -30,6 +30,7 @@ function computeSyncUpdateData(existing, sp) {
     });
     const data = {
         shunshiName: sp.goods_name,
+        brandIcon: toHttpsImageUrl(sp.goods_img),
         shunshiImg: sp.goods_img,
         shunshiStatus: sp.status,
         stockNum: Number(sp.stock_num),
@@ -47,4 +48,13 @@ function computeSyncUpdateData(existing, sp) {
     }
     // status=1（销售中）不修改 online，保留管理员手动下架决定
     return { data, offlinedDelta };
+}
+function toHttpsImageUrl(url) {
+    const value = String(url || '').trim();
+    if (!value)
+        return '';
+    if (/^http:\/\//i.test(value)) {
+        return value.replace(/^http:\/\//i, 'https://');
+    }
+    return value;
 }

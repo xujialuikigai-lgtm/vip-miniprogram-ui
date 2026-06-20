@@ -2,6 +2,7 @@
   "navigationBarTitleText": "分类",
   "onReachBottomDistance": 80,
   "usingComponents": {
+    "product-card": "../../components/product-card/product-card",
     "skeleton": "../../components/skeleton/skeleton",
     "empty-state": "../../components/empty-state/empty-state",
     "t-loading": "tdesign-miniprogram/loading/loading"

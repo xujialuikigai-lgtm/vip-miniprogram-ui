@@ -205,6 +205,25 @@ Page({
     }
 
     const actionText = target ? '上架' : '下架';
+    const current = this.data.list.find((item: ProductView) => item.productId === productId);
+    if (target && current && !(current.price > 0)) {
+      wx.showModal({
+        title: '先配置售价',
+        content: '该商品还没有可售价格，请先进入商品编辑页配置售价，再上架商品。',
+        confirmText: '去编辑',
+        confirmColor: PRIMARY_COLOR,
+        success: (modalRes) => {
+          this.setData({ list: this.data.list.slice() });
+          if (modalRes.confirm) {
+            wx.navigateTo({
+              url: `/pages/admin/product-edit/product-edit?productId=${productId}`
+            });
+          }
+        }
+      });
+      return;
+    }
+
     wx.showModal({
       title: '操作确认',
       content: `确定要${actionText}「${name}」吗？${target ? '' : '下架后用户端将不再展示该商品。'}`,

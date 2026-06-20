@@ -109,7 +109,7 @@ Page({
                 action: 'search',
                 data: { keyword, sortType: this.data.sortType }
             });
-            const list = data.list || [];
+            const list = this.decorateProducts(data.list || []);
             const total = data.total || 0;
             this.setData({
                 list,
@@ -129,6 +129,16 @@ Page({
         if (keyword) {
             this.doSearch(keyword);
         }
+    },
+    decorateProducts(products) {
+        return (products || []).map((product) => (Object.assign(Object.assign({}, product), { displayIcon: this.pickRenderableImageUrl(product.brandIcon) })));
+    },
+    pickRenderableImageUrl(url) {
+        const value = String(url || '').trim();
+        if (/^https:\/\//i.test(value) || /^cloud:\/\//i.test(value) || /^\//.test(value)) {
+            return value;
+        }
+        return '';
     },
     /** 点击商品卡片：跳转详情页 */
     onProductTap(e) {

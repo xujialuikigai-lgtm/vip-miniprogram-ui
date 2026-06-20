@@ -20,7 +20,7 @@ import {
 } from './productManage';
 import { handleAuditLogs } from './auditLog';
 
-cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV as any });
 
 // action 路由分发，每个 action 前置统一的管理员权限校验
 export async function main(event: any, _context: any): Promise<CloudFunctionResult> {
@@ -28,7 +28,7 @@ export async function main(event: any, _context: any): Promise<CloudFunctionResu
 
   // 获取调用者身份并执行统一权限校验
   const { OPENID } = cloud.getWXContext();
-  const db = cloud.database();
+  const db: any = cloud.database();
   const auth = await requireAdmin(db, OPENID || '', { action });
   if (!auth.allowed) {
     // 拒绝访问，返回明确的无权限错误码

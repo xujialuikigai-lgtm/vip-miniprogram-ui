@@ -25,6 +25,16 @@ const constants_1 = require("./shared/constants");
 const PRODUCT_COLLECTION = 'products';
 /** 系统配置集合名 */
 const CONFIG_COLLECTION = 'system_config';
+/** 会员多多目标分类，管理端商品运营只展示这些分类下的商品 */
+const TARGET_CATEGORY_IDS = [
+    'target_video',
+    'target_music',
+    'target_audio_book',
+    'target_cloud',
+    'target_tool',
+    'target_fitness',
+    'target_bike'
+];
 /** 排序权重取值范围（9.5） */
 const SORT_WEIGHT_MIN = 0;
 const SORT_WEIGHT_MAX = 9999;
@@ -195,10 +205,32 @@ async function handleToggleOnline(db, event, operator) {
         return { success: false, errCode: 'INVALID_PARAM', errMsg: '缺少 productId' };
     }
     try {
+        const productRes = await db
+            .collection(PRODUCT_COLLECTION)
+            .where({ productId })
+            .limit(1)
+            .get();
+        const product = productRes && productRes.data && productRes.data[0];
+        if (!product) {
+            return { success: false, errCode: 'PRODUCT_NOT_FOUND', errMsg: '商品不存在' };
+        }
+        const updateData = { online, updatedAt: new Date() };
+        if (online) {
+            const packages = product.packages || [];
+            const hasPricedPackage = packages.some((pkg) => typeof pkg.price === 'number' && pkg.price > 0);
+            if (!hasPricedPackage) {
+                return {
+                    success: false,
+                    errCode: 'PACKAGE_NOT_READY',
+                    errMsg: '请先进入商品编辑页配置售价，再上架商品'
+                };
+            }
+            updateData.packages = packages.map((pkg) => (Object.assign(Object.assign({}, pkg), { online: typeof pkg.price === 'number' && pkg.price > 0 ? true : pkg.online })));
+        }
         const res = await db
             .collection(PRODUCT_COLLECTION)
             .where({ productId })
-            .update({ data: { online, updatedAt: new Date() } });
+            .update({ data: updateData });
         // 未匹配到商品（updated 为 0）视为目标不存在
         const updated = res && res.stats ? res.stats.updated : res && res.updated;
         if (updated === 0) {
@@ -305,7 +337,7 @@ async function fetchAllProducts(db) {
             .limit(PAGE_SIZE)
             .get();
         const batch = (res && Array.isArray(res.data) ? res.data : []);
-        all.push(...batch);
+        all.push(...batch.filter((p) => TARGET_CATEGORY_IDS.indexOf(p.categoryId) >= 0));
         if (batch.length < PAGE_SIZE) {
             break;
         }
