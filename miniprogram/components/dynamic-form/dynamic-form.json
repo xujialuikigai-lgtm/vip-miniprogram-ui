@@ -3,7 +3,6 @@
   "styleIsolation": "apply-shared",
   "usingComponents": {
     "t-input": "tdesign-miniprogram/input/input",
-    "t-cell": "tdesign-miniprogram/cell/cell",
     "t-radio-group": "tdesign-miniprogram/radio-group/radio-group",
     "t-radio": "tdesign-miniprogram/radio/radio",
     "t-checkbox-group": "tdesign-miniprogram/checkbox-group/checkbox-group",

@@ -43,6 +43,7 @@ const filter_1 = require("./shared/utils/filter");
 const mask_1 = require("./shared/utils/mask");
 const shunshi_1 = require("./shared/utils/shunshi");
 const adminAuth_1 = require("./shared/utils/adminAuth");
+const parseGoods_1 = require("./parseGoods");
 const syncMerge_1 = require("./syncMerge");
 const constants_1 = require("./shared/constants");
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
@@ -398,43 +399,8 @@ for (const group of TARGET_SYNC_GROUPS) {
     }
 }
 const TARGET_CATEGORY_IDS = TARGET_SYNC_GROUPS.map((group) => group.categoryId);
-/** 顺势商品类型：1=卡密，2=直充。顺势部分商品类型标记不稳定，所以只作为强信号。 */
+/** 顺势商品类型：1=卡密，2=直充。直充范围以接口字段为准，便于运营对账。 */
 const SHUNSHI_GOODS_TYPE_DIRECT = 2;
-/** 即使 goods_type=2，也不作为会员多多上架目标的资源型/卡券型商品。 */
-const NON_DIRECT_NAME_KEYWORDS = [
-    '转单',
-    '转单资源',
-    '卡密',
-    '卡券',
-    '兑换码',
-    '激活码',
-    'cdk',
-    '口令',
-    '链接',
-    '共享号',
-    '共享账号',
-    '合租',
-    '租号',
-    '出租',
-    '成品号',
-    '账号密码',
-    '号密',
-    '代挂'
-];
-/** 名称里出现这些词时，即使 goods_type 未标成 2，也按可运营直充候选保留。 */
-const DIRECT_CANDIDATE_NAME_KEYWORDS = [
-    '直充',
-    '手机号',
-    '手机',
-    '月卡',
-    '季卡',
-    '年卡',
-    '会员',
-    'svip',
-    'vip',
-    '绿钻',
-    '超级会员'
-];
 /**
  * 带并发上限的 map：以 limit 个 worker 轮流取任务执行，结果按原索引回填（保持顺序）。
  * 用于把原本串行的网络/数据库调用并行化，同时避免一次性发起过多请求。
@@ -539,34 +505,6 @@ async function resetTargetCategoryProductCount() {
         });
     });
 }
-async function offlineNonDirectLocalProducts() {
-    const res = await db
-        .collection('products')
-        .where({
-        categoryId: db.command.in(TARGET_CATEGORY_IDS),
-        online: true
-    })
-        .limit(1000)
-        .get();
-    const products = (res.data || []);
-    const targets = products.filter((product) => isNonDirectLocalProduct(product));
-    await mapWithConcurrency(targets, DB_CONCURRENCY, async (product) => {
-        await db.collection('products').doc(product._id).update({
-            data: {
-                online: false,
-                updatedAt: new Date()
-            }
-        });
-    });
-    return targets.length;
-}
-function isNonDirectLocalProduct(product) {
-    const name = normalizeSearchText(`${product.name || ''} ${product.shunshiName || ''}`);
-    const method = normalizeSearchText(product.rechargeMethod || '');
-    return (NON_DIRECT_NAME_KEYWORDS.some((word) => name.indexOf(normalizeSearchText(word)) >= 0) ||
-        method.indexOf('卡密') >= 0 ||
-        method.indexOf('账号密码') >= 0);
-}
 /**
  * 同步商品（任务 5.3，需求 17.1-17.6）
  * 1. 同步本地目标分类（来自 会员多多.docx）
@@ -587,12 +525,7 @@ async function handleSyncProducts(event = {}) {
         const page = normalizePositiveInt(event.page, 1);
         // 步骤 1：同步本地目标分类，不再拉取顺势全量分类树
         await syncTargetCategories(TARGET_SYNC_GROUPS);
-        const legacyOfflined = !batchMode || (cursor === 0 && page === 1)
-            ? await offlineNonDirectLocalProducts()
-            : 0;
-        // 分类 ID -> 名称映射，用于新增商品时回填 categoryName
-        const cateNameMap = new Map();
-        TARGET_SYNC_GROUPS.forEach((c) => cateNameMap.set(c.id, c.name));
+        const legacyOfflined = 0;
         let shunshiProducts = [];
         let nextCursor = TARGET_SYNC_ITEMS.length;
         let nextPage = 1;
@@ -616,52 +549,34 @@ async function handleSyncProducts(event = {}) {
                     }
                 };
             }
-            // 批次模式：一次只处理一个目标关键词的一页商品。
+            // 批次模式：一次完整处理一个目标关键词（品牌）的全部分页，
+            // 保证该品牌的套餐去重在单次调用内完成（避免跨调用导致渠道降级）。
             const target = TARGET_SYNC_ITEMS[cursor];
-            const res = await client.getProductList({ keyword: target.keyword, page, limit: SYNC_PAGE_SIZE });
-            const rawList = res.list || [];
-            const list = rawList.filter((item) => shouldSyncTargetProduct(item, target.keyword));
-            shunshiProducts = list.map((item) => ({
+            const items = await fetchKeywordAllPages(client, target.keyword);
+            shunshiProducts = items.map((item) => ({
                 item,
                 cate_id: target.group.id,
                 categoryId: target.group.categoryId,
-                categoryName: target.group.name
+                categoryName: target.group.name,
+                brand: target.keyword
             }));
-            const categoryDone = rawList.length < SYNC_PAGE_SIZE || page * SYNC_PAGE_SIZE >= (res.total || 0);
-            nextCursor = categoryDone ? cursor + 1 : cursor;
-            nextPage = categoryDone ? 1 : page + 1;
+            nextCursor = cursor + 1;
+            nextPage = 1;
             done = nextCursor >= TARGET_SYNC_ITEMS.length;
-            processedCategories = categoryDone ? 1 : 0;
+            processedCategories = 1;
         }
         else {
             // 兼容旧调用：一次性同步目标关键词，不再全量同步顺势商品池。
             shunshiProducts = await fetchAllTargetProducts(client);
         }
-        // 步骤 3：一次性批量查出已存在商品，按是否存在拆分为「更新」与「新增」两组
-        const existingMap = await loadExistingProducts(shunshiProducts.map((p) => p.item.id));
-        const toUpdate = [];
-        const toAdd = [];
-        for (const { item, cate_id, categoryId, categoryName } of shunshiProducts) {
-            const existing = existingMap.get(item.id);
-            if (existing) {
-                toUpdate.push({ existing, item, categoryId, categoryName });
-            }
-            else {
-                toAdd.push({ item, cate_id, categoryId, categoryName });
-            }
-        }
-        // 并发更新已存在商品，汇总自动下架计数。图片转存并发较低，避免外链下载拖慢同步。
-        const offlinedDeltas = await mapWithConcurrency(toUpdate, IMAGE_CACHE_CONCURRENCY, ({ existing, item, categoryId, categoryName }) => updateExistingProduct(existing, item, categoryId, categoryName));
-        const offlined = legacyOfflined + offlinedDeltas.reduce((sum, d) => sum + d, 0);
-        // 并发新增商品（仅写入，不逐个拉详情）。
-        // 不调用 getProductDetail：首次同步全部为新增时，逐个详情请求会拖垮 60s 限制。
-        // attachTemplate 留空、description 留空，由管理员在商品编辑页按需配置。
-        await mapWithConcurrency(toAdd, IMAGE_CACHE_CONCURRENCY, ({ item, cate_id, categoryId, categoryName }) => addNewProduct(item, cate_id, categoryName || cateNameMap.get(cate_id) || '', categoryId));
+        // 步骤 3：按「分类 + 品牌」聚合 SKU 为品牌商品（含套餐矩阵），创建或合并落库。
+        const { added, updated } = await aggregateAndUpsertBrands(shunshiProducts);
+        const offlined = legacyOfflined;
         return {
             success: true,
             data: {
-                added: toAdd.length,
-                updated: toUpdate.length,
+                added,
+                updated,
                 offlined,
                 duration: Date.now() - startedAt,
                 processedCategories,
@@ -703,13 +618,7 @@ function shouldSyncTargetProduct(item, keyword) {
     return !!key && name.indexOf(key) >= 0;
 }
 function isDirectRechargeProduct(item) {
-    const name = normalizeSearchText(item.goods_name || '');
-    if (NON_DIRECT_NAME_KEYWORDS.some((word) => name.indexOf(normalizeSearchText(word)) >= 0)) {
-        return false;
-    }
-    if (Number(item.goods_type) === SHUNSHI_GOODS_TYPE_DIRECT)
-        return true;
-    return DIRECT_CANDIDATE_NAME_KEYWORDS.some((word) => name.indexOf(normalizeSearchText(word)) >= 0);
+    return Number(item.goods_type) === SHUNSHI_GOODS_TYPE_DIRECT;
 }
 function normalizeSearchText(text) {
     return String(text || '').replace(/\s+/g, '').toLowerCase();
@@ -785,12 +694,205 @@ async function fetchAllTargetProducts(client) {
                     item,
                     cate_id: target.group.id,
                     categoryId: target.group.categoryId,
-                    categoryName: target.group.name
+                    categoryName: target.group.name,
+                    brand: target.keyword
                 });
             }
         }
     }
     return all;
+}
+/**
+ * 拉取单个关键词（品牌）的全部分页商品，并做直充类型 + 关键词包含校验。
+ * 用于批次模式：一次完整取完一个品牌，保证品牌内套餐去重在单次调用完成。
+ */
+async function fetchKeywordAllPages(client, keyword) {
+    const items = [];
+    let page = 1;
+    let fetched = 0;
+    while (true) {
+        const res = await client.getProductList({ keyword, page, limit: SYNC_PAGE_SIZE });
+        const raw = res.list || [];
+        items.push(...raw.filter((item) => shouldSyncTargetProduct(item, keyword)));
+        fetched += raw.length;
+        if (raw.length < SYNC_PAGE_SIZE || fetched >= (res.total || 0))
+            break;
+        page += 1;
+    }
+    return items;
+}
+/** 按 productId 批量查出已存在的品牌商品 */
+async function loadBrandProducts(productIds) {
+    const map = new Map();
+    const unique = Array.from(new Set(productIds));
+    if (unique.length === 0)
+        return map;
+    const chunks = chunk(unique, IN_CHUNK_SIZE);
+    const lists = await mapWithConcurrency(chunks, DB_CONCURRENCY, async (group) => {
+        const res = await db
+            .collection('products')
+            .where({ productId: db.command.in(group) })
+            .limit(1000)
+            .get();
+        return res.data;
+    });
+    for (const list of lists) {
+        for (const p of list) {
+            map.set(p.productId, p);
+        }
+    }
+    return map;
+}
+/**
+ * 按「分类 + 品牌」聚合 SKU：
+ * - 同品牌的 SKU 去重为套餐矩阵（会员类型 × 周期，渠道择优）
+ * - 已存在品牌商品则合并套餐（保留管理员售价/上下架），否则新建
+ * @returns { added: 新建品牌商品数, updated: 合并更新品牌商品数 }
+ */
+async function aggregateAndUpsertBrands(rows) {
+    const groups = new Map();
+    for (const row of rows) {
+        const brand = (row.brand || '').trim();
+        if (!brand)
+            continue;
+        const categoryId = row.categoryId || `cate_${row.cate_id}`;
+        const productId = (0, parseGoods_1.buildBrandProductId)(categoryId, brand);
+        let g = groups.get(productId);
+        if (!g) {
+            g = { categoryId, categoryName: row.categoryName || '', brand, items: [] };
+            groups.set(productId, g);
+        }
+        g.items.push(row.item);
+    }
+    if (groups.size === 0)
+        return { added: 0, updated: 0 };
+    const existingMap = await loadBrandProducts(Array.from(groups.keys()));
+    let added = 0;
+    let updated = 0;
+    const entries = Array.from(groups.entries());
+    await mapWithConcurrency(entries, IMAGE_CACHE_CONCURRENCY, async ([productId, g]) => {
+        const descriptors = (0, parseGoods_1.dedupSkusToPackages)(g.items.map((it) => ({
+            id: it.id,
+            goods_name: it.goods_name,
+            goods_price: it.goods_price,
+            face_value: it.face_value,
+            stock_num: it.stock_num
+        })));
+        if (descriptors.length === 0)
+            return;
+        const repItem = pickRepresentativeItem(g.items, descriptors[0].shunshiGoodsId);
+        const existing = existingMap.get(productId);
+        if (existing) {
+            await mergeBrandProduct(existing, g, descriptors, repItem);
+            updated += 1;
+        }
+        else {
+            await createBrandProduct(productId, g, descriptors, repItem);
+            added += 1;
+        }
+    });
+    return { added, updated };
+}
+/** 取代表 SKU：优先取首个套餐对应的 SKU（用于品牌图标），兜底首个 */
+function pickRepresentativeItem(items, preferId) {
+    return items.find((it) => it.id === preferId) || items[0];
+}
+/** 套餐描述转 Package（新套餐：售价 0、下架，等待管理员配置） */
+function buildPackageFromDescriptor(d, isDefault) {
+    return {
+        packageId: `pkg_${d.shunshiGoodsId}`,
+        name: d.period || '默认',
+        memberType: d.memberType,
+        price: 0,
+        costPrice: d.costPrice,
+        faceValue: d.faceValue,
+        shunshiGoodsId: d.shunshiGoodsId,
+        stock: d.stock,
+        online: false,
+        isDefault,
+        sortWeight: d.periodDays
+    };
+}
+/** 新建品牌商品 */
+async function createBrandProduct(productId, g, descriptors, repItem) {
+    const now = new Date();
+    const packages = descriptors.map((d, i) => buildPackageFromDescriptor(d, i === 0));
+    const stockNum = descriptors.reduce((sum, d) => sum + (d.stock || 0), 0);
+    const product = {
+        productId,
+        // 品牌商品由多 SKU 聚合，product 级 shunshiGoodsId 仅保留代表值（套餐各自绑定真实 SKU）
+        shunshiGoodsId: repItem.id,
+        name: g.brand,
+        shunshiName: g.brand,
+        categoryId: g.categoryId,
+        categoryName: g.categoryName,
+        brandIcon: await resolveProductBrandIcon(repItem),
+        shunshiImg: repItem.goods_img,
+        tags: [],
+        description: '',
+        rechargeMethod: '手机号直充',
+        accountType: '',
+        autoActivate: false,
+        // 商品展示到前台，但套餐未定价前由前端与下单云函数禁购
+        online: true,
+        sortWeight: 0,
+        salesCount: 0,
+        todaySales: 0,
+        shunshiStatus: repItem.status,
+        stockNum,
+        attachTemplate: [],
+        packages,
+        rules: { deviceSupport: '', arrivalTime: '', safetyNote: '' },
+        createdAt: now,
+        updatedAt: now
+    };
+    await db.collection('products').add({ data: product });
+}
+/**
+ * 合并已存在品牌商品：
+ * - 按「会员类型 + 周期」匹配已有套餐：更新成本/面值/库存/绑定 SKU，保留管理员售价与上下架
+ * - 新增的会员类型/周期：追加为新套餐（售价 0、下架）
+ * - 已有但本次未出现的套餐：原样保留（不删除）
+ * - 商品级仅更新顺势字段，不覆盖管理员配置（name/online/sortWeight/rules 等）
+ */
+async function mergeBrandProduct(existing, g, descriptors, repItem) {
+    const packages = (existing.packages || []).map((p) => (Object.assign({}, p)));
+    // 已有套餐按去重键建索引（品牌套餐 name 即周期）
+    const keyToIndex = new Map();
+    packages.forEach((p, i) => {
+        keyToIndex.set((0, parseGoods_1.packageDedupKey)(p.memberType, p.name), i);
+        // 同时按 SKU 建索引，兼容历史数据
+        keyToIndex.set(`sku:${p.shunshiGoodsId}`, i);
+    });
+    for (const d of descriptors) {
+        const key = (0, parseGoods_1.packageDedupKey)(d.memberType, d.period);
+        const idx = keyToIndex.has(key) ? keyToIndex.get(key) : keyToIndex.get(`sku:${d.shunshiGoodsId}`);
+        if (idx !== undefined && packages[idx]) {
+            // 更新顺势字段与绑定 SKU，保留管理员售价/上下架/默认标记/名称
+            packages[idx] = Object.assign(Object.assign({}, packages[idx]), { shunshiGoodsId: d.shunshiGoodsId, costPrice: d.costPrice, faceValue: d.faceValue, stock: d.stock });
+        }
+        else {
+            const np = buildPackageFromDescriptor(d, false);
+            packages.push(np);
+            keyToIndex.set(key, packages.length - 1);
+        }
+    }
+    // 保证恰有一个默认套餐
+    if (!packages.some((p) => p.isDefault) && packages.length > 0) {
+        packages[0].isDefault = true;
+    }
+    const brandIcon = await resolveProductBrandIcon(repItem, existing);
+    const data = {
+        packages,
+        brandIcon,
+        shunshiImg: repItem.goods_img,
+        shunshiStatus: repItem.status,
+        stockNum: descriptors.reduce((sum, d) => sum + (d.stock || 0), 0),
+        categoryId: g.categoryId,
+        categoryName: g.categoryName,
+        updatedAt: new Date()
+    };
+    await db.collection('products').doc(existing._id).update({ data });
 }
 /**
  * 递归拍平顺势分类树（最多三级），按递归深度推导 level（顶级1）

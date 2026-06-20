@@ -25,6 +25,22 @@
   color: #999999;
 }
 
+.state-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 999rpx;
+  font-size: 48rpx;
+  font-weight: 900;
+}
+
+.state-icon--muted {
+  background: #eef2f6;
+  color: #8a95a5;
+}
+
 .result-card {
   display: flex;
   flex-direction: column;
@@ -45,6 +61,10 @@
   border-radius: 999rpx;
   background: #12aa9c;
   box-shadow: 0 16rpx 34rpx rgba(18, 170, 156, 0.22);
+  color: #ffffff;
+  font-size: 58rpx;
+  font-weight: 900;
+  line-height: 1;
 }
 
 .result-title {

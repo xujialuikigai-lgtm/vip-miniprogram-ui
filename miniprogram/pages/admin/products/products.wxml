@@ -23,13 +23,21 @@
       <button
         class="actions__btn actions__btn--gold"
         loading="{{syncing}}"
-        disabled="{{syncing}}"
+        disabled="{{syncing || clearing}}"
         bindtap="onSync"
       >
         {{syncing ? '同步中' : '同步商品'}}
       </button>
-      <button class="actions__btn actions__btn--plain" bindtap="onAddProduct">
+      <button class="actions__btn actions__btn--plain" disabled="{{syncing || clearing}}" bindtap="onAddProduct">
         新增商品
+      </button>
+      <button
+        class="actions__btn actions__btn--danger"
+        loading="{{clearing}}"
+        disabled="{{syncing || clearing}}"
+        bindtap="onClearAndSync"
+      >
+        {{clearing ? '清空中' : '清空重建'}}
       </button>
     </view>
   </view>
@@ -64,7 +72,10 @@
         bindtap="onCardTap"
       >
         <view class="product-card__head">
-          <view class="product-card__name">{{item.name}}</view>
+          <view class="product-card__name">
+            {{item.name}}
+            <text class="pkg-badge">{{item.packageCount}} 套餐</text>
+          </view>
           <view class="product-card__status {{item.online ? 'is-online' : item.pendingConfig ? 'is-pending' : 'is-offline'}}">
             {{item.statusText}}
           </view>

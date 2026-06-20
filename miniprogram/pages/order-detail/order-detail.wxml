@@ -8,7 +8,7 @@
 
   <!-- 异常态 -->
   <view class="state-box" wx:elif="{{pageState === PageState.ERROR}}">
-    <t-icon name="error-circle" size="80rpx" color="#cccccc" />
+    <view class="state-icon">!</view>
     <view class="state-text">订单加载失败，请重试</view>
     <t-button theme="primary" size="small" bindtap="onRetry">重新加载</t-button>
   </view>
@@ -23,7 +23,7 @@
 
       <!-- 开通失败原因 -->
       <view class="hero__fail" wx:if="{{isFailed}}">
-        <t-icon name="info-circle" size="28rpx" color="#ffb4a8" />
+        <text class="hero__fail-icon">!</text>
         <text class="hero__fail-text">{{failReason}}</text>
       </view>
 
@@ -58,7 +58,7 @@
         <text class="info-row__label">订单号</text>
         <view class="info-row__value">
           <text class="info-row__text">{{order.orderId}}</text>
-          <t-icon name="file-copy" size="32rpx" color="#c99a3a" />
+          <text class="copy-mark">复制</text>
         </view>
       </view>
 

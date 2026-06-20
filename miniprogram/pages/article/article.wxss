@@ -32,3 +32,16 @@
   font-size: 28rpx;
   color: #999999;
 }
+
+.state-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 999rpx;
+  background: #eef2f6;
+  color: #8a95a5;
+  font-size: 48rpx;
+  font-weight: 900;
+}

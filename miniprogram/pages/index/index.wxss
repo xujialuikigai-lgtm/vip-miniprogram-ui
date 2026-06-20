@@ -20,6 +20,13 @@
   box-shadow: 0 2rpx 0 rgba(16, 23, 36, 0.03);
 }
 
+.search-icon {
+  color: #7a8494;
+  font-size: 40rpx;
+  font-weight: 800;
+  line-height: 1;
+}
+
 .search-placeholder {
   margin-left: 14rpx;
   font-size: 28rpx;

@@ -43,43 +43,56 @@
   <!-- 常用功能菜单 -->
   <view class="section">
     <view class="section-title">常用功能</view>
-    <t-cell-group theme="card">
-      <t-cell
+    <view class="menu-card">
+      <view
         wx:for="{{menuList}}"
         wx:key="title"
-        title="{{item.title}}"
-        description="{{item.desc}}"
-        arrow
+        class="menu-row"
         data-index="{{index}}"
-        bind:click="onMenuTap"
+        bindtap="onMenuTap"
       >
-        <t-icon slot="left-icon" name="{{item.icon}}" size="44rpx" color="#c99a3a" />
-      </t-cell>
-    </t-cell-group>
+        <view class="menu-row__icon">{{index === 0 ? '单' : index === 1 ? '知' : index === 2 ? '号' : '告'}}</view>
+        <view class="menu-row__body">
+          <view class="menu-row__title">{{item.title}}</view>
+          <view class="menu-row__desc">{{item.desc}}</view>
+        </view>
+        <view class="menu-row__arrow">›</view>
+      </view>
+    </view>
   </view>
 
   <!-- 客服入口 -->
   <view class="section">
-    <t-cell-group theme="card">
-      <t-cell title="联系客服" description="扫码添加专属客服" arrow bind:click="showQrcode">
-        <t-icon slot="left-icon" name="service" size="44rpx" color="#c99a3a" />
-      </t-cell>
-    </t-cell-group>
+    <view class="menu-card">
+      <view class="menu-row" bindtap="showQrcode">
+        <view class="menu-row__icon">客</view>
+        <view class="menu-row__body">
+          <view class="menu-row__title">联系客服</view>
+          <view class="menu-row__desc">扫码添加专属客服</view>
+        </view>
+        <view class="menu-row__arrow">›</view>
+      </view>
+    </view>
   </view>
 
   <!-- 管理员入口（非管理员隐藏） -->
   <view class="section" wx:if="{{isAdmin}}">
-    <t-cell-group theme="card">
-      <t-cell title="管理后台" description="数据看板 · 订单处理 · 商品运营" arrow bind:click="goAdmin">
-        <t-icon slot="left-icon" name="setting" size="44rpx" color="#c99a3a" />
-      </t-cell>
-    </t-cell-group>
+    <view class="menu-card">
+      <view class="menu-row" bindtap="goAdmin">
+        <view class="menu-row__icon">管</view>
+        <view class="menu-row__body">
+          <view class="menu-row__title">管理后台</view>
+          <view class="menu-row__desc">数据看板 · 订单处理 · 商品运营</view>
+        </view>
+        <view class="menu-row__arrow">›</view>
+      </view>
+    </view>
   </view>
 
   <!-- 底部服务保障说明 -->
   <view class="service-card">
     <view class="service-item" wx:for="{{serviceList}}" wx:key="*this">
-      <t-icon name="check-circle" size="32rpx" color="#c99a3a" />
+      <text class="service-check">✓</text>
       <text class="service-text">{{item}}</text>
     </view>
   </view>

@@ -8,14 +8,14 @@
 
   <!-- 异常态：可重试 -->
   <view class="state-block" wx:elif="{{state === 'error'}}">
-    <t-icon name="info-circle" size="80rpx" color="#bbbbbb" />
+    <view class="state-icon">!</view>
     <view class="state-block__text">{{errorMsg || '加载失败'}}</view>
     <t-button theme="primary" size="medium" variant="outline" bind:tap="loadArticle">重新加载</t-button>
   </view>
 
   <!-- 空态：内容暂未配置 -->
   <view class="state-block" wx:elif="{{state === 'empty'}}">
-    <t-icon name="file-1" size="80rpx" color="#bbbbbb" />
+    <view class="state-icon">-</view>
     <view class="state-block__text">内容暂未配置</view>
   </view>
 

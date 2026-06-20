@@ -36,6 +36,8 @@ Page({
         state: 'loading',
         /** 同步中标记（控制同步按钮 loading 与防重复点击） */
         syncing: false,
+        /** 清空重建中标记 */
+        clearing: false,
         /** 正在切换上下架的商品ID（控制对应开关禁用，防重复点击） */
         togglingId: ''
     },
@@ -97,7 +99,7 @@ Page({
         // 补充格式化字段
         const list = rawList.map((p) => {
             const pendingConfig = !(p.price > 0) || !((p.sellablePackages || 0) > 0);
-            return Object.assign(Object.assign({}, p), { priceText: toFixed2(p.price), costText: toFixed2(p.costPrice), profitText: toFixed2(p.profit), loss: (p.profit || 0) < 0, pendingConfig, statusText: p.online ? '已上架' : pendingConfig ? '待配置' : '已下架' });
+            return Object.assign(Object.assign({}, p), { priceText: toFixed2(p.price), costText: toFixed2(p.costPrice), profitText: toFixed2(p.profit), loss: (p.profit || 0) < 0, pendingConfig, statusText: p.online ? '已上架' : pendingConfig ? '待配置' : '已下架', packageCount: (p.sellablePackages || 0) + (p.pendingPackages || 0) });
         });
         this.setData({
             stats,
@@ -221,10 +223,108 @@ Page({
      * 同步商品：分批调用 product.syncProducts，避免单次云函数超过 60 秒上限。
      */
     async onSync() {
-        if (this.data.syncing)
+        if (this.data.syncing || this.data.clearing)
             return;
         this.setData({ syncing: true });
         wx.showLoading({ title: '正在同步...', mask: true });
+        const total = await this.runBatchSync();
+        wx.hideLoading();
+        this.setData({ syncing: false });
+        if (!total)
+            return;
+        const seconds = (total.duration / 1000).toFixed(1);
+        wx.showModal({
+            title: '同步完成',
+            content: `新增 ${total.added} 个，更新 ${total.updated} 个，自动下架 ${total.offlined} 个，累计耗时 ${seconds} 秒。`,
+            showCancel: false,
+            confirmText: '完成',
+            confirmColor: PRIMARY_COLOR,
+            success: () => {
+                // 刷新列表反映同步结果
+                this.loadList();
+            }
+        });
+    },
+    /**
+     * 清空重建：先清空目标分类下所有已同步商品（含历史按 SKU 导入的旧数据），
+     * 再按品牌重新聚合同步。用于从旧数据模型迁移到「品牌 + 套餐矩阵」。
+     * 管理员手动新增的非同步商品（不在目标分类下）不受影响。
+     */
+    async onClearAndSync() {
+        if (this.data.syncing || this.data.clearing)
+            return;
+        const confirmed = await new Promise((resolve) => {
+            wx.showModal({
+                title: '清空并重建',
+                content: '将删除目标会员分类下所有已同步商品（包含历史按 SKU 导入的旧数据），然后按品牌重新聚合同步。此操作不可撤销，确定继续吗？',
+                confirmText: '清空并重建',
+                confirmColor: PRIMARY_COLOR,
+                success: (r) => resolve(!!r.confirm),
+                fail: () => resolve(false)
+            });
+        });
+        if (!confirmed)
+            return;
+        // 1. 循环清空，直到没有可清的为止（单次云函数最多清 500 个）
+        this.setData({ clearing: true });
+        wx.showLoading({ title: '正在清空...', mask: true });
+        let removedTotal = 0;
+        let guard = 0;
+        while (guard < 100) {
+            guard += 1;
+            const res = await requestSilent({
+                name: 'product',
+                action: 'clearSyncedProducts',
+                data: { scope: 'target' }
+            });
+            if (!res.success) {
+                wx.hideLoading();
+                this.setData({ clearing: false });
+                if (PERMISSION_ERR_CODES.indexOf(res.errCode || '') !== -1) {
+                    wx.showToast({ title: res.errMsg || '无权限操作', icon: 'none' });
+                    return;
+                }
+                wx.showModal({
+                    title: '清空失败',
+                    content: res.errMsg || '清空已同步商品失败，请稍后重试',
+                    showCancel: false,
+                    confirmText: '我知道了',
+                    confirmColor: PRIMARY_COLOR
+                });
+                return;
+            }
+            const removed = (res.data && res.data.removed) || 0;
+            removedTotal += removed;
+            wx.showLoading({ title: `已清空 ${removedTotal}...`, mask: true });
+            if (removed === 0)
+                break;
+        }
+        // 2. 清空完成后重新同步
+        this.setData({ clearing: false, syncing: true });
+        wx.showLoading({ title: '正在同步...', mask: true });
+        const total = await this.runBatchSync();
+        wx.hideLoading();
+        this.setData({ syncing: false });
+        if (!total)
+            return;
+        const seconds = (total.duration / 1000).toFixed(1);
+        wx.showModal({
+            title: '重建完成',
+            content: `已清空 ${removedTotal} 个旧商品；新增 ${total.added} 个品牌商品，更新 ${total.updated} 个，累计耗时 ${seconds} 秒。`,
+            showCancel: false,
+            confirmText: '完成',
+            confirmColor: PRIMARY_COLOR,
+            success: () => {
+                this.loadList();
+            }
+        });
+    },
+    /**
+     * 分批执行同步循环：逐个目标关键词（品牌）调用 product.syncProducts。
+     * 成功返回累计结果；失败时自行弹窗/Toast 提示并返回 null。
+     * 不负责切换 syncing 状态与外层 loading（由调用方控制）。
+     */
+    async runBatchSync() {
         let cursor = 0;
         let page = 1;
         let done = false;
@@ -245,11 +345,9 @@ Page({
                 }
             });
             if (!res.success) {
-                wx.hideLoading();
-                this.setData({ syncing: false });
                 if (PERMISSION_ERR_CODES.indexOf(res.errCode || '') !== -1) {
                     wx.showToast({ title: res.errMsg || '无权限操作', icon: 'none' });
-                    return;
+                    return null;
                 }
                 wx.showModal({
                     title: '同步失败',
@@ -258,7 +356,7 @@ Page({
                     confirmText: '我知道了',
                     confirmColor: PRIMARY_COLOR
                 });
-                return;
+                return null;
             }
             const data = res.data || { added: 0, updated: 0, offlined: 0, duration: 0, done: true };
             total.added += data.added || 0;
@@ -270,19 +368,6 @@ Page({
             page = typeof data.nextPage === 'number' ? data.nextPage : 1;
             done = !!data.done;
         }
-        wx.hideLoading();
-        this.setData({ syncing: false });
-        const seconds = (total.duration / 1000).toFixed(1);
-        wx.showModal({
-            title: '同步完成',
-            content: `新增 ${total.added} 个，更新 ${total.updated} 个，自动下架 ${total.offlined} 个，累计耗时 ${seconds} 秒。`,
-            showCancel: false,
-            confirmText: '完成',
-            confirmColor: PRIMARY_COLOR,
-            success: () => {
-                // 刷新列表反映同步结果
-                this.loadList();
-            }
-        });
+        return total;
     }
 });

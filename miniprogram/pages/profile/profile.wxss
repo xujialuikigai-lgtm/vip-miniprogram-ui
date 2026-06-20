@@ -101,6 +101,67 @@
   color: #999999;
 }
 
+.menu-card {
+  overflow: hidden;
+  border-radius: 20rpx;
+  background: #ffffff;
+}
+
+.menu-row {
+  display: flex;
+  align-items: center;
+  min-height: 112rpx;
+  padding: 22rpx 28rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  box-sizing: border-box;
+}
+
+.menu-row:last-child {
+  border-bottom: none;
+}
+
+.menu-row__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 24rpx;
+  border: 2rpx solid #c99a3a;
+  border-radius: 999rpx;
+  color: #c99a3a;
+  font-size: 24rpx;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.menu-row__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-row__title {
+  color: #333333;
+  font-size: 30rpx;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.menu-row__desc {
+  margin-top: 6rpx;
+  color: #777777;
+  font-size: 25rpx;
+  line-height: 1.35;
+}
+
+.menu-row__arrow {
+  flex-shrink: 0;
+  margin-left: 18rpx;
+  color: #999999;
+  font-size: 44rpx;
+  line-height: 1;
+}
+
 /* 服务保障说明 */
 .service-card {
   margin: 32rpx 24rpx 0;
@@ -113,6 +174,20 @@
   display: flex;
   align-items: center;
   padding: 12rpx 0;
+}
+
+.service-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32rpx;
+  height: 32rpx;
+  border: 2rpx solid #c99a3a;
+  border-radius: 999rpx;
+  color: #c99a3a;
+  font-size: 22rpx;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .service-text {

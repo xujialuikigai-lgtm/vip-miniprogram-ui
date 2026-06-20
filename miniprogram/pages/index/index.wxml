@@ -3,7 +3,7 @@
   <!-- 搜索栏：点击整体跳转搜索页 -->
   <view class="search-bar" bindtap="goSearch">
     <view class="search-box">
-      <t-icon name="search" size="36rpx" color="#999" />
+      <text class="search-icon">⌕</text>
       <text class="search-placeholder">搜索视频、音乐、网盘会员</text>
     </view>
   </view>

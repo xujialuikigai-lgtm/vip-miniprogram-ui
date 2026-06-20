@@ -8,7 +8,7 @@
 
   <!-- 异常态 -->
   <view class="state-block" wx:elif="{{state === 'error'}}">
-    <t-icon name="info-circle" size="80rpx" color="#bbbbbb" />
+    <view class="state-icon state-icon--muted">!</view>
     <view class="state-block__text">{{errorMsg || '加载失败'}}</view>
     <t-button theme="primary" size="medium" variant="outline" bind:tap="loadDetail">重新加载</t-button>
   </view>
@@ -17,7 +17,7 @@
   <block wx:elif="{{state === 'success'}}">
     <view class="result-card">
       <view class="result-icon">
-        <t-icon name="{{hero.icon}}" size="72rpx" color="#ffffff" />
+        <text>{{hero.title === '开通失败' ? '!' : '✓'}}</text>
       </view>
       <view class="result-title">{{hero.title}}</view>
       <view class="result-subtitle">{{hero.subtitle}}</view>

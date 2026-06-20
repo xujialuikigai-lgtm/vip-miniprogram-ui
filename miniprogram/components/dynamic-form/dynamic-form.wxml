@@ -29,15 +29,16 @@
 
     <!-- select 下拉选择（点击弹出 picker） -->
     <block wx:elif="{{field.type === 'select'}}">
-      <t-cell
-        class="dynamic-form__select"
-        title=""
-        note="{{field.valueText || (field.tip || '请选择')}}"
-        arrow
-        hover
+      <view
+        class="dynamic-form__select-row"
         data-key="{{field.key}}"
         bindtap="onSelectTap"
-      />
+      >
+        <text class="{{field.valueText ? 'dynamic-form__select-value' : 'dynamic-form__select-placeholder'}}">
+          {{field.valueText || (field.tip || '请选择')}}
+        </text>
+        <text class="dynamic-form__select-arrow">›</text>
+      </view>
     </block>
 
     <!-- radio 单选 -->
@@ -76,15 +77,16 @@
 
     <!-- cascader 级联选择（点击弹出） -->
     <block wx:elif="{{field.type === 'cascader'}}">
-      <t-cell
-        class="dynamic-form__select"
-        title=""
-        note="{{field.valueText || (field.tip || '请选择')}}"
-        arrow
-        hover
+      <view
+        class="dynamic-form__select-row"
         data-key="{{field.key}}"
         bindtap="onCascaderTap"
-      />
+      >
+        <text class="{{field.valueText ? 'dynamic-form__select-value' : 'dynamic-form__select-placeholder'}}">
+          {{field.valueText || (field.tip || '请选择')}}
+        </text>
+        <text class="dynamic-form__select-arrow">›</text>
+      </view>
     </block>
 
     <!-- 字段级错误提示（如手机号格式） -->

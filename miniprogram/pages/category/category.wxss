@@ -32,6 +32,13 @@
   box-sizing: border-box;
 }
 
+.category-search__icon {
+  color: #7a8494;
+  font-size: 38rpx;
+  font-weight: 800;
+  line-height: 1;
+}
+
 .category-filter-tip {
   min-height: 72rpx;
   display: flex;

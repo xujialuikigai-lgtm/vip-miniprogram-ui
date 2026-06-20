@@ -37,9 +37,34 @@
 }
 
 /* select / cascader 单元格：去除默认内边距 */
-.dynamic-form__select {
-  --td-cell-horizontal-padding: 0;
-  --td-cell-vertical-padding: 8rpx;
+.dynamic-form__select-row {
+  display: flex;
+  align-items: center;
+  min-height: 56rpx;
+  padding: 8rpx 0;
+}
+
+.dynamic-form__select-value,
+.dynamic-form__select-placeholder {
+  flex: 1;
+  min-width: 0;
+  font-size: 28rpx;
+  line-height: 1.4;
+}
+
+.dynamic-form__select-value {
+  color: #333333;
+}
+
+.dynamic-form__select-placeholder {
+  color: #999999;
+}
+
+.dynamic-form__select-arrow {
+  margin-left: 12rpx;
+  color: #999999;
+  font-size: 36rpx;
+  line-height: 1;
 }
 
 /* 错误提示文案 */

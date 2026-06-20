@@ -20,6 +20,19 @@
   color: #999999;
 }
 
+.state-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 999rpx;
+  background: #eef2f6;
+  color: #8a95a5;
+  font-size: 48rpx;
+  font-weight: 900;
+}
+
 /* 状态头部 */
 .hero {
   margin: 24rpx;
@@ -61,6 +74,14 @@
   padding: 16rpx 20rpx;
   border-radius: 12rpx;
   background-color: rgba(244, 67, 54, 0.16);
+}
+
+.hero__fail-icon {
+  flex-shrink: 0;
+  color: #ffb4a8;
+  font-size: 26rpx;
+  font-weight: 900;
+  line-height: 1.5;
 }
 
 .hero__fail-text {
@@ -153,6 +174,16 @@
   margin-right: 8rpx;
   word-break: break-all;
   text-align: right;
+}
+
+.copy-mark {
+  flex-shrink: 0;
+  padding: 4rpx 10rpx;
+  border-radius: 999rpx;
+  background: #fff4ce;
+  color: #8b641b;
+  font-size: 22rpx;
+  font-weight: 800;
 }
 
 /* 接口调用日志 */

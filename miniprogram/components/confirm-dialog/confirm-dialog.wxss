@@ -156,6 +156,6 @@
   color: #6d4a0d;
 }
 
-.confirm-dialog__btn[disabled] {
+.confirm-dialog__btn--disabled {
   opacity: 0.65;
 }

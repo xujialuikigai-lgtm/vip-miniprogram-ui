@@ -21,7 +21,7 @@
   <block wx:else>
   <view class="category-top">
     <view class="category-search" bindtap="goSearch">
-      <t-icon name="search" size="34rpx" color="#7a8494" />
+      <text class="category-search__icon">⌕</text>
       <text>搜索会员名称或平台</text>
     </view>
     <view class="category-filter-tip">

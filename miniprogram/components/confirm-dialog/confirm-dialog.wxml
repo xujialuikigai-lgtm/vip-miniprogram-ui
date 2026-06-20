@@ -65,7 +65,7 @@
         {{cancelText || '返回修改'}}
       </button>
       <button
-        class="confirm-dialog__btn confirm-dialog__btn--primary"
+        class="confirm-dialog__btn confirm-dialog__btn--primary {{confirmLoading ? 'confirm-dialog__btn--disabled' : ''}}"
         loading="{{confirmLoading}}"
         disabled="{{confirmLoading}}"
         aria-role="button"
