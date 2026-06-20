@@ -172,6 +172,10 @@ Page<CategoryPageData, WechatMiniprogram.IAnyObject>({
     this.loadProducts(false);
   },
 
+  goSearch() {
+    wx.navigateTo({ url: '/pages/search/search' });
+  },
+
   decorateProducts(products: Product[]): Product[] {
     return (products || []).map((product) => ({
       ...product,

@@ -79,6 +79,14 @@ Page({
         this.setData({ activeTab: value });
         this.loadList(true);
     },
+    /** 自绘胶囊 Tab 点击 */
+    onTabTap(e) {
+        const value = e.currentTarget.dataset.value;
+        if (!value || value === this.data.activeTab)
+            return;
+        this.setData({ activeTab: value });
+        this.loadList(true);
+    },
     /**
      * 加载订单列表
      * @param reset 是否重置到第一页（切换 Tab / 下拉刷新 / 首次加载）

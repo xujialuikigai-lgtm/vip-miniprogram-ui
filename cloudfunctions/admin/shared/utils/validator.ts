@@ -35,7 +35,8 @@ export function isFormComplete(
  * - categoryId 非空
  * - packages 至少有1个
  * - 至少有一个 package 的 isDefault 为 true
- * - 每个 package 的 price > 0
+ * - 上架套餐必须 price > 0
+ * - 商品上架时至少有一个可售套餐
  */
 export function validateProductForm(product: Partial<Product>): {
   valid: boolean;
@@ -63,10 +64,19 @@ export function validateProductForm(product: Partial<Product>): {
       errors.push('至少需要指定一个默认套餐');
     }
 
-    // 每个 package 的 price > 0
-    const invalidPrice = product.packages.some((pkg) => pkg.price <= 0);
+    // 下架套餐允许作为待配置草稿；只有可售套餐必须有正价
+    const invalidPrice = product.packages.some((pkg) => pkg.online !== false && pkg.price <= 0);
     if (invalidPrice) {
-      errors.push('每个套餐的售价必须大于0');
+      errors.push('上架套餐的售价必须大于0');
+    }
+
+    if (product.online) {
+      const hasSellablePackage = product.packages.some(
+        (pkg) => pkg.online !== false && typeof pkg.price === 'number' && pkg.price > 0
+      );
+      if (!hasSellablePackage) {
+        errors.push('商品上架前至少需要一个已上架且售价大于0的套餐');
+      }
     }
   }
 

@@ -4,25 +4,27 @@
   <view class="search-bar" bindtap="goSearch">
     <view class="search-box">
       <t-icon name="search" size="36rpx" color="#999" />
-      <text class="search-placeholder">搜索会员权益 / 视频 / 音乐 / 网盘</text>
+      <text class="search-placeholder">搜索视频、音乐、网盘会员</text>
     </view>
   </view>
 
   <!-- 信任 Hero 区（22.1）：到账时间 / 累计订单数 / 续费说明 -->
-  <view class="hero">
-    <view class="hero-item">
-      <text class="hero-value">1-5分钟</text>
-      <text class="hero-label">常规到账</text>
-    </view>
-    <view class="hero-divider"></view>
-    <view class="hero-item">
-      <text class="hero-value">{{orderCount || '海量'}}</text>
-      <text class="hero-label">累计订单</text>
-    </view>
-    <view class="hero-divider"></view>
-    <view class="hero-item">
-      <text class="hero-value">0续费</text>
-      <text class="hero-label">无套路</text>
+  <view class="trust-hero">
+    <view class="trust-hero__title">会员权益充值中心</view>
+    <view class="trust-hero__desc">支付后自动提交开通，订单全程可查，失败原路退款。</view>
+    <view class="hero-metrics">
+      <view class="hero-item">
+        <text class="hero-value">1-5分钟</text>
+        <text class="hero-label">常规到账</text>
+      </view>
+      <view class="hero-item">
+        <text class="hero-value">{{orderCount || '海量'}}</text>
+        <text class="hero-label">累计订单</text>
+      </view>
+      <view class="hero-item">
+        <text class="hero-value">0续费</text>
+        <text class="hero-label">不会扣款</text>
+      </view>
     </view>
   </view>
 

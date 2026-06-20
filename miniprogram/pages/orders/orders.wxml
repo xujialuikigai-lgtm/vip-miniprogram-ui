@@ -2,18 +2,15 @@
 <view class="page-orders">
   <!-- 状态筛选 Tab（全部/开通中/开通成功/退款），默认"全部" -->
   <view class="orders-tabs">
-    <t-tabs
-      value="{{activeTab}}"
-      t-class-active="orders-tabs__active"
-      bind:change="onTabChange"
+    <view
+      wx:for="{{tabs}}"
+      wx:key="value"
+      class="orders-tab {{activeTab === item.value ? 'orders-tab--active' : ''}}"
+      data-value="{{item.value}}"
+      bindtap="onTabTap"
     >
-      <t-tab-panel
-        wx:for="{{tabs}}"
-        wx:key="value"
-        label="{{item.label}}"
-        value="{{item.value}}"
-      />
-    </t-tabs>
+      {{item.label}}
+    </view>
   </view>
 
   <view class="container">

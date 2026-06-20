@@ -36,6 +36,10 @@ Component({
                 this.updateDisplay(value);
             },
         },
+        compact: {
+            type: Boolean,
+            value: false,
+        },
     },
     data: {
         // 现价（元，已格式化）

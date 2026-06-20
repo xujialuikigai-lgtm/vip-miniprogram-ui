@@ -1,172 +1,255 @@
 /* 管理端商品运营列表页样式 */
 .page-products {
   min-height: 100vh;
-  background: #f5f5f5;
-  /* 主题色变量，供 TDesign 子组件继承 */
-  --td-brand-color: #c99a3a;
   padding-bottom: 40rpx;
+  background:
+    linear-gradient(rgba(20, 184, 166, 0.04) 1rpx, transparent 1rpx),
+    linear-gradient(90deg, rgba(20, 184, 166, 0.04) 1rpx, transparent 1rpx),
+    #f5f7f8;
+  background-size: 40rpx 40rpx;
+  --td-brand-color: #c99a3a;
 }
 
-/* ============ 数据概览卡片 ============ */
-.overview {
-  display: flex;
-  align-items: center;
-  background: #ffffff;
+.ops-hero {
   margin: 24rpx;
-  padding: 32rpx 0;
-  border-radius: 16rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  padding: 32rpx;
+  border-radius: 18rpx;
+  background:
+    radial-gradient(circle at 80% 12%, rgba(25, 181, 155, 0.32) 0, rgba(25, 181, 155, 0) 34%),
+    linear-gradient(135deg, #113d3c 0%, #08242a 100%);
+  color: #f8fbfb;
+  box-shadow: 0 20rpx 42rpx rgba(8, 36, 42, 0.18);
+}
+
+.ops-hero__title {
+  font-size: 38rpx;
+  font-weight: 800;
+  color: #f8fbfb;
+}
+
+.ops-hero__desc {
+  margin-top: 10rpx;
+  font-size: 25rpx;
+  line-height: 1.5;
+  color: rgba(248, 251, 251, 0.82);
+}
+
+.overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16rpx;
+  margin-top: 28rpx;
 }
 
 .overview__item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  min-width: 0;
+  padding: 18rpx 16rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.16);
+  border-radius: 14rpx;
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .overview__num {
-  font-size: 44rpx;
-  font-weight: 700;
-  color: #333333;
+  font-size: 38rpx;
+  font-weight: 800;
+  color: #ffffff;
   line-height: 1.2;
 }
 
 .overview__num--on {
-  color: #4caf50;
+  color: #bff5df;
 }
 
 .overview__num--off {
-  color: #999999;
+  color: #d5dee9;
 }
 
 .overview__label {
   margin-top: 8rpx;
-  font-size: 24rpx;
-  color: #999999;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.72);
 }
 
-.overview__divider {
-  width: 1rpx;
-  height: 56rpx;
-  background: #eeeeee;
-}
-
-/* ============ 快捷操作按钮 ============ */
 .actions {
   display: flex;
-  gap: 24rpx;
-  padding: 0 24rpx 8rpx;
+  gap: 18rpx;
+  margin-top: 26rpx;
 }
 
 .actions__btn {
   flex: 1;
+  height: 76rpx;
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  font-weight: 800;
+  line-height: 76rpx;
+  padding: 0;
 }
 
-/* ============ 状态筛选 Tab ============ */
+.actions__btn::after {
+  border: none;
+}
+
+.actions__btn--gold {
+  background: linear-gradient(180deg, #f8d971 0%, #e7b940 100%);
+  color: #6d4a0d;
+}
+
+.actions__btn--plain {
+  border: 1rpx solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.12);
+  color: #f8fbfb;
+}
+
 .products-tabs {
   position: sticky;
   top: 0;
   z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
+  padding: 0 24rpx 18rpx;
+  background: rgba(245, 247, 248, 0.96);
+  backdrop-filter: blur(12rpx);
+}
+
+.products-tab {
+  height: 64rpx;
+  border-radius: 14rpx;
   background: #ffffff;
-  margin-top: 16rpx;
+  color: #566276;
+  font-size: 26rpx;
+  font-weight: 700;
+  line-height: 64rpx;
+  text-align: center;
 }
 
-.products-tabs__active {
-  color: #c99a3a !important;
-  font-weight: 600;
+.products-tab--active {
+  border: 1rpx solid #eac86f;
+  background: #fff4ce;
+  color: #8b641b;
 }
 
-/* ============ 列表容器 ============ */
 .container {
-  padding: 16rpx 24rpx 0;
+  padding: 0 24rpx;
 }
 
-/* ============ 商品卡片 ============ */
 .product-card {
-  background: #ffffff;
-  border-radius: 16rpx;
-  padding: 24rpx;
   margin-bottom: 20rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  padding: 26rpx;
+  border-radius: 18rpx;
+  background: #ffffff;
+  box-shadow: 0 14rpx 36rpx rgba(21, 32, 51, 0.05);
 }
 
 .product-card__head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 18rpx;
 }
 
 .product-card__name {
   flex: 1;
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #333333;
-  margin-right: 16rpx;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  font-size: 31rpx;
+  font-weight: 800;
+  color: #17202f;
+  line-height: 1.35;
 }
 
-/* 价格信息行 */
+.product-card__status {
+  flex-shrink: 0;
+  padding: 7rpx 14rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  font-weight: 800;
+}
+
+.product-card__status.is-online {
+  background: #ddf8ee;
+  color: #0d9b7e;
+}
+
+.product-card__status.is-pending {
+  background: #fff4ce;
+  color: #8b641b;
+}
+
+.product-card__status.is-offline {
+  background: #eef2f6;
+  color: #7a8494;
+}
+
+.product-card__sub {
+  margin-top: 8rpx;
+  color: #617084;
+  font-size: 24rpx;
+  line-height: 1.45;
+}
+
 .product-card__prices {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14rpx;
   margin-top: 24rpx;
-  padding: 20rpx 0;
-  border-top: 1rpx solid #f5f5f5;
-  border-bottom: 1rpx solid #f5f5f5;
 }
 
 .price-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  min-width: 0;
+  padding: 18rpx 14rpx;
+  border-radius: 14rpx;
+  background: #f7f9fb;
 }
 
 .price-item__label {
   font-size: 22rpx;
-  color: #999999;
+  color: #617084;
 }
 
 .price-item__value {
+  display: block;
   margin-top: 8rpx;
   font-size: 28rpx;
-  font-weight: 600;
-  color: #333333;
+  font-weight: 800;
+  color: #17202f;
+  word-break: break-all;
 }
 
 .price-item__value--price {
-  color: #c99a3a;
+  color: #9a6c13;
 }
 
 .price-item__value--profit {
-  color: #4caf50;
+  color: #0d9b7e;
 }
 
 .price-item__value--loss {
-  color: #f44336;
+  color: #df4f43;
 }
 
-/* 卡片底部 */
 .product-card__foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 20rpx;
+  gap: 18rpx;
 }
 
 .product-card__meta {
   display: flex;
-  flex-direction: column;
-  gap: 6rpx;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 10rpx 14rpx;
 }
 
 .meta-text {
-  font-size: 22rpx;
-  color: #999999;
+  font-size: 23rpx;
+  color: #617084;
 }
 
 .product-card__switch {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
 }

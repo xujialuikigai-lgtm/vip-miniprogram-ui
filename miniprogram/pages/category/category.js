@@ -136,6 +136,9 @@ Page({
     onReachBottom() {
         this.loadProducts(false);
     },
+    goSearch() {
+        wx.navigateTo({ url: '/pages/search/search' });
+    },
     decorateProducts(products) {
         return (products || []).map((product) => (Object.assign(Object.assign({}, product), { displayIcon: this.pickRenderableImageUrl(product.brandIcon) })));
     },

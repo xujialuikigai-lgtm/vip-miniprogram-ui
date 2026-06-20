@@ -48,6 +48,8 @@ Page({
     amountText: '0.00',
     /** Hero 区文案 */
     hero: { title: '支付成功', subtitle: '正在为你开通权益…', icon: 'check-circle-filled' } as HeroText,
+    /** 摘要状态 */
+    statusLabel: '开通中',
     /** 是否正在刷新进度 */
     refreshing: false,
     /** 失败原因（开通失败时展示） */
@@ -129,7 +131,8 @@ Page({
       timeline: timeline || order.timeline || [],
       amountText: formatPrice(order.amount),
       failReason: failReason || '',
-      hero: this.buildHero(order.status)
+      hero: this.buildHero(order.status),
+      statusLabel: this.buildStatusLabel(order.status)
     });
   },
 
@@ -151,6 +154,21 @@ Page({
       default:
         // paid / activating：支付成功，正在开通
         return { title: '支付成功', subtitle: '正在为你开通权益，预计很快到账', icon: 'check-circle-filled' };
+    }
+  },
+
+  buildStatusLabel(status: OrderStatus): string {
+    switch (status) {
+      case OrderStatus.SUCCESS:
+        return '开通成功';
+      case OrderStatus.API_FAILED:
+        return '开通失败';
+      case OrderStatus.REFUNDING:
+        return '退款中';
+      case OrderStatus.REFUNDED:
+        return '已退款';
+      default:
+        return '开通中';
     }
   },
 

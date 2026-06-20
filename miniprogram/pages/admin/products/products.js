@@ -60,6 +60,14 @@ Page({
         this.setData({ activeTab: value });
         this.loadList();
     },
+    /** 自绘胶囊 Tab 点击 */
+    onTabTap(e) {
+        const value = e.currentTarget.dataset.value;
+        if (!value || value === this.data.activeTab)
+            return;
+        this.setData({ activeTab: value });
+        this.loadList();
+    },
     /** 骨架屏超时 / 异常态重试 */
     onRetry() {
         this.loadList();
@@ -87,7 +95,10 @@ Page({
         const stats = (res.data && res.data.stats) || { total: 0, online: 0, offline: 0 };
         const rawList = (res.data && res.data.list) || [];
         // 补充格式化字段
-        const list = rawList.map((p) => (Object.assign(Object.assign({}, p), { priceText: toFixed2(p.price), costText: toFixed2(p.costPrice), profitText: toFixed2(p.profit), loss: (p.profit || 0) < 0 })));
+        const list = rawList.map((p) => {
+            const pendingConfig = !(p.price > 0) || !((p.sellablePackages || 0) > 0);
+            return Object.assign(Object.assign({}, p), { priceText: toFixed2(p.price), costText: toFixed2(p.costPrice), profitText: toFixed2(p.profit), loss: (p.profit || 0) < 0, pendingConfig, statusText: p.online ? '已上架' : pendingConfig ? '待配置' : '已下架' });
+        });
         this.setData({
             stats,
             list,

@@ -1,7 +1,11 @@
 /* 订单详情页样式 */
 .page-order-detail {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background:
+    linear-gradient(rgba(20, 184, 166, 0.04) 1rpx, transparent 1rpx),
+    linear-gradient(90deg, rgba(20, 184, 166, 0.04) 1rpx, transparent 1rpx),
+    #f5f7f8;
+  background-size: 40rpx 40rpx;
   padding-bottom: 32rpx;
 }
 
@@ -23,24 +27,26 @@
 /* 状态 Hero 区（暗色卡片） */
 .hero {
   margin: 24rpx;
-  padding: 40rpx 36rpx;
-  border-radius: 24rpx;
-  background: linear-gradient(135deg, #3a342a 0%, #1f1c17 100%);
+  padding: 40rpx 34rpx 34rpx;
+  border-radius: 18rpx;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(30, 177, 153, 0.34) 0, rgba(30, 177, 153, 0) 35%),
+    linear-gradient(135deg, #113d3c 0%, #08242a 100%);
   color: #ffffff;
-  box-shadow: 0 8rpx 24rpx rgba(31, 28, 23, 0.2);
+  box-shadow: 0 20rpx 42rpx rgba(8, 36, 42, 0.18);
 }
 
 .hero__status {
-  font-size: 40rpx;
-  font-weight: 700;
-  color: #f5d9a0;
+  font-size: 42rpx;
+  font-weight: 800;
+  color: #ffffff;
 }
 
 .hero__desc {
   margin-top: 16rpx;
   font-size: 26rpx;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 /* 失败原因 */
@@ -49,7 +55,7 @@
   align-items: flex-start;
   margin-top: 20rpx;
   padding: 16rpx 20rpx;
-  border-radius: 12rpx;
+  border-radius: 14rpx;
   background-color: rgba(255, 90, 70, 0.16);
 }
 
@@ -62,32 +68,32 @@
 
 /* 三指标 */
 .hero__metrics {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16rpx;
   margin-top: 36rpx;
-  padding-top: 32rpx;
-  border-top: 1rpx solid rgba(255, 255, 255, 0.12);
 }
 
 .metric {
-  flex: 1;
-  text-align: center;
-}
-
-.metric--mid {
-  border-left: 1rpx solid rgba(255, 255, 255, 0.12);
-  border-right: 1rpx solid rgba(255, 255, 255, 0.12);
+  min-width: 0;
+  padding: 18rpx 16rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.16);
+  border-radius: 14rpx;
+  background: rgba(255, 255, 255, 0.12);
+  text-align: left;
 }
 
 .metric__value {
   font-size: 28rpx;
-  font-weight: 600;
+  font-weight: 800;
   color: #ffffff;
+  word-break: break-all;
 }
 
 .metric__label {
   margin-top: 8rpx;
   font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 /* 通用卡片 */
@@ -95,14 +101,15 @@
   margin: 24rpx;
   padding: 32rpx;
   background-color: #ffffff;
-  border-radius: 20rpx;
+  border-radius: 18rpx;
+  box-shadow: 0 14rpx 36rpx rgba(21, 32, 51, 0.05);
 }
 
 .card__title {
   margin-bottom: 24rpx;
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #333333;
+  font-size: 32rpx;
+  font-weight: 800;
+  color: #17202f;
 }
 
 /* 信息行 */
@@ -120,7 +127,7 @@
 
 .info-row__label {
   font-size: 26rpx;
-  color: #999999;
+  color: #617084;
   flex-shrink: 0;
 }
 
@@ -131,17 +138,18 @@
 
 .info-row__text {
   font-size: 26rpx;
-  color: #333333;
+  color: #17202f;
   margin-right: 8rpx;
   word-break: break-all;
   text-align: right;
+  font-weight: 700;
 }
 
 /* 温馨提示 */
 .notice__item {
   font-size: 24rpx;
   line-height: 1.8;
-  color: #999999;
+  color: #617084;
 }
 
 /* 底部占位与固定操作栏 */
@@ -155,10 +163,10 @@
   right: 0;
   bottom: 0;
   display: flex;
-  gap: 20rpx;
+  gap: 18rpx;
   padding: 16rpx 24rpx calc(16rpx + env(safe-area-inset-bottom));
   background-color: #ffffff;
-  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.04);
+  box-shadow: 0 -8rpx 28rpx rgba(21, 32, 51, 0.06);
 }
 
 .footer__btn {

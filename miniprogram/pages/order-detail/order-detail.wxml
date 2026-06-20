@@ -46,7 +46,7 @@
 
     <!-- 订单进度时间轴（需求 20.3） -->
     <view class="card">
-      <view class="card__title">开通进度</view>
+      <view class="card__title">订单进度</view>
       <timeline timeline="{{timeline}}" timeFormat="time" />
     </view>
 

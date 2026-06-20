@@ -109,7 +109,7 @@ Page({
       res.data.categories
         .filter((c) => c.showInTab)
         .sort((a, b) => (a.tabSort || 0) - (b.tabSort || 0))
-        .forEach((c) => tabs.push({ label: c.name, categoryId: c.categoryId }));
+        .forEach((c) => tabs.push({ label: this.formatTabLabel(c.name), categoryId: c.categoryId }));
     }
 
     this.setData({ tabs, activeTab: 0 });
@@ -207,6 +207,19 @@ Page({
       return value;
     }
     return '';
+  },
+
+  formatTabLabel(name: string): string {
+    const map: Record<string, string> = {
+      视频会员: '视频',
+      音乐: '音乐',
+      阅读听书: '阅读',
+      网盘: '网盘',
+      办公工具: '工具',
+      运动健身: '健身',
+      共享单车: '单车'
+    };
+    return map[name] || String(name || '').replace(/会员$/, '');
   },
 
   /**

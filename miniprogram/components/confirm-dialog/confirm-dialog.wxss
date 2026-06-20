@@ -1,58 +1,94 @@
 /* 确认弹窗样式（底部弹出） */
 .confirm-dialog {
-  padding: 40rpx 32rpx calc(32rpx + env(safe-area-inset-bottom));
-  border-radius: 24rpx 24rpx 0 0;
+  padding: 18rpx 32rpx calc(34rpx + env(safe-area-inset-bottom));
+  border-radius: 28rpx 28rpx 0 0;
   background: #ffffff;
 }
 
+.confirm-dialog__handle {
+  width: 72rpx;
+  height: 8rpx;
+  margin: 0 auto 30rpx;
+  border-radius: 999rpx;
+  background: #dfe5ea;
+}
+
 /* 标题 */
+.confirm-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28rpx;
+}
+
 .confirm-dialog__title {
-  font-size: 34rpx;
-  font-weight: 600;
-  color: #333333;
-  text-align: center;
-  margin-bottom: 32rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #17202f;
+}
+
+.confirm-dialog__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 16rpx;
+  background: #f5f7f8;
+  color: #6b7280;
+  font-size: 44rpx;
+  line-height: 1;
 }
 
 /* 通用文本内容 */
 .confirm-dialog__content {
   font-size: 28rpx;
-  color: #666666;
+  color: #5d6878;
   line-height: 1.6;
   margin-bottom: 24rpx;
 }
 
 /* 核对信息区 */
 .confirm-dialog__info {
-  background: #fafafa;
-  border-radius: 16rpx;
-  padding: 8rpx 24rpx;
+  padding: 2rpx 0;
 }
 
 .confirm-dialog__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20rpx 0;
+  padding: 17rpx 0;
   font-size: 28rpx;
   line-height: 1.5;
 }
 
 .confirm-dialog__row + .confirm-dialog__row {
-  border-top: 1rpx solid #f0f0f0;
+  border-top: 0;
 }
 
 .confirm-dialog__label {
-  color: #999999;
+  color: #617084;
   flex-shrink: 0;
   margin-right: 24rpx;
 }
 
 .confirm-dialog__value {
-  color: #333333;
+  color: #152033;
   text-align: right;
   flex: 1;
   word-break: break-all;
+  font-weight: 700;
+}
+
+.confirm-dialog__notice {
+  margin-top: 20rpx;
+  padding: 20rpx 22rpx;
+  border: 1rpx solid #f3d79a;
+  border-radius: 14rpx;
+  background: #fff7e7;
+  color: #7a591b;
+  font-size: 24rpx;
+  line-height: 1.65;
 }
 
 /* 应付金额 */
@@ -60,12 +96,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 32rpx 8rpx 8rpx;
+  padding: 28rpx 0 10rpx;
 }
 
 .confirm-dialog__amount-label {
   font-size: 28rpx;
-  color: #333333;
+  color: #17202f;
+  font-weight: 700;
 }
 
 .confirm-dialog__amount-num {
@@ -81,7 +118,7 @@
 }
 
 .confirm-dialog__amount-value {
-  font-size: 44rpx;
+  font-size: 52rpx;
   color: #c99a3a;
   font-weight: 700;
 }
@@ -90,13 +127,35 @@
 .confirm-dialog__actions {
   display: flex;
   align-items: center;
-  margin-top: 40rpx;
+  gap: 18rpx;
+  margin-top: 32rpx;
 }
 
 .confirm-dialog__btn {
   flex: 1;
+  height: 88rpx;
+  border-radius: 14rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  line-height: 88rpx;
+  padding: 0;
 }
 
-.confirm-dialog__btn + .confirm-dialog__btn {
-  margin-left: 24rpx;
+.confirm-dialog__btn::after {
+  border: none;
+}
+
+.confirm-dialog__btn--ghost {
+  border: 1rpx solid #dfe6ed;
+  background: #ffffff;
+  color: #4b5565;
+}
+
+.confirm-dialog__btn--primary {
+  background: linear-gradient(180deg, #f8d971 0%, #e7b940 100%);
+  color: #6d4a0d;
+}
+
+.confirm-dialog__btn[disabled] {
+  opacity: 0.65;
 }

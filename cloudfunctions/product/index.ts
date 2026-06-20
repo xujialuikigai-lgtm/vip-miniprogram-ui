@@ -491,7 +491,7 @@ for (const group of TARGET_SYNC_GROUPS) {
 
 const TARGET_CATEGORY_IDS = TARGET_SYNC_GROUPS.map((group) => group.categoryId);
 
-/** 顺势商品类型：1=卡密，2=直充。当前业务只同步直充商品。 */
+/** 顺势商品类型：1=卡密，2=直充。顺势部分商品类型标记不稳定，所以只作为强信号。 */
 const SHUNSHI_GOODS_TYPE_DIRECT = 2;
 /** 即使 goods_type=2，也不作为会员多多上架目标的资源型/卡券型商品。 */
 const NON_DIRECT_NAME_KEYWORDS = [
@@ -513,6 +513,20 @@ const NON_DIRECT_NAME_KEYWORDS = [
   '账号密码',
   '号密',
   '代挂'
+];
+/** 名称里出现这些词时，即使 goods_type 未标成 2，也按可运营直充候选保留。 */
+const DIRECT_CANDIDATE_NAME_KEYWORDS = [
+  '直充',
+  '手机号',
+  '手机',
+  '月卡',
+  '季卡',
+  '年卡',
+  '会员',
+  'svip',
+  'vip',
+  '绿钻',
+  '超级会员'
 ];
 
 /**
@@ -828,9 +842,14 @@ function shouldSyncTargetProduct(item: ShunshiProductListItem, keyword: string):
 }
 
 function isDirectRechargeProduct(item: ShunshiProductListItem): boolean {
-  if (Number(item.goods_type) !== SHUNSHI_GOODS_TYPE_DIRECT) return false;
   const name = normalizeSearchText(item.goods_name || '');
-  return !NON_DIRECT_NAME_KEYWORDS.some((word) => name.indexOf(normalizeSearchText(word)) >= 0);
+  if (NON_DIRECT_NAME_KEYWORDS.some((word) => name.indexOf(normalizeSearchText(word)) >= 0)) {
+    return false;
+  }
+  if (Number(item.goods_type) === SHUNSHI_GOODS_TYPE_DIRECT) return true;
+  return DIRECT_CANDIDATE_NAME_KEYWORDS.some(
+    (word) => name.indexOf(normalizeSearchText(word)) >= 0
+  );
 }
 
 function normalizeSearchText(text: string): string {

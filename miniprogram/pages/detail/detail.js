@@ -8,6 +8,7 @@
 // Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 16.4
 import { requestSilent } from '../../utils/request';
 import { formatPrice } from '../../utils/format';
+import { isValidPhone } from '../../utils/validator';
 import { PageState } from '../../utils/types';
 function pickRenderableImageUrl(...urls) {
     for (const url of urls) {
@@ -54,6 +55,9 @@ Page({
         formValues: {},
         // 表单是否完整（联动购买按钮禁用态）
         formComplete: false,
+        // 接口未返回 attach 模板时，默认走手机号直充输入
+        fallbackPhone: '',
+        fallbackPhoneValid: false,
         // —— 购买核对弹窗 ——
         // 弹窗是否可见
         dialogVisible: false,
@@ -142,7 +146,7 @@ Page({
         this.refreshMemberType(activeMemberType, target ? target.packageId : '');
         // 非保留场景重置表单
         if (!keepForm) {
-            this.setData({ formValues: {}, formComplete: false });
+            this.setData({ formValues: {}, formComplete: false, fallbackPhone: '', fallbackPhoneValid: false });
         }
     },
     /**
@@ -216,6 +220,14 @@ Page({
     onFormStatusChange(e) {
         this.setData({ formComplete: !!(e.detail && e.detail.complete) });
     },
+    onFallbackPhoneInput(e) {
+        const value = String((e.detail && e.detail.value) || '').replace(/\D/g, '').slice(0, 11);
+        this.setData({
+            fallbackPhone: value,
+            fallbackPhoneValid: isValidPhone(value),
+            formValues: Object.assign(Object.assign({}, this.data.formValues), { phone: value })
+        });
+    },
     /**
      * 从表单值中提取充值账号（用于核对弹窗脱敏展示）
      * 优先取手机号字段，其次首个 text 字段。
@@ -223,6 +235,9 @@ Page({
     extractAccount() {
         const template = this.data.attachTemplate || [];
         const values = this.data.formValues || {};
+        if (template.length === 0 && this.data.fallbackPhone) {
+            return String(this.data.fallbackPhone);
+        }
         // 优先手机号字段
         const phoneField = template.find((f) => f.type === 'text' &&
             ((f.tip || '').indexOf('手机号') >= 0 ||
@@ -263,6 +278,13 @@ Page({
                 return;
             }
             this.setData({ formValues: result.values });
+        }
+        else if (!this.data.fallbackPhoneValid) {
+            wx.showToast({ title: '请输入11位手机号', icon: 'none' });
+            return;
+        }
+        else {
+            this.setData({ formValues: { phone: this.data.fallbackPhone } });
         }
         // 价格一致性校验（Req 3.2/3.3）：重新拉取详情比对当前套餐价格
         const fresh = await requestSilent({

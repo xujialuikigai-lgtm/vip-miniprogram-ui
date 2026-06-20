@@ -18,7 +18,19 @@
   </view>
 
   <!-- 正常双栏布局 -->
-  <view wx:else class="category-layout">
+  <block wx:else>
+  <view class="category-top">
+    <view class="category-search" bindtap="goSearch">
+      <t-icon name="search" size="34rpx" color="#7a8494" />
+      <text>搜索会员名称或平台</text>
+    </view>
+    <view class="category-filter-tip">
+      <text class="category-filter-tip__dot"></text>
+      <text>支持按平台、周期、到账方式快速筛选</text>
+    </view>
+  </view>
+
+  <view class="category-layout">
 
     <!-- 左侧分类侧边栏 -->
     <scroll-view class="category-side" scroll-y enhanced show-scrollbar="{{false}}">
@@ -70,6 +82,7 @@
           wx:key="productId"
           class="category-main__card"
           product="{{item}}"
+          compact="{{true}}"
           bind:tap="onProductTap"
         />
 
@@ -83,4 +96,5 @@
       </view>
     </scroll-view>
   </view>
+  </block>
 </view>

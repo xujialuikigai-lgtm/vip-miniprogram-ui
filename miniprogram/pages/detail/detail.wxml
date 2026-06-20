@@ -155,7 +155,17 @@
 
       <!-- 金额 + 购买按钮 -->
       <view class="paybar__action">
-        <view class="paybar__amount">
+        <view wx:if="{{attachTemplate.length === 0}}" class="paybar__phone">
+          <input
+            class="paybar__phone-input"
+            type="number"
+            maxlength="11"
+            value="{{fallbackPhone}}"
+            placeholder="请输入绑定手机号"
+            bindinput="onFallbackPhoneInput"
+          />
+        </view>
+        <view wx:else class="paybar__amount">
           <text class="paybar__amount-label">合计</text>
           <text wx:if="{{amountText !== '待配置'}}" class="paybar__amount-symbol">¥</text>
           <text class="paybar__amount-value {{amountText === '待配置' ? 'paybar__amount-value--pending' : ''}}">{{amountText}}</text>
@@ -164,7 +174,7 @@
           class="paybar__btn"
           theme="primary"
           size="large"
-          disabled="{{!selectedPackage || !selectedPackage.online || selectedPackage.price <= 0 || (attachTemplate.length > 0 && !formComplete)}}"
+          disabled="{{!selectedPackage || !selectedPackage.online || selectedPackage.price <= 0 || (attachTemplate.length > 0 && !formComplete) || (attachTemplate.length === 0 && !fallbackPhoneValid)}}"
           bindtap="onBuyTap"
         >
           {{selectedPackage && selectedPackage.online && selectedPackage.price > 0 ? '立即购买' : '待配置'}}

@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "分类",
+  "backgroundColor": "#f5f7f8",
   "onReachBottomDistance": 80,
   "usingComponents": {
     "product-card": "../../components/product-card/product-card",

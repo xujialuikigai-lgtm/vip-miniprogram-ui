@@ -1,6 +1,6 @@
 <!-- 商品卡片组件：展示品牌图标、名称、标签、销量、现价与划线原价 -->
 <view
-  class="product-card"
+  class="product-card {{compact ? 'product-card--compact' : ''}}"
   hover-class="product-card--hover"
   hover-stay-time="80"
   bindtap="onTap"
@@ -27,17 +27,22 @@
     <view class="product-card__name">{{product.name}}</view>
 
     <!-- 标签 -->
-    <view class="product-card__tags" wx:if="{{product.tags && product.tags.length > 0}}">
-      <t-tag
-        wx:for="{{product.tags}}"
-        wx:key="*this"
-        wx:if="{{index < 3}}"
-        class="product-card__tag"
-        size="small"
-        variant="light"
-        theme="primary"
-      >{{item}}</t-tag>
+    <view class="product-card__tags">
+      <block wx:if="{{product.tags && product.tags.length > 0}}">
+        <text
+          wx:for="{{product.tags}}"
+          wx:key="*this"
+          wx:if="{{index < 3}}"
+          class="product-card__tag"
+        >{{item}}</text>
+      </block>
+      <block wx:else>
+        <text class="product-card__tag">权益直充</text>
+        <text class="product-card__tag">失败退款</text>
+      </block>
     </view>
+
+    <view class="product-card__meta">{{salesText || '订单可查'}}｜不自动续费</view>
 
     <!-- 价格与销量 -->
     <view class="product-card__footer">
@@ -51,7 +56,7 @@
         </block>
         <text wx:if="{{showOriginalPrice}}" class="product-card__price-origin">¥{{displayOriginalPrice}}</text>
       </view>
-      <text class="product-card__sales" wx:if="{{salesText}}">{{salesText}}</text>
+      <view class="product-card__action">{{pricePending ? '待配置' : '查看详情'}}</view>
     </view>
   </view>
 </view>

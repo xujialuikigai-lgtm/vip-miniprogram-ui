@@ -1,7 +1,11 @@
 /* 订单列表页样式 */
 .page-orders {
   min-height: 100vh;
-  background: #f5f5f5;
+  background:
+    linear-gradient(rgba(20, 184, 166, 0.04) 1rpx, transparent 1rpx),
+    linear-gradient(90deg, rgba(20, 184, 166, 0.04) 1rpx, transparent 1rpx),
+    #f5f7f8;
+  background-size: 40rpx 40rpx;
   /* 主题色变量，供子组件继承 */
   --td-brand-color: #c99a3a;
 }
@@ -11,18 +15,34 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #ffffff;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16rpx;
+  padding: 22rpx 24rpx 18rpx;
+  background: rgba(245, 247, 248, 0.96);
+  backdrop-filter: blur(12rpx);
 }
 
-/* 选中态文字使用主题色 */
-.orders-tabs__active {
-  color: #c99a3a !important;
-  font-weight: 600;
+.orders-tab {
+  height: 64rpx;
+  border-radius: 14rpx;
+  background: #ffffff;
+  color: #566276;
+  font-size: 26rpx;
+  font-weight: 700;
+  line-height: 64rpx;
+  text-align: center;
+}
+
+.orders-tab--active {
+  border: 1rpx solid #eac86f;
+  background: #fff4ce;
+  color: #8b641b;
 }
 
 /* 列表容器：底部留白，避免最后一张卡片贴边 */
 .container {
-  padding: 16rpx 0 40rpx;
+  padding: 6rpx 0 48rpx;
 }
 
 /* 触底加载提示 */

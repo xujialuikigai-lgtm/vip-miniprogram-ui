@@ -1,66 +1,47 @@
 <!-- 订单卡片 -->
 <view class="order-card" bindtap="onCardTap">
-  <!-- 顶部：订单号 + 状态标签 -->
   <view class="order-card__header">
-    <text class="order-card__order-no">订单号：{{order.orderId}}</text>
-    <t-tag
-      variant="light"
-      size="small"
-      style="--td-tag-light-color: {{statusColor}}; color: {{statusColor}}; border-color: {{statusColor}};"
-    >
-      {{statusText}}
-    </t-tag>
+    <view class="order-card__name">{{displayName}}</view>
+    <text class="order-card__status" style="color:{{statusColor}};">{{statusText}}</text>
   </view>
 
-  <!-- 中部：商品信息 -->
   <view class="order-card__body">
-    <view class="order-card__name">{{displayName}}</view>
-    <view class="order-card__row" wx:if="{{order.packageName}}">
-      <text class="order-card__label">套餐</text>
-      <text class="order-card__value">{{order.packageName}}</text>
-    </view>
     <view class="order-card__row" wx:if="{{maskedAccount}}">
-      <text class="order-card__label">账号</text>
+      <text class="order-card__label">充值账号：</text>
       <text class="order-card__value">{{maskedAccount}}</text>
     </view>
     <view class="order-card__row">
-      <text class="order-card__label">时间</text>
+      <text class="order-card__label">订单号：</text>
+      <text class="order-card__value">{{order.orderId}}</text>
+    </view>
+    <view class="order-card__row">
+      <text class="order-card__label">支付金额：</text>
+      <text class="order-card__value">¥{{displayAmount}}</text>
+      <text class="order-card__split">|</text>
+      <text class="order-card__label">下单时间：</text>
       <text class="order-card__value">{{displayTime}}</text>
     </view>
   </view>
 
-  <!-- 底部：金额 + 操作按钮 -->
   <view class="order-card__footer">
-    <view class="order-card__amount">
-      <text class="order-card__amount-label">实付</text>
-      <text class="order-card__amount-symbol">¥</text>
-      <text class="order-card__amount-value">{{displayAmount}}</text>
-    </view>
-
     <view class="order-card__actions" catchtap="catchActionTap">
-      <t-button
+      <button
         wx:if="{{showRefresh}}"
-        class="order-card__btn"
-        size="extra-small"
-        variant="outline"
-        theme="primary"
+        class="order-card__btn order-card__btn--plain"
         loading="{{refreshing}}"
         disabled="{{refreshing}}"
         bindtap="onRefreshTap"
       >
-        {{refreshing ? '刷新中' : '刷新进度'}}
-      </t-button>
+        {{refreshing ? '刷新中' : '查看进度'}}
+      </button>
 
-      <t-button
+      <button
         wx:if="{{showRebuy}}"
-        class="order-card__btn"
-        size="extra-small"
-        variant="outline"
-        theme="primary"
+        class="order-card__btn order-card__btn--gold"
         bindtap="onRebuyTap"
       >
         再买一次
-      </t-button>
+      </button>
     </view>
   </view>
 </view>

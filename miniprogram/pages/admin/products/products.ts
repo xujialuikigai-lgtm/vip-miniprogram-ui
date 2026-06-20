@@ -28,6 +28,9 @@ interface ProductListItem {
   costPrice: number;
   profit: number;
   shunshiGoodsId: number;
+  categoryName?: string;
+  pendingPackages?: number;
+  sellablePackages?: number;
   todaySales: number;
   sortWeight: number;
 }
@@ -61,6 +64,10 @@ interface ProductView extends ProductListItem {
   profitText: string;
   /** 是否亏损（利润 < 0，用于标红） */
   loss: boolean;
+  /** 是否待配置 */
+  pendingConfig: boolean;
+  /** 状态文案 */
+  statusText: string;
 }
 
 /** 无权限相关错误码（与 shared/utils/adminAuth.ts 保持一致） */
@@ -123,6 +130,14 @@ Page({
     this.loadList();
   },
 
+  /** 自绘胶囊 Tab 点击 */
+  onTabTap(this: any, e: WechatMiniprogram.BaseEvent) {
+    const value = e.currentTarget.dataset.value as string;
+    if (!value || value === this.data.activeTab) return;
+    this.setData({ activeTab: value });
+    this.loadList();
+  },
+
   /** 骨架屏超时 / 异常态重试 */
   onRetry(this: any) {
     this.loadList();
@@ -155,13 +170,18 @@ Page({
     const rawList = (res.data && res.data.list) || [];
 
     // 补充格式化字段
-    const list: ProductView[] = rawList.map((p) => ({
-      ...p,
-      priceText: toFixed2(p.price),
-      costText: toFixed2(p.costPrice),
-      profitText: toFixed2(p.profit),
-      loss: (p.profit || 0) < 0
-    }));
+    const list: ProductView[] = rawList.map((p) => {
+      const pendingConfig = !(p.price > 0) || !((p.sellablePackages || 0) > 0);
+      return {
+        ...p,
+        priceText: toFixed2(p.price),
+        costText: toFixed2(p.costPrice),
+        profitText: toFixed2(p.profit),
+        loss: (p.profit || 0) < 0,
+        pendingConfig,
+        statusText: p.online ? '已上架' : pendingConfig ? '待配置' : '已下架'
+      };
+    });
 
     this.setData({
       stats,

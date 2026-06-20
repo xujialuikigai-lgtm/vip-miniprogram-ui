@@ -19,6 +19,13 @@
 
   <!-- 表单主体 -->
   <view wx:else class="form-body">
+    <view class="edit-hero">
+      <view class="edit-hero__title">{{isEdit ? '商品编辑' : '新增商品'}}</view>
+      <view class="edit-hero__desc">配置接口商品、套餐售价和用户端展示规则。</view>
+      <view class="edit-hero__status {{online ? 'is-online' : 'is-offline'}}">
+        {{online ? '当前上架' : '当前下架'}}
+      </view>
+    </view>
 
     <!-- 基础信息 -->
     <view class="section">
@@ -131,7 +138,7 @@
         </view>
         <view class="pkg-body">
           <view class="pkg-price">
-            <text class="price-now">¥{{item.priceText}}</text>
+            <text class="price-now">{{item.price > 0 ? '¥' + item.priceText : '待配置'}}</text>
             <text class="price-cost">成本 ¥{{item.costText}}</text>
           </view>
           <view class="pkg-ops">
@@ -139,6 +146,7 @@
             <text class="op-del" data-index="{{index}}" bindtap="onDeletePackage">删除</text>
           </view>
         </view>
+        <view wx:if="{{item.price <= 0}}" class="pending-tip">该套餐暂未配置售价，会展示但不能购买</view>
         <view wx:if="{{item.price < item.costPrice}}" class="loss-tip">⚠️ 售价低于成本，将产生亏损</view>
       </view>
     </view>
@@ -252,7 +260,7 @@
         </view>
         <view class="field">
           <view class="field-label">售价(元)<text class="req">*</text></view>
-          <input class="ipt" type="digit" placeholder="大于0" value="{{packageForm.price}}" bindinput="onPkgPriceInput" />
+          <input class="ipt" type="digit" placeholder="未配置可填0并保持下架" value="{{packageForm.price}}" bindinput="onPkgPriceInput" />
         </view>
         <view class="field">
           <view class="field-label">成本价(元)<text class="req">*</text></view>

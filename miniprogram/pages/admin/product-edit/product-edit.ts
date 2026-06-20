@@ -396,8 +396,12 @@ Page({
       wx.showToast({ title: '请填写会员类型', icon: 'none' });
       return;
     }
-    if (!(price > 0)) {
-      wx.showToast({ title: '售价需大于0', icon: 'none' });
+    if (isNaN(price) || price < 0) {
+      wx.showToast({ title: '售价不能小于0', icon: 'none' });
+      return;
+    }
+    if (f.online && !(price > 0)) {
+      wx.showToast({ title: '上架套餐售价需大于0', icon: 'none' });
       return;
     }
     if (isNaN(costPrice) || costPrice < 0) {
@@ -523,7 +527,10 @@ Page({
     }
     if (packages.length === 0) return '至少需要配置一个套餐';
     if (!packages.some((p) => p.isDefault)) return '请指定一个默认套餐';
-    if (packages.some((p) => !(p.price > 0))) return '每个套餐的售价必须大于0';
+    if (packages.some((p) => p.online && !(p.price > 0))) return '上架套餐的售价必须大于0';
+    if (this.data.online && !packages.some((p) => p.online && p.price > 0)) {
+      return '商品上架前至少需要一个已上架且售价大于0的套餐';
+    }
     return '';
   },
 

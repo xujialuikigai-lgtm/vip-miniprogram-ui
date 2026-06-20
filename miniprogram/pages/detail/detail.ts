@@ -9,6 +9,7 @@
 
 import { requestSilent } from '../../utils/request';
 import { formatPrice } from '../../utils/format';
+import { isValidPhone } from '../../utils/validator';
 import {
   Product,
   Package,
@@ -82,6 +83,9 @@ Page({
     formValues: {} as Record<string, any>,
     // 表单是否完整（联动购买按钮禁用态）
     formComplete: false,
+    // 接口未返回 attach 模板时，默认走手机号直充输入
+    fallbackPhone: '',
+    fallbackPhoneValid: false,
 
     // —— 购买核对弹窗 ——
     // 弹窗是否可见
@@ -186,7 +190,7 @@ Page({
 
     // 非保留场景重置表单
     if (!keepForm) {
-      this.setData({ formValues: {}, formComplete: false });
+      this.setData({ formValues: {}, formComplete: false, fallbackPhone: '', fallbackPhoneValid: false });
     }
   },
 
@@ -265,6 +269,15 @@ Page({
     this.setData({ formComplete: !!(e.detail && e.detail.complete) });
   },
 
+  onFallbackPhoneInput(this: any, e: any) {
+    const value = String((e.detail && e.detail.value) || '').replace(/\D/g, '').slice(0, 11);
+    this.setData({
+      fallbackPhone: value,
+      fallbackPhoneValid: isValidPhone(value),
+      formValues: { ...this.data.formValues, phone: value }
+    });
+  },
+
   /**
    * 从表单值中提取充值账号（用于核对弹窗脱敏展示）
    * 优先取手机号字段，其次首个 text 字段。
@@ -272,6 +285,9 @@ Page({
   extractAccount(this: any): string {
     const template: AttachTemplate[] = this.data.attachTemplate || [];
     const values: Record<string, any> = this.data.formValues || {};
+    if (template.length === 0 && this.data.fallbackPhone) {
+      return String(this.data.fallbackPhone);
+    }
 
     // 优先手机号字段
     const phoneField = template.find(
@@ -325,6 +341,11 @@ Page({
         return;
       }
       this.setData({ formValues: result.values });
+    } else if (!this.data.fallbackPhoneValid) {
+      wx.showToast({ title: '请输入11位手机号', icon: 'none' });
+      return;
+    } else {
+      this.setData({ formValues: { phone: this.data.fallbackPhone } });
     }
 
     // 价格一致性校验（Req 3.2/3.3）：重新拉取详情比对当前套餐价格

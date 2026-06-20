@@ -43,6 +43,10 @@ Component({
         this.updateDisplay(value as Product | null);
       },
     },
+    compact: {
+      type: Boolean,
+      value: false,
+    },
   },
 
   data: {
