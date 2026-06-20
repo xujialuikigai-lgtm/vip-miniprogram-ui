@@ -6,6 +6,8 @@ import { formatPrice } from '../../utils/format';
 function pickRenderableImageUrl(...urls) {
     for (const url of urls) {
         const value = String(url || '').trim();
+        if (isBlockedRemoteImage(value))
+            continue;
         if (/^https:\/\//i.test(value) ||
             /^cloud:\/\//i.test(value) ||
             /^\//.test(value)) {
@@ -13,6 +15,9 @@ function pickRenderableImageUrl(...urls) {
         }
     }
     return '';
+}
+function isBlockedRemoteImage(url) {
+    return /^https?:\/\/imgs\.mxmm666\.com\//i.test(url);
 }
 Component({
     options: {

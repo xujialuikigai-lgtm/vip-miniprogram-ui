@@ -9,6 +9,7 @@ import { Product, Package } from '../../utils/types';
 function pickRenderableImageUrl(...urls: Array<string | undefined>): string {
   for (const url of urls) {
     const value = String(url || '').trim();
+    if (isBlockedRemoteImage(value)) continue;
     if (
       /^https:\/\//i.test(value) ||
       /^cloud:\/\//i.test(value) ||
@@ -18,6 +19,10 @@ function pickRenderableImageUrl(...urls: Array<string | undefined>): string {
     }
   }
   return '';
+}
+
+function isBlockedRemoteImage(url: string): boolean {
+  return /^https?:\/\/imgs\.mxmm666\.com\//i.test(url);
 }
 
 Component({

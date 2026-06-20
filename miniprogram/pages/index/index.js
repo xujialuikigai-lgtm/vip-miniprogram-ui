@@ -164,6 +164,8 @@ Page({
     },
     pickRenderableImageUrl(url) {
         const value = String(url || '').trim();
+        if (/^https?:\/\/imgs\.mxmm666\.com\//i.test(value))
+            return '';
         if (/^https:\/\//i.test(value) || /^cloud:\/\//i.test(value) || /^\//.test(value)) {
             return value;
         }

@@ -1,5 +1,7 @@
 // 商品业务云函数入口
 import * as cloud from 'wx-server-sdk';
+import * as http from 'http';
+import * as https from 'https';
 import { Product, Category, Package } from './shared/types/product';
 import {
   CloudFunctionResult,
@@ -59,6 +61,9 @@ export async function main(event: any, context: any): Promise<CloudFunctionResul
     case 'syncProducts':
       // 同步商品（任务 5.3）——仅此 action 需管理员鉴权，面向用户端的 action 保持无需鉴权
       return handleSyncProductsWithAuth(event);
+    case 'clearSyncedProducts':
+      // 清空顺势同步商品：管理员专用，用于重新按当前筛选规则获取
+      return handleClearSyncedProductsWithAuth(event);
     default:
       return { success: false, errCode: 'INVALID_ACTION', errMsg: '无效的操作类型' };
   }
@@ -351,6 +356,11 @@ interface SyncResult {
   done?: boolean;
 }
 
+interface ClearSyncedProductsResult {
+  removed: number;
+  scope: 'target' | 'allSynced';
+}
+
 /** 拍平后的顺势分类节点 */
 interface FlatShunshiCategory {
   /** 顺势分类 ID */
@@ -399,10 +409,28 @@ async function handleSyncProductsWithAuth(event: any): Promise<CloudFunctionResu
   return handleSyncProducts(event);
 }
 
+async function handleClearSyncedProductsWithAuth(
+  event: any
+): Promise<CloudFunctionResult<ClearSyncedProductsResult>> {
+  const { OPENID } = cloud.getWXContext();
+  const auth = await requireAdmin(db, OPENID || '', { action: 'clearSyncedProducts' });
+  if (!auth.allowed) {
+    return auth.error as CloudFunctionResult<ClearSyncedProductsResult>;
+  }
+
+  return handleClearSyncedProducts(event);
+}
+
 /** 顺势接口并发上限（控制对上游 API 的并发请求数，避免被限流） */
 const NET_CONCURRENCY = 8;
 /** 数据库读写并发上限 */
 const DB_CONCURRENCY = 10;
+/** 图片转存并发上限，避免同步任务被图片下载拖慢 */
+const IMAGE_CACHE_CONCURRENCY = 3;
+/** 单张接口图片下载超时时间 */
+const IMAGE_DOWNLOAD_TIMEOUT_MS = 5000;
+/** 单张接口图片最大体积 */
+const IMAGE_MAX_BYTES = 3 * 1024 * 1024;
 /** 数据库 in 查询单批 ID 数量上限 */
 const IN_CHUNK_SIZE = 200;
 /** 批次同步每次拉取的商品条数；按页处理，避免单次云函数超过 60 秒 */
@@ -462,6 +490,30 @@ for (const group of TARGET_SYNC_GROUPS) {
 }
 
 const TARGET_CATEGORY_IDS = TARGET_SYNC_GROUPS.map((group) => group.categoryId);
+
+/** 顺势商品类型：1=卡密，2=直充。当前业务只同步直充商品。 */
+const SHUNSHI_GOODS_TYPE_DIRECT = 2;
+/** 即使 goods_type=2，也不作为会员多多上架目标的资源型/卡券型商品。 */
+const NON_DIRECT_NAME_KEYWORDS = [
+  '转单',
+  '转单资源',
+  '卡密',
+  '卡券',
+  '兑换码',
+  '激活码',
+  'cdk',
+  '口令',
+  '链接',
+  '共享号',
+  '共享账号',
+  '合租',
+  '租号',
+  '出租',
+  '成品号',
+  '账号密码',
+  '号密',
+  '代挂'
+];
 
 /**
  * 带并发上限的 map：以 limit 个 worker 轮流取任务执行，结果按原索引回填（保持顺序）。
@@ -532,6 +584,90 @@ async function loadExistingProducts(ids: number[]): Promise<Map<number, Product>
   return map;
 }
 
+async function handleClearSyncedProducts(
+  event: any = {}
+): Promise<CloudFunctionResult<ClearSyncedProductsResult>> {
+  const scope: 'target' | 'allSynced' = event.scope === 'allSynced' ? 'allSynced' : 'target';
+  const where =
+    scope === 'allSynced'
+      ? { shunshiGoodsId: db.command.gt(0) }
+      : { categoryId: db.command.in(TARGET_CATEGORY_IDS) };
+
+  let removed = 0;
+  while (true) {
+    const res = await db.collection('products').where(where).limit(100).get();
+    const products = (res.data || []) as Product[];
+    if (products.length === 0) break;
+
+    await mapWithConcurrency(products, DB_CONCURRENCY, async (product) => {
+      if (!product._id) return;
+      await db.collection('products').doc(product._id as string).remove();
+    });
+    removed += products.length;
+
+    // 防止单次云函数过久；如还有剩余，用户再次调用即可继续清。
+    if (removed >= 500) break;
+  }
+
+  await resetTargetCategoryProductCount();
+
+  return {
+    success: true,
+    data: { removed, scope }
+  };
+}
+
+async function resetTargetCategoryProductCount(): Promise<void> {
+  const res = await db
+    .collection('categories')
+    .where({ categoryId: db.command.in(TARGET_CATEGORY_IDS) })
+    .limit(100)
+    .get();
+  const categories = (res.data || []) as Category[];
+  await mapWithConcurrency(categories, DB_CONCURRENCY, async (category) => {
+    if (!category._id) return;
+    await db.collection('categories').doc(category._id as string).update({
+      data: {
+        productCount: 0,
+        updatedAt: new Date()
+      }
+    });
+  });
+}
+
+async function offlineNonDirectLocalProducts(): Promise<number> {
+  const res = await db
+    .collection('products')
+    .where({
+      categoryId: db.command.in(TARGET_CATEGORY_IDS),
+      online: true
+    })
+    .limit(1000)
+    .get();
+
+  const products = (res.data || []) as Product[];
+  const targets = products.filter((product) => isNonDirectLocalProduct(product));
+  await mapWithConcurrency(targets, DB_CONCURRENCY, async (product) => {
+    await db.collection('products').doc(product._id as string).update({
+      data: {
+        online: false,
+        updatedAt: new Date()
+      }
+    });
+  });
+  return targets.length;
+}
+
+function isNonDirectLocalProduct(product: Product): boolean {
+  const name = normalizeSearchText(`${product.name || ''} ${product.shunshiName || ''}`);
+  const method = normalizeSearchText(product.rechargeMethod || '');
+  return (
+    NON_DIRECT_NAME_KEYWORDS.some((word) => name.indexOf(normalizeSearchText(word)) >= 0) ||
+    method.indexOf('卡密') >= 0 ||
+    method.indexOf('账号密码') >= 0
+  );
+}
+
 /**
  * 同步商品（任务 5.3，需求 17.1-17.6）
  * 1. 同步本地目标分类（来自 会员多多.docx）
@@ -554,6 +690,10 @@ async function handleSyncProducts(event: any = {}): Promise<CloudFunctionResult<
 
     // 步骤 1：同步本地目标分类，不再拉取顺势全量分类树
     await syncTargetCategories(TARGET_SYNC_GROUPS);
+    const legacyOfflined =
+      !batchMode || (cursor === 0 && page === 1)
+        ? await offlineNonDirectLocalProducts()
+        : 0;
 
     // 分类 ID -> 名称映射，用于新增商品时回填 categoryName
     const cateNameMap = new Map<number, string>();
@@ -588,7 +728,7 @@ async function handleSyncProducts(event: any = {}): Promise<CloudFunctionResult<
       const target = TARGET_SYNC_ITEMS[cursor];
       const res = await client.getProductList({ keyword: target.keyword, page, limit: SYNC_PAGE_SIZE });
       const rawList = res.list || [];
-      const list = rawList.filter((item) => matchesTargetKeyword(item, target.keyword));
+      const list = rawList.filter((item) => shouldSyncTargetProduct(item, target.keyword));
       shunshiProducts = list.map((item) => ({
         item,
         cate_id: target.group.id,
@@ -625,19 +765,19 @@ async function handleSyncProducts(event: any = {}): Promise<CloudFunctionResult<
       }
     }
 
-    // 并发更新已存在商品，汇总自动下架计数
+    // 并发更新已存在商品，汇总自动下架计数。图片转存并发较低，避免外链下载拖慢同步。
     const offlinedDeltas = await mapWithConcurrency(
       toUpdate,
-      DB_CONCURRENCY,
+      IMAGE_CACHE_CONCURRENCY,
       ({ existing, item, categoryId, categoryName }) =>
         updateExistingProduct(existing, item, categoryId, categoryName)
     );
-    const offlined = offlinedDeltas.reduce((sum, d) => sum + d, 0);
+    const offlined = legacyOfflined + offlinedDeltas.reduce((sum, d) => sum + d, 0);
 
     // 并发新增商品（仅写入，不逐个拉详情）。
     // 不调用 getProductDetail：首次同步全部为新增时，逐个详情请求会拖垮 60s 限制。
     // attachTemplate 留空、description 留空，由管理员在商品编辑页按需配置。
-    await mapWithConcurrency(toAdd, DB_CONCURRENCY, ({ item, cate_id, categoryId, categoryName }) =>
+    await mapWithConcurrency(toAdd, IMAGE_CACHE_CONCURRENCY, ({ item, cate_id, categoryId, categoryName }) =>
       addNewProduct(item, cate_id, categoryName || cateNameMap.get(cate_id) || '', categoryId)
     );
 
@@ -680,10 +820,17 @@ function normalizeNonNegativeInt(value: any, fallback: number): number {
 /**
  * 目标关键词匹配：顺势 keyword 搜索结果可能较宽，这里再做一层本地包含校验。
  */
-function matchesTargetKeyword(item: ShunshiProductListItem, keyword: string): boolean {
+function shouldSyncTargetProduct(item: ShunshiProductListItem, keyword: string): boolean {
+  if (!isDirectRechargeProduct(item)) return false;
   const name = normalizeSearchText(item.goods_name || '');
   const key = normalizeSearchText(keyword);
   return !!key && name.indexOf(key) >= 0;
+}
+
+function isDirectRechargeProduct(item: ShunshiProductListItem): boolean {
+  if (Number(item.goods_type) !== SHUNSHI_GOODS_TYPE_DIRECT) return false;
+  const name = normalizeSearchText(item.goods_name || '');
+  return !NON_DIRECT_NAME_KEYWORDS.some((word) => name.indexOf(normalizeSearchText(word)) >= 0);
 }
 
 function normalizeSearchText(text: string): string {
@@ -746,7 +893,7 @@ async function fetchAllTargetProducts(
 
     while (true) {
       const res = await client.getProductList({ keyword: target.keyword, page, limit: SYNC_PAGE_SIZE });
-      const list = (res.list || []).filter((item) => matchesTargetKeyword(item, target.keyword));
+      const list = (res.list || []).filter((item) => shouldSyncTargetProduct(item, target.keyword));
       items.push(...list);
 
       fetched += res.list ? res.list.length : 0;
@@ -937,6 +1084,7 @@ async function updateExistingProduct(
   categoryName?: string
 ): Promise<number> {
   const { data, offlinedDelta } = computeSyncUpdateData(existing, item);
+  data.brandIcon = await resolveProductBrandIcon(item, existing);
   if (categoryId) {
     data.categoryId = categoryId;
   }
@@ -985,11 +1133,11 @@ async function addNewProduct(
     shunshiName: item.goods_name,
     categoryId: categoryId || `cate_${cateId}`,
     categoryName,
-    brandIcon: toHttpsImageUrl(item.goods_img),
+    brandIcon: await resolveProductBrandIcon(item),
     shunshiImg: item.goods_img,
     tags: [],
     description: '',
-    rechargeMethod: '',
+    rechargeMethod: '手机号直充',
     accountType: '',
     autoActivate: false,
     // 商品先展示到前台，套餐未定价前由前端和下单云函数共同禁购。
@@ -1016,4 +1164,116 @@ function toHttpsImageUrl(url: string): string {
     return value.replace(/^http:\/\//i, 'https://');
   }
   return value;
+}
+
+async function resolveProductBrandIcon(
+  item: ShunshiProductListItem,
+  existing?: Product
+): Promise<string> {
+  const sourceUrl = String(item.goods_img || '').trim();
+  if (!sourceUrl) return '';
+
+  // 已经转存过且上游图片未变化时，保留云存储图片，避免重复下载。
+  if (
+    existing &&
+    /^cloud:\/\//i.test(existing.brandIcon || '') &&
+    existing.shunshiImg === sourceUrl
+  ) {
+    return existing.brandIcon;
+  }
+
+  const cached = await cacheRemoteProductImage(item.id, sourceUrl);
+  return cached || toHttpsImageUrl(sourceUrl);
+}
+
+async function cacheRemoteProductImage(goodsId: number, sourceUrl: string): Promise<string> {
+  if (!/^https?:\/\//i.test(sourceUrl)) return '';
+
+  try {
+    const fileContent = await downloadRemoteImage(sourceUrl, 0);
+    const ext = getImageExt(sourceUrl);
+    const cloudPath = `product-icons/${goodsId}-${hashString(sourceUrl)}.${ext}`;
+    const uploadRes = await (cloud as any).uploadFile({
+      cloudPath,
+      fileContent
+    });
+    return uploadRes && uploadRes.fileID ? uploadRes.fileID : '';
+  } catch (err) {
+    // 图片转存失败不阻断商品同步；前端会屏蔽已知 403 外链并显示占位。
+    return '';
+  }
+}
+
+function downloadRemoteImage(sourceUrl: string, redirectCount: number): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    if (redirectCount > 3) {
+      reject(new Error('IMAGE_REDIRECT_LIMIT'));
+      return;
+    }
+
+    const client = /^https:\/\//i.test(sourceUrl) ? https : http;
+    const req = client.get(
+      sourceUrl,
+      {
+        timeout: IMAGE_DOWNLOAD_TIMEOUT_MS,
+        headers: {
+          Accept: 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+          Referer: 'https://shop.mxmm666.com/',
+          'User-Agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36'
+        }
+      },
+      (res) => {
+        const statusCode = res.statusCode || 0;
+        const location = res.headers.location;
+        if (
+          [301, 302, 303, 307, 308].indexOf(statusCode) >= 0 &&
+          location
+        ) {
+          res.resume();
+          const nextUrl = /^https?:\/\//i.test(location)
+            ? location
+            : new URL(location, sourceUrl).toString();
+          downloadRemoteImage(nextUrl, redirectCount + 1).then(resolve).catch(reject);
+          return;
+        }
+
+        if (statusCode < 200 || statusCode >= 300) {
+          res.resume();
+          reject(new Error(`IMAGE_HTTP_${statusCode}`));
+          return;
+        }
+
+        const chunks: Buffer[] = [];
+        let total = 0;
+        res.on('data', (chunk: Buffer) => {
+          total += chunk.length;
+          if (total > IMAGE_MAX_BYTES) {
+            req.destroy(new Error('IMAGE_TOO_LARGE'));
+            return;
+          }
+          chunks.push(chunk);
+        });
+        res.on('end', () => resolve(Buffer.concat(chunks)));
+      }
+    );
+
+    req.on('timeout', () => req.destroy(new Error('IMAGE_TIMEOUT')));
+    req.on('error', reject);
+  });
+}
+
+function getImageExt(sourceUrl: string): string {
+  const clean = sourceUrl.split('?')[0].toLowerCase();
+  const match = clean.match(/\.([a-z0-9]{3,4})$/);
+  const ext = match ? match[1] : 'jpg';
+  return ['jpg', 'jpeg', 'png', 'webp', 'gif'].indexOf(ext) >= 0 ? ext : 'jpg';
+}
+
+function hashString(value: string): string {
+  let hash = 5381;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = ((hash << 5) + hash) ^ value.charCodeAt(i);
+  }
+  return (hash >>> 0).toString(36);
 }

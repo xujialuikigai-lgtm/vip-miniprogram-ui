@@ -25,6 +25,7 @@ type DisplayPackage = Package & {
 function pickRenderableImageUrl(...urls: Array<string | undefined>): string {
   for (const url of urls) {
     const value = String(url || '').trim();
+    if (isBlockedRemoteImage(value)) continue;
     if (
       /^https:\/\//i.test(value) ||
       /^cloud:\/\//i.test(value) ||
@@ -34,6 +35,10 @@ function pickRenderableImageUrl(...urls: Array<string | undefined>): string {
     }
   }
   return '';
+}
+
+function isBlockedRemoteImage(url: string): boolean {
+  return /^https?:\/\/imgs\.mxmm666\.com\//i.test(url);
 }
 
 /** 微信支付参数（与云函数 payment.unifiedOrder 返回的 payParams 对齐） */
@@ -85,6 +90,10 @@ Page({
     confirmLoading: false,
     // 弹窗展示：充值账号原文（组件内部脱敏）
     dialogAccount: '',
+    // 弹窗展示：安全套餐名称，避免未选中时传 null 给组件
+    dialogPackageName: '',
+    // 弹窗展示：安全金额，避免未选中时传非数字给组件
+    dialogAmount: 0,
 
     // 主题色（供 wxml 内联使用）
     primaryColor: '#c99a3a'
@@ -213,6 +222,8 @@ Page({
       visiblePackages,
       selectedPackageId: selected ? selected.packageId : '',
       selectedPackage: selected || null,
+      dialogPackageName: selected ? selected.name || '' : '',
+      dialogAmount: selected && Number(selected.price) > 0 ? Number(selected.price) : 0,
       amountText: selected && selected.online && selected.price > 0 ? formatPrice(selected.price) : '待配置'
     });
   },
@@ -230,6 +241,8 @@ Page({
     this.setData({
       selectedPackageId: packageId,
       selectedPackage: selected,
+      dialogPackageName: selected.name || '',
+      dialogAmount: selected.online && Number(selected.price) > 0 ? Number(selected.price) : 0,
       amountText: selected.online && selected.price > 0 ? formatPrice(selected.price) : '待配置'
     });
   },
@@ -335,6 +348,8 @@ Page({
     // 打开核对弹窗（Req 3.1）
     this.setData({
       dialogAccount: this.extractAccount(),
+      dialogPackageName: pkg.name || '',
+      dialogAmount: Number(pkg.price) || 0,
       dialogVisible: true
     });
   },
