@@ -6,6 +6,20 @@
 import { formatPrice } from '../../utils/format';
 import { Product, Package } from '../../utils/types';
 
+function pickRenderableImageUrl(...urls: Array<string | undefined>): string {
+  for (const url of urls) {
+    const value = String(url || '').trim();
+    if (
+      /^https:\/\//i.test(value) ||
+      /^cloud:\/\//i.test(value) ||
+      /^\//.test(value)
+    ) {
+      return value;
+    }
+  }
+  return '';
+}
+
 Component({
   options: {
     // 允许使用全局样式（TDesign 主题变量）
@@ -78,7 +92,7 @@ Component({
         displayOriginalPrice,
         showOriginalPrice,
         pricePending,
-        displayIcon: product.brandIcon || product.shunshiImg || '',
+        displayIcon: pickRenderableImageUrl(product.brandIcon, product.shunshiImg),
         salesText: this.buildSalesText(product.salesCount || 0),
         iconError: false,
       });

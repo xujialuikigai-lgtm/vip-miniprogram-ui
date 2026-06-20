@@ -175,7 +175,7 @@ Page<CategoryPageData, WechatMiniprogram.IAnyObject>({
    * 点击商品卡片：跳转商品详情页
    */
   onProductTap(e: WechatMiniprogram.CustomEvent<{ productId: string }>) {
-    const productId = e.detail && e.detail.productId;
+    const productId = (e.detail && e.detail.productId) || (e.currentTarget && e.currentTarget.dataset.id);
     if (!productId) return;
     wx.navigateTo({
       url: `/pages/detail/detail?productId=${productId}`

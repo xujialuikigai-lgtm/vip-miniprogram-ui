@@ -98,6 +98,72 @@
   margin-bottom: 20rpx;
 }
 
+.inline-product-card {
+  display: flex;
+  padding: 20rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.inline-product-card__icon {
+  flex-shrink: 0;
+  width: 96rpx;
+  height: 96rpx;
+  margin-right: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14rpx;
+  background: #c99a3a;
+  color: #fff;
+  font-size: 36rpx;
+  font-weight: 700;
+}
+
+.inline-product-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.inline-product-card__name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.inline-product-card__meta {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #999;
+}
+
+.inline-product-card__footer {
+  margin-top: 12rpx;
+  display: flex;
+  align-items: center;
+}
+
+.inline-product-card__price {
+  color: #c99a3a;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.inline-product-card__pending {
+  padding: 6rpx 14rpx;
+  color: #9a6a18;
+  background: #fbf3e1;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
 /* 触底加载/到底提示 */
 .category-main__loadmore,
 .category-main__nomore {

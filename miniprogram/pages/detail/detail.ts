@@ -22,6 +22,20 @@ type DisplayPackage = Package & {
   faceValueText: string;
 };
 
+function pickRenderableImageUrl(...urls: Array<string | undefined>): string {
+  for (const url of urls) {
+    const value = String(url || '').trim();
+    if (
+      /^https:\/\//i.test(value) ||
+      /^cloud:\/\//i.test(value) ||
+      /^\//.test(value)
+    ) {
+      return value;
+    }
+  }
+  return '';
+}
+
 /** 微信支付参数（与云函数 payment.unifiedOrder 返回的 payParams 对齐） */
 interface PayParams {
   timeStamp: string;
@@ -127,7 +141,7 @@ Page({
       {
         pageState: PageState.SUCCESS,
         product,
-        productIcon: product.brandIcon || product.shunshiImg || '',
+        productIcon: pickRenderableImageUrl(product.brandIcon, product.shunshiImg),
         attachTemplate: product.attachTemplate || [],
         memberTypes
       },

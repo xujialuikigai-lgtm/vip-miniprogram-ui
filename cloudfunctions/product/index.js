@@ -94,6 +94,9 @@ async function handleGetList(event) {
     if (categoryId) {
         where.categoryId = categoryId;
     }
+    else {
+        where.categoryId = db.command.in(TARGET_CATEGORY_IDS);
+    }
     const collection = db.collection('products').where(where);
     // 总数使用 count()，与分页查询分离
     const countRes = await collection.count();
@@ -135,7 +138,26 @@ async function handleGetCategories() {
         .collection('categories')
         .orderBy('sortWeight', 'asc')
         .get();
-    return { success: true, data: { categories: res.data } };
+    const existing = new Map();
+    res.data
+        .filter((c) => TARGET_CATEGORY_IDS.indexOf(c.categoryId) >= 0)
+        .forEach((c) => existing.set(c.categoryId, c));
+    const now = new Date();
+    const categories = TARGET_SYNC_GROUPS.map((group, index) => (existing.get(group.categoryId) || {
+        categoryId: group.categoryId,
+        shunshiCateId: group.id,
+        name: group.name,
+        icon: '',
+        parentId: '',
+        level: 1,
+        sortWeight: index + 1,
+        productCount: 0,
+        showInTab: true,
+        tabSort: index + 1,
+        createdAt: now,
+        updatedAt: now
+    }));
+    return { success: true, data: { categories } };
 }
 /**
  * 将入参规范化为正整数，非法（NaN、<=0、非整数）时回退到默认值
@@ -164,7 +186,7 @@ async function handleSearch(event) {
     // 仅查询已上架商品，缩小匹配范围
     const res = await db
         .collection('products')
-        .where({ online: true })
+        .where({ online: true, categoryId: db.command.in(TARGET_CATEGORY_IDS) })
         .limit(1000)
         .get();
     const products = res.data;
@@ -356,6 +378,7 @@ for (const group of TARGET_SYNC_GROUPS) {
         TARGET_SYNC_ITEMS.push({ group, keyword });
     }
 }
+const TARGET_CATEGORY_IDS = TARGET_SYNC_GROUPS.map((group) => group.categoryId);
 /**
  * 带并发上限的 map：以 limit 个 worker 轮流取任务执行，结果按原索引回填（保持顺序）。
  * 用于把原本串行的网络/数据库调用并行化，同时避免一次性发起过多请求。
