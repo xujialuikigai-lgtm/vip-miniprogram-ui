@@ -72,6 +72,8 @@ export interface ProductStats {
 export interface ProductListItem {
   productId: string;
   name: string;
+  /** 顺势接口原始代表商品名，供管理端对账 */
+  shunshiName?: string;
   /** 上架状态 */
   online: boolean;
   /** 售价（默认套餐售价，元） */
@@ -153,6 +155,7 @@ export async function handleProductList(
     return {
       productId: p.productId,
       name: p.name,
+      shunshiName: p.shunshiName || '',
       online: !!p.online,
       price,
       costPrice,

@@ -2,13 +2,18 @@
 // 功能：用户信息/授权登录、订单统计入口、客服二维码、常用功能内容页入口、管理员入口、服务保障说明
 // 依赖云函数：order.stats（订单统计）、product.getConfig（客服二维码）、admin.getConfigs（管理员身份探测）
 
-import { request, requestSilent } from '../../utils/request';
+import { requestSilent } from '../../utils/request';
+import { readPageCache, writePageCache } from '../../utils/pageCache';
 import { OrderStats } from '../../utils/types';
 
 /** 本地缓存：用户授权信息 */
 const USER_INFO_STORAGE_KEY = 'profile_user_info';
 /** 客服二维码配置键 */
 const QRCODE_CONFIG_KEY = 'customer_service_qrcode';
+const PROFILE_STATS_CACHE_KEY = 'profile:stats';
+const PROFILE_ADMIN_CACHE_KEY = 'profile:isAdmin';
+const PROFILE_STATS_CACHE_TTL = 30 * 1000;
+const PROFILE_ADMIN_CACHE_TTL = 5 * 60 * 1000;
 
 /** 用户授权信息结构 */
 interface UserInfo {
@@ -88,27 +93,58 @@ Page({
 
   /** 加载订单统计（order.stats） */
   async loadStats() {
-    this.setData({ statsLoading: true });
-    try {
-      const stats = await request<OrderStats>({ name: 'order', action: 'stats' });
+    const cached = readPageCache<OrderStats>(PROFILE_STATS_CACHE_KEY, PROFILE_STATS_CACHE_TTL);
+    if (cached) {
       this.setData({
         stats: {
-          total: stats?.total || 0,
-          activating: stats?.activating || 0,
-          refunding: stats?.refunding || 0
+          total: cached.total || 0,
+          activating: cached.activating || 0,
+          refunding: cached.refunding || 0
         },
         statsLoading: false
       });
-    } catch (e) {
-      // request 已统一 Toast，这里仅复位 loading，保留默认 0
-      this.setData({ statsLoading: false });
+      this.refreshStats(true);
+      return;
     }
+
+    this.setData({ statsLoading: true });
+    await this.refreshStats(false);
+  },
+
+  async refreshStats(silent: boolean) {
+    const res = await requestSilent<OrderStats>({ name: 'order', action: 'stats' });
+    if (!res.success || !res.data) {
+      if (!silent) this.setData({ statsLoading: false });
+      return;
+    }
+    const stats = {
+      total: res.data.total || 0,
+      activating: res.data.activating || 0,
+      refunding: res.data.refunding || 0
+    };
+    this.setData({
+      stats,
+      statsLoading: false
+    });
+    writePageCache(PROFILE_STATS_CACHE_KEY, stats);
   },
 
   /** 探测管理员身份：调用管理端轻量 action，成功即为白名单管理员 */
   async checkAdmin() {
+    const cached = readPageCache<boolean>(PROFILE_ADMIN_CACHE_KEY, PROFILE_ADMIN_CACHE_TTL);
+    if (cached !== null) {
+      this.setData({ isAdmin: cached });
+      this.refreshAdminIdentity();
+      return;
+    }
+    await this.refreshAdminIdentity();
+  },
+
+  async refreshAdminIdentity() {
     const res = await requestSilent({ name: 'admin', action: 'getConfigs' });
-    this.setData({ isAdmin: !!res.success });
+    const isAdmin = !!res.success;
+    this.setData({ isAdmin });
+    writePageCache(PROFILE_ADMIN_CACHE_KEY, isAdmin);
   },
 
   /** 微信授权登录：获取头像昵称并缓存 */

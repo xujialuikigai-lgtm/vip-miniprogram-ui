@@ -84,6 +84,9 @@
         <view class="product-card__sub">
           {{item.categoryName || '未分类'}} · 接口商品ID：{{item.shunshiGoodsId || '-'}}
         </view>
+        <view wx:if="{{item.shunshiName && item.shunshiName !== item.name}}" class="product-card__source">
+          接口原始名：{{item.shunshiName}}
+        </view>
 
         <view class="product-card__prices">
           <view class="price-item">

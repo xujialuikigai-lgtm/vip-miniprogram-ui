@@ -1,0 +1,2554 @@
+[
+  {
+    "productId": "brand_target_video_腾讯视频",
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "腾讯视频",
+    "skuCount": 22,
+    "packageCount": 7,
+    "packages": [
+      {
+        "memberType": "SVIP",
+        "period": "1天",
+        "periodDays": 1,
+        "shunshiGoodsId": 70396,
+        "costPrice": 1001999,
+        "faceValue": 1001999,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70399,
+        "costPrice": 16.02,
+        "faceValue": 20,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70397,
+        "costPrice": 193.17,
+        "faceValue": 193.17,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 70326,
+        "costPrice": 8.93,
+        "faceValue": 18.91,
+        "stock": 0,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": [
+          {
+            "accountType": "phone",
+            "shunshiGoodsId": 70326,
+            "costPrice": 8.93,
+            "faceValue": 18.91,
+            "stock": 0,
+            "channel": "零售直充",
+            "channelPriority": 1
+          }
+        ]
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70332,
+        "costPrice": 19.22,
+        "faceValue": 22.5,
+        "stock": 9998,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": [
+          {
+            "accountType": "phone",
+            "shunshiGoodsId": 70332,
+            "costPrice": 19.22,
+            "faceValue": 22.5,
+            "stock": 9998,
+            "channel": "零售直充",
+            "channelPriority": 1
+          }
+        ]
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 58260,
+        "costPrice": 47.68,
+        "faceValue": 52.13,
+        "stock": 9998,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70328,
+        "costPrice": 144.09,
+        "faceValue": 177,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": [
+          {
+            "accountType": "phone",
+            "shunshiGoodsId": 70328,
+            "costPrice": 144.09,
+            "faceValue": 177,
+            "stock": 9999,
+            "channel": "零售直充",
+            "channelPriority": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_video_腾讯体育",
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "腾讯体育",
+    "skuCount": 12,
+    "packageCount": 9,
+    "packages": [
+      {
+        "memberType": "普通会员",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70469,
+        "costPrice": 17.62,
+        "faceValue": 30,
+        "stock": 9991,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "普通会员",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70468,
+        "costPrice": 54.9,
+        "faceValue": 68,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "普通会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70467,
+        "costPrice": 181.43,
+        "faceValue": 233,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 58434,
+        "costPrice": 24.46,
+        "faceValue": 40.68,
+        "stock": 9998,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 58437,
+        "costPrice": 73.63,
+        "faceValue": 77.33,
+        "stock": 9998,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 58438,
+        "costPrice": 260.5,
+        "faceValue": 362.69,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 58433,
+        "costPrice": 17.62,
+        "faceValue": 18.5,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 58435,
+        "costPrice": 46.85,
+        "faceValue": 52.55,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 58436,
+        "costPrice": 201.53,
+        "faceValue": 201.53,
+        "stock": 99999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_video_爱奇艺",
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "爱奇艺",
+    "skuCount": 30,
+    "packageCount": 11,
+    "packages": [
+      {
+        "memberType": "星钻",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 58350,
+        "costPrice": 26.04,
+        "faceValue": 26.46,
+        "stock": 9998,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "星钻",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 58354,
+        "costPrice": 72.85,
+        "faceValue": 73.76,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "星钻",
+        "period": "6个月",
+        "periodDays": 180,
+        "shunshiGoodsId": 70341,
+        "costPrice": 142.29,
+        "faceValue": 142.29,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "星钻",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 58355,
+        "costPrice": 267.93,
+        "faceValue": 267.93,
+        "stock": 9997,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "黄金",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 58307,
+        "costPrice": 11.48,
+        "faceValue": 12.06,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "黄金",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 58318,
+        "costPrice": 15.78,
+        "faceValue": 16.48,
+        "stock": 9997,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "黄金",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 58319,
+        "costPrice": 43.86,
+        "faceValue": 43.86,
+        "stock": 9998,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "黄金",
+        "period": "6个月",
+        "periodDays": 180,
+        "shunshiGoodsId": 70333,
+        "costPrice": 84.61,
+        "faceValue": 84.61,
+        "stock": 0,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "白金",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70338,
+        "costPrice": 18.12,
+        "faceValue": 18.12,
+        "stock": 99999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "白金",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70339,
+        "costPrice": 37.66,
+        "faceValue": 37.66,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "白金",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70340,
+        "costPrice": 144.77,
+        "faceValue": 144.77,
+        "stock": 99999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_video_芒果TV",
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "芒果TV",
+    "skuCount": 3,
+    "packageCount": 3,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70367,
+        "costPrice": 6.73,
+        "faceValue": 7.26,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70368,
+        "costPrice": 20.43,
+        "faceValue": 21.12,
+        "stock": 9998,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70369,
+        "costPrice": 84.66,
+        "faceValue": 86.33,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_video_优酷视频",
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "优酷视频",
+    "skuCount": 18,
+    "packageCount": 12,
+    "packages": [
+      {
+        "memberType": "SVIP",
+        "period": "2天",
+        "periodDays": 2,
+        "shunshiGoodsId": 70447,
+        "costPrice": 1.89,
+        "faceValue": 14,
+        "stock": 99990,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "3天",
+        "periodDays": 3,
+        "shunshiGoodsId": 70446,
+        "costPrice": 2.62,
+        "faceValue": 14,
+        "stock": 99997,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "5天",
+        "periodDays": 5,
+        "shunshiGoodsId": 70440,
+        "costPrice": 5.62,
+        "faceValue": 10,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 70445,
+        "costPrice": 5.85,
+        "faceValue": 14,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70444,
+        "costPrice": 9.69,
+        "faceValue": 20,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "2个月",
+        "periodDays": 60,
+        "shunshiGoodsId": 70439,
+        "costPrice": 18.98,
+        "faceValue": 20.13,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70429,
+        "costPrice": 53.42,
+        "faceValue": 139,
+        "stock": 99999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "6个月",
+        "periodDays": 180,
+        "shunshiGoodsId": 70442,
+        "costPrice": 46.63,
+        "faceValue": 60,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70424,
+        "costPrice": 92.97,
+        "faceValue": 97.97,
+        "stock": 9998,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70438,
+        "costPrice": 14.93,
+        "faceValue": 20,
+        "stock": 9999,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70437,
+        "costPrice": 31.55,
+        "faceValue": 56,
+        "stock": 99999,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70436,
+        "costPrice": 97.3,
+        "faceValue": 198,
+        "stock": 99999,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_video_哔哩哔哩",
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "哔哩哔哩",
+    "skuCount": 18,
+    "packageCount": 4,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "",
+        "periodDays": 9999,
+        "shunshiGoodsId": 73796,
+        "costPrice": 0.99,
+        "faceValue": 1,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "大会员",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 58417,
+        "costPrice": 11.29,
+        "faceValue": 13.6,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "大会员",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 58418,
+        "costPrice": 36,
+        "faceValue": 42.02,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "大会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 58419,
+        "costPrice": 101.68,
+        "faceValue": 126.72,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_video_咪咕视频",
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "咪咕视频",
+    "skuCount": 14,
+    "packageCount": 6,
+    "packages": [
+      {
+        "memberType": "钻石",
+        "period": "1天",
+        "periodDays": 1,
+        "shunshiGoodsId": 58510,
+        "costPrice": 2.05,
+        "faceValue": 2.05,
+        "stock": 99999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "钻石",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 58512,
+        "costPrice": 11.82,
+        "faceValue": 11.82,
+        "stock": 9998,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "钻石",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 58514,
+        "costPrice": 102.29,
+        "faceValue": 102.29,
+        "stock": 99999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 58525,
+        "costPrice": 19.05,
+        "faceValue": 19.05,
+        "stock": 99995,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 58542,
+        "costPrice": 43.5,
+        "faceValue": 43.5,
+        "stock": 9996,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 58538,
+        "costPrice": 114.62,
+        "faceValue": 114.62,
+        "stock": 9999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_video_央视频",
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "央视频",
+    "skuCount": 3,
+    "packageCount": 3,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 58576,
+        "costPrice": 6.87,
+        "faceValue": 6.87,
+        "stock": 13,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "15天",
+        "periodDays": 15,
+        "shunshiGoodsId": 58577,
+        "costPrice": 11.85,
+        "faceValue": 11.85,
+        "stock": 99999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 58579,
+        "costPrice": 43.67,
+        "faceValue": 43.68,
+        "stock": 9991,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_music_汽水音乐",
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "汽水音乐",
+    "skuCount": 0,
+    "packageCount": 0,
+    "packages": []
+  },
+  {
+    "productId": "brand_target_music_QQ音乐",
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "QQ音乐",
+    "skuCount": 8,
+    "packageCount": 7,
+    "packages": [
+      {
+        "memberType": "绿钻",
+        "period": "1天",
+        "periodDays": 1,
+        "shunshiGoodsId": 70659,
+        "costPrice": 3.23,
+        "faceValue": 18.04,
+        "stock": 9988,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": [
+          {
+            "accountType": "qq",
+            "shunshiGoodsId": 70659,
+            "costPrice": 3.23,
+            "faceValue": 18.04,
+            "stock": 9988,
+            "channel": "账号直充",
+            "channelPriority": 3
+          }
+        ]
+      },
+      {
+        "memberType": "绿钻",
+        "period": "3天",
+        "periodDays": 3,
+        "shunshiGoodsId": 70658,
+        "costPrice": 3.59,
+        "faceValue": 35.86,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": [
+          {
+            "accountType": "qq",
+            "shunshiGoodsId": 70658,
+            "costPrice": 3.59,
+            "faceValue": 35.86,
+            "stock": 9999,
+            "channel": "账号直充",
+            "channelPriority": 3
+          }
+        ]
+      },
+      {
+        "memberType": "绿钻",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 70657,
+        "costPrice": 3.69,
+        "faceValue": 39.38,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": [
+          {
+            "accountType": "qq",
+            "shunshiGoodsId": 70657,
+            "costPrice": 3.69,
+            "faceValue": 39.38,
+            "stock": 9998,
+            "channel": "账号直充",
+            "channelPriority": 3
+          }
+        ]
+      },
+      {
+        "memberType": "绿钻",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70656,
+        "costPrice": 12.05,
+        "faceValue": 15.68,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": [
+          {
+            "accountType": "qq",
+            "shunshiGoodsId": 70656,
+            "costPrice": 12.05,
+            "faceValue": 15.68,
+            "stock": 9998,
+            "channel": "账号直充",
+            "channelPriority": 3
+          }
+        ]
+      },
+      {
+        "memberType": "绿钻",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70654,
+        "costPrice": 119.39,
+        "faceValue": 180,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": [
+          {
+            "accountType": "qq",
+            "shunshiGoodsId": 70654,
+            "costPrice": 119.39,
+            "faceValue": 180,
+            "stock": 9999,
+            "channel": "账号直充",
+            "channelPriority": 3
+          }
+        ]
+      },
+      {
+        "memberType": "超级会员",
+        "period": "1天",
+        "periodDays": 1,
+        "shunshiGoodsId": 70653,
+        "costPrice": 6.41,
+        "faceValue": 40,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": [
+          {
+            "accountType": "qq",
+            "shunshiGoodsId": 70653,
+            "costPrice": 6.41,
+            "faceValue": 40,
+            "stock": 0,
+            "channel": "账号直充",
+            "channelPriority": 3
+          }
+        ]
+      },
+      {
+        "memberType": "超级会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70650,
+        "costPrice": 180.41,
+        "faceValue": 275.05,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": [
+          {
+            "accountType": "qq",
+            "shunshiGoodsId": 70650,
+            "costPrice": 180.41,
+            "faceValue": 275.05,
+            "stock": 9999,
+            "channel": "账号直充",
+            "channelPriority": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_music_喜马拉雅",
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "喜马拉雅",
+    "skuCount": 19,
+    "packageCount": 9,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "1天",
+        "periodDays": 1,
+        "shunshiGoodsId": 70754,
+        "costPrice": 0.26,
+        "faceValue": 2.81,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3天",
+        "periodDays": 3,
+        "shunshiGoodsId": 70758,
+        "costPrice": 0.78,
+        "faceValue": 2.81,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "5天",
+        "periodDays": 5,
+        "shunshiGoodsId": 70753,
+        "costPrice": 0.76,
+        "faceValue": 2.81,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 70730,
+        "costPrice": 3.14,
+        "faceValue": 5,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "15天",
+        "periodDays": 15,
+        "shunshiGoodsId": 70728,
+        "costPrice": 8,
+        "faceValue": 20,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70727,
+        "costPrice": 11.87,
+        "faceValue": 275.77,
+        "stock": 9996,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70726,
+        "costPrice": 34.84,
+        "faceValue": 400.4,
+        "stock": 9997,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "6个月",
+        "periodDays": 180,
+        "shunshiGoodsId": 70725,
+        "costPrice": 69.53,
+        "faceValue": 138,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70724,
+        "costPrice": 99.69,
+        "faceValue": 63043.98,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_music_网易云音乐",
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "网易云音乐",
+    "skuCount": 10,
+    "packageCount": 7,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 70686,
+        "costPrice": 4.37,
+        "faceValue": 5.55,
+        "stock": 9997,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70685,
+        "costPrice": 7.4,
+        "faceValue": 18,
+        "stock": 1,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70684,
+        "costPrice": 23.51,
+        "faceValue": 54,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70683,
+        "costPrice": 55.69,
+        "faceValue": 216,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70675,
+        "costPrice": 9.83,
+        "faceValue": 12.48,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70674,
+        "costPrice": 30.03,
+        "faceValue": 37.44,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70673,
+        "costPrice": 90.23,
+        "faceValue": 144,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_music_全民K歌",
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "全民K歌",
+    "skuCount": 9,
+    "packageCount": 7,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "1天",
+        "periodDays": 1,
+        "shunshiGoodsId": 70628,
+        "costPrice": 2.7,
+        "faceValue": 5,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3天",
+        "periodDays": 3,
+        "shunshiGoodsId": 70627,
+        "costPrice": 4.21,
+        "faceValue": 5,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 70626,
+        "costPrice": 20.05,
+        "faceValue": 20.23,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70631,
+        "costPrice": 15.34,
+        "faceValue": 20,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70630,
+        "costPrice": 40.56,
+        "faceValue": 60,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70629,
+        "costPrice": 162.18,
+        "faceValue": 240,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "",
+        "periodDays": 9999,
+        "shunshiGoodsId": 73751,
+        "costPrice": 1.03,
+        "faceValue": 1.03,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_music_酷狗音乐",
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "酷狗音乐",
+    "skuCount": 6,
+    "packageCount": 6,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "1天",
+        "periodDays": 1,
+        "shunshiGoodsId": 70699,
+        "costPrice": 2.06,
+        "faceValue": 5,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3天",
+        "periodDays": 3,
+        "shunshiGoodsId": 70698,
+        "costPrice": 2.25,
+        "faceValue": 12.12,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 70706,
+        "costPrice": 4.67,
+        "faceValue": 10,
+        "stock": 9996,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70704,
+        "costPrice": 31.77,
+        "faceValue": 45,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 70703,
+        "costPrice": 109.93,
+        "faceValue": 180,
+        "stock": 9997,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70702,
+        "costPrice": 21.84,
+        "faceValue": 27.88,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_music_酷我音乐",
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "酷我音乐",
+    "skuCount": 3,
+    "packageCount": 3,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 70720,
+        "costPrice": 3.4,
+        "faceValue": 9,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 70719,
+        "costPrice": 11.06,
+        "faceValue": 15,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 70718,
+        "costPrice": 33.75,
+        "faceValue": 45,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_audio_book_懒人听书",
+    "categoryId": "target_audio_book",
+    "categoryName": "阅读听书",
+    "brand": "懒人听书",
+    "skuCount": 2,
+    "packageCount": 2,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 73096,
+        "costPrice": 9.43,
+        "faceValue": 15,
+        "stock": 9998,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 73095,
+        "costPrice": 26.97,
+        "faceValue": 42,
+        "stock": 9999,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_audio_book_蜻蜓FM",
+    "categoryId": "target_audio_book",
+    "categoryName": "阅读听书",
+    "brand": "蜻蜓FM",
+    "skuCount": 0,
+    "packageCount": 0,
+    "packages": []
+  },
+  {
+    "productId": "brand_target_audio_book_QQ阅读",
+    "categoryId": "target_audio_book",
+    "categoryName": "阅读听书",
+    "brand": "QQ阅读",
+    "skuCount": 4,
+    "packageCount": 1,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "",
+        "periodDays": 9999,
+        "shunshiGoodsId": 58210,
+        "costPrice": 9.46,
+        "faceValue": 9.46,
+        "stock": 99999,
+        "channel": "零售直充",
+        "channelPriority": 1,
+        "accountVariants": [
+          {
+            "accountType": "qq",
+            "shunshiGoodsId": 58210,
+            "costPrice": 9.46,
+            "faceValue": 9.46,
+            "stock": 99999,
+            "channel": "零售直充",
+            "channelPriority": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_audio_book_樊登读书",
+    "categoryId": "target_audio_book",
+    "categoryName": "阅读听书",
+    "brand": "樊登读书",
+    "skuCount": 0,
+    "packageCount": 0,
+    "packages": []
+  },
+  {
+    "productId": "brand_target_cloud_百度网盘",
+    "categoryId": "target_cloud",
+    "categoryName": "网盘",
+    "brand": "百度网盘",
+    "skuCount": 15,
+    "packageCount": 9,
+    "packages": [
+      {
+        "memberType": "普通会员",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71995,
+        "costPrice": 13.22,
+        "faceValue": 26,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "普通会员",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 72003,
+        "costPrice": 41.47,
+        "faceValue": 45.03,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "普通会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 72002,
+        "costPrice": 128.47,
+        "faceValue": 169.24,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "1天",
+        "periodDays": 1,
+        "shunshiGoodsId": 72001,
+        "costPrice": 13,
+        "faceValue": 18,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "3天",
+        "periodDays": 3,
+        "shunshiGoodsId": 72000,
+        "costPrice": 13,
+        "faceValue": 25,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 71999,
+        "costPrice": 13.47,
+        "faceValue": 28,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71992,
+        "costPrice": 18.64,
+        "faceValue": 40,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 71991,
+        "costPrice": 47.78,
+        "faceValue": 120,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71996,
+        "costPrice": 158.57,
+        "faceValue": 360,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_cloud_夸克",
+    "categoryId": "target_cloud",
+    "categoryName": "网盘",
+    "brand": "夸克",
+    "skuCount": 35,
+    "packageCount": 13,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "3天",
+        "periodDays": 3,
+        "shunshiGoodsId": 71316,
+        "costPrice": 3.45,
+        "faceValue": 10,
+        "stock": 9988,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 73153,
+        "costPrice": 2.85,
+        "faceValue": 218,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 73152,
+        "costPrice": 7.62,
+        "faceValue": 218,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 71112,
+        "costPrice": 19.64,
+        "faceValue": 56,
+        "stock": 0,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "6个月",
+        "periodDays": 180,
+        "shunshiGoodsId": 71109,
+        "costPrice": 93.56,
+        "faceValue": 544,
+        "stock": 0,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71111,
+        "costPrice": 44.36,
+        "faceValue": 198,
+        "stock": 0,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "24个月",
+        "periodDays": 730,
+        "shunshiGoodsId": 71110,
+        "costPrice": 62.12,
+        "faceValue": 366,
+        "stock": 0,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "1天",
+        "periodDays": 1,
+        "shunshiGoodsId": 72051,
+        "costPrice": 4.27,
+        "faceValue": 10,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "3天",
+        "periodDays": 3,
+        "shunshiGoodsId": 72050,
+        "costPrice": 6.31,
+        "faceValue": 15,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 72049,
+        "costPrice": 8.45,
+        "faceValue": 18,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 72048,
+        "costPrice": 9.66,
+        "faceValue": 20,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 72047,
+        "costPrice": 29.88,
+        "faceValue": 58,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 72053,
+        "costPrice": 82.7,
+        "faceValue": 198,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_cloud_迅雷",
+    "categoryId": "target_cloud",
+    "categoryName": "网盘",
+    "brand": "迅雷",
+    "skuCount": 14,
+    "packageCount": 12,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 73031,
+        "costPrice": 18.52,
+        "faceValue": 25,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "2个月",
+        "periodDays": 60,
+        "shunshiGoodsId": 73027,
+        "costPrice": 15.52,
+        "faceValue": 99,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 73030,
+        "costPrice": 57.42,
+        "faceValue": 75,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "6个月",
+        "periodDays": 180,
+        "shunshiGoodsId": 73029,
+        "costPrice": 56.12,
+        "faceValue": 99,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 73028,
+        "costPrice": 175.73,
+        "faceValue": 300,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 72041,
+        "costPrice": 9.38,
+        "faceValue": 15,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 72034,
+        "costPrice": 19.23,
+        "faceValue": 25.23,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "2个月",
+        "periodDays": 60,
+        "shunshiGoodsId": 72031,
+        "costPrice": 43.02,
+        "faceValue": 45.14,
+        "stock": 991,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 72038,
+        "costPrice": 148.18,
+        "faceValue": 360,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "白金",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 72037,
+        "costPrice": 10.12,
+        "faceValue": 12.56,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "白金",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 72036,
+        "costPrice": 26.77,
+        "faceValue": 30.77,
+        "stock": 99995,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "白金",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 72035,
+        "costPrice": 85.06,
+        "faceValue": 85.25,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_tool_剪映",
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "剪映",
+    "skuCount": 13,
+    "packageCount": 6,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 71273,
+        "costPrice": 11.45,
+        "faceValue": 16,
+        "stock": 9998,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71272,
+        "costPrice": 16.52,
+        "faceValue": 30,
+        "stock": 9999,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71280,
+        "costPrice": 82.51,
+        "faceValue": 258,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 71270,
+        "costPrice": 21.56,
+        "faceValue": 30,
+        "stock": 9999,
+        "channel": "官方直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71275,
+        "costPrice": 26.54,
+        "faceValue": 79,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71277,
+        "costPrice": 207.41,
+        "faceValue": 758,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_tool_WPS",
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "WPS",
+    "skuCount": 30,
+    "packageCount": 15,
+    "packages": [
+      {
+        "memberType": "大会员",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 71264,
+        "costPrice": 8.15,
+        "faceValue": 18,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "大会员",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71263,
+        "costPrice": 24.47,
+        "faceValue": 60,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "大会员",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 71257,
+        "costPrice": 65.56,
+        "faceValue": 180,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "大会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71256,
+        "costPrice": 136.01,
+        "faceValue": 360,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "大会员",
+        "period": "24个月",
+        "periodDays": 730,
+        "shunshiGoodsId": 71260,
+        "costPrice": 248.64,
+        "faceValue": 360,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71265,
+        "costPrice": 13.47,
+        "faceValue": 15,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 71254,
+        "costPrice": 51.92,
+        "faceValue": 90,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71253,
+        "costPrice": 200.42,
+        "faceValue": 365,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 71244,
+        "costPrice": 7.49,
+        "faceValue": 10.86,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71243,
+        "costPrice": 13.32,
+        "faceValue": 20,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 71242,
+        "costPrice": 36.7,
+        "faceValue": 69,
+        "stock": 1101,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71238,
+        "costPrice": 88.07,
+        "faceValue": 179,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "24个月",
+        "periodDays": 730,
+        "shunshiGoodsId": 71247,
+        "costPrice": 159.72,
+        "faceValue": 418,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "超级会员",
+        "period": "48个月",
+        "periodDays": 9999,
+        "shunshiGoodsId": 71246,
+        "costPrice": 296.44,
+        "faceValue": 418,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "普通会员",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71237,
+        "costPrice": 83.34,
+        "faceValue": 90.72,
+        "stock": 9992,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_tool_醒图",
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "醒图",
+    "skuCount": 5,
+    "packageCount": 5,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71287,
+        "costPrice": 9.19,
+        "faceValue": 17.16,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71286,
+        "costPrice": 53.08,
+        "faceValue": 75.3,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 71285,
+        "costPrice": 8.85,
+        "faceValue": 16,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71284,
+        "costPrice": 8.79,
+        "faceValue": 30,
+        "stock": 9984,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "SVIP",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71283,
+        "costPrice": 69.84,
+        "faceValue": 230,
+        "stock": 9996,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_tool_百度文库",
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "百度文库",
+    "skuCount": 6,
+    "packageCount": 6,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "3天",
+        "periodDays": 3,
+        "shunshiGoodsId": 71236,
+        "costPrice": 6.94,
+        "faceValue": 19.17,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 71235,
+        "costPrice": 10.94,
+        "faceValue": 107.69,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "14天",
+        "periodDays": 14,
+        "shunshiGoodsId": 71228,
+        "costPrice": 13.95,
+        "faceValue": 19.17,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 71234,
+        "costPrice": 17.65,
+        "faceValue": 117.01,
+        "stock": 10000,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 71233,
+        "costPrice": 26.49,
+        "faceValue": 51.74,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 71232,
+        "costPrice": 66.51,
+        "faceValue": 100,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_tool_乐播投屏",
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "乐播投屏",
+    "skuCount": 0,
+    "packageCount": 0,
+    "packages": []
+  },
+  {
+    "productId": "brand_target_bike_哈啰",
+    "categoryId": "target_bike",
+    "categoryName": "共享单车",
+    "brand": "哈啰",
+    "skuCount": 5,
+    "packageCount": 4,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 73167,
+        "costPrice": 8.96,
+        "faceValue": 15,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 73166,
+        "costPrice": 20.23,
+        "faceValue": 25,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 73165,
+        "costPrice": 65.47,
+        "faceValue": 75,
+        "stock": 99999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 73164,
+        "costPrice": 4040.76,
+        "faceValue": 4040.76,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_bike_美团单车",
+    "categoryId": "target_bike",
+    "categoryName": "共享单车",
+    "brand": "美团单车",
+    "skuCount": 2,
+    "packageCount": 1,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 73195,
+        "costPrice": 15.98,
+        "faceValue": 35,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_bike_美团电单车",
+    "categoryId": "target_bike",
+    "categoryName": "共享单车",
+    "brand": "美团电单车",
+    "skuCount": 2,
+    "packageCount": 2,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 73193,
+        "costPrice": 9.75,
+        "faceValue": 15,
+        "stock": 9995,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "15天",
+        "periodDays": 15,
+        "shunshiGoodsId": 73192,
+        "costPrice": 10.33,
+        "faceValue": 18,
+        "stock": 9998,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  },
+  {
+    "productId": "brand_target_bike_青桔",
+    "categoryId": "target_bike",
+    "categoryName": "共享单车",
+    "brand": "青桔",
+    "skuCount": 19,
+    "packageCount": 8,
+    "packages": [
+      {
+        "memberType": "",
+        "period": "7天",
+        "periodDays": 7,
+        "shunshiGoodsId": 73175,
+        "costPrice": 5.27,
+        "faceValue": 11.45,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "14天",
+        "periodDays": 14,
+        "shunshiGoodsId": 73171,
+        "costPrice": 28.1,
+        "faceValue": 50,
+        "stock": 0,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "15天",
+        "periodDays": 15,
+        "shunshiGoodsId": 73181,
+        "costPrice": 14.31,
+        "faceValue": 45,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "1个月",
+        "periodDays": 30,
+        "shunshiGoodsId": 73186,
+        "costPrice": 13.11,
+        "faceValue": 20,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "2个月",
+        "periodDays": 60,
+        "shunshiGoodsId": 73178,
+        "costPrice": 100.02,
+        "faceValue": 240,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "3个月",
+        "periodDays": 90,
+        "shunshiGoodsId": 73183,
+        "costPrice": 40.82,
+        "faceValue": 75,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "6个月",
+        "periodDays": 180,
+        "shunshiGoodsId": 73176,
+        "costPrice": 269.32,
+        "faceValue": 720,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      },
+      {
+        "memberType": "",
+        "period": "12个月",
+        "periodDays": 365,
+        "shunshiGoodsId": 73184,
+        "costPrice": 150.79,
+        "faceValue": 300,
+        "stock": 9999,
+        "channel": "账号直充",
+        "channelPriority": 3,
+        "accountVariants": []
+      }
+    ]
+  }
+]

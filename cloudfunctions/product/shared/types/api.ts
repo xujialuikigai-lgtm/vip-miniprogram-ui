@@ -74,6 +74,10 @@ export interface ShunshiProductListItem {
   status: number;
   /** 库存数量 */
   stock_num: number;
+  /** 允许销售的渠道白名单（逗号分隔；空表示未限制） */
+  can_buy?: string;
+  /** 禁止销售的渠道/限制黑名单 */
+  can_no_buy?: string;
 }
 
 /** 顺势商品列表响应（/api/v1/goods/list 的 data） */

@@ -257,10 +257,14 @@ Page({
             wx.showModal({
                 title: '清空并重建',
                 content: '将删除目标会员分类下所有已同步商品（包含历史按 SKU 导入的旧数据），然后按品牌重新聚合同步。此操作不可撤销，确定继续吗？',
-                confirmText: '清空并重建',
+                // showModal 的按钮文案长度有限，超长会触发 fail，看起来像按钮无响应。
+                confirmText: '确认重建',
                 confirmColor: PRIMARY_COLOR,
                 success: (r) => resolve(!!r.confirm),
-                fail: () => resolve(false)
+                fail: () => {
+                    wx.showToast({ title: '弹窗打开失败，请重试', icon: 'none' });
+                    resolve(false);
+                }
             });
         });
         if (!confirmed)

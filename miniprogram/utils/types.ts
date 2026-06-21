@@ -27,18 +27,36 @@ export interface TimelineNode {
   desc: string;
 }
 
+/** 套餐账号形式变体（手机号/QQ号对应不同上游 SKU） */
+export interface PackageAccountVariant {
+  accountType: 'phone' | 'qq';
+  shunshiGoodsId: number;
+  shunshiName?: string;
+  costPrice: number;
+  faceValue: number;
+  stock: number;
+}
+
 /** 套餐接口（前端精简版） */
 export interface Package {
   packageId: string;
   name: string;
   memberType: string;
+  /** 顺势 goods_info，来自 /api/v1/goods/info */
+  goodsInfo?: string;
+  /** 顺势 goods_notice，来自 /api/v1/goods/info */
+  goodsNotice?: string;
   price: number;
   costPrice: number;
   faceValue: number;
+  shunshiGoodsId?: number;
+  shunshiName?: string;
   stock: number;
   online: boolean;
   isDefault: boolean;
   sortWeight: number;
+  /** 账号形式变体；存在多个时表示同时支持手机号/QQ号充值，下单按输入路由 */
+  accountVariants?: PackageAccountVariant[];
 }
 
 /** Attach 模板字段 */
@@ -69,6 +87,10 @@ export interface Product {
   displayIcon?: string;
   shunshiImg?: string;
   shunshiName?: string;
+  /** 顺势 goods_info，来自代表 SKU 的 /api/v1/goods/info */
+  goodsInfo?: string;
+  /** 顺势 goods_notice，来自代表 SKU 的 /api/v1/goods/info */
+  goodsNotice?: string;
   tags: string[];
   description: string;
   rechargeMethod: string;

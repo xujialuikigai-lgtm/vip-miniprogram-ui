@@ -95,6 +95,28 @@
   border-bottom: none;
 }
 
+.source-field {
+  padding: 18rpx 0 22rpx;
+  border-bottom: 1rpx solid #edf1f5;
+}
+
+.source-field__label {
+  color: #526071;
+  font-size: 25rpx;
+  font-weight: 700;
+}
+
+.source-field__value {
+  margin-top: 10rpx;
+  padding: 14rpx 16rpx;
+  border-radius: 12rpx;
+  background: #f5f7f8;
+  color: #617084;
+  font-size: 24rpx;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
 .field-label {
   width: 206rpx;
   flex-shrink: 0;
@@ -248,6 +270,17 @@
   background: #fff7e7;
   color: #8b641b;
   font-size: 23rpx;
+}
+
+.sku-source {
+  margin-top: 12rpx;
+  padding: 12rpx 16rpx;
+  border-radius: 12rpx;
+  background: #f7f9fb;
+  color: #617084;
+  font-size: 23rpx;
+  line-height: 1.45;
+  word-break: break-all;
 }
 
 .loss-tip {

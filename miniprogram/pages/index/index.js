@@ -5,7 +5,10 @@
 // Requirements: 1.1, 1.2, 1.3, 1.8, 22.1, 22.2, 22.3, 22.4, 22.5
 import { requestSilent } from '../../utils/request';
 import { PAGE_SIZE, BROADCAST_MIN_DISPLAY } from '../../utils/constants';
+import { readPageCache, writePageCache } from '../../utils/pageCache';
 import { PageState } from '../../utils/types';
+const HOME_CACHE_TTL = 60 * 1000;
+const HOME_CATEGORIES_CACHE_KEY = 'home:categories';
 Page({
     data: {
         // 累计订单数（信任 Hero 区，22.1/22.2），默认占位待配置回填
@@ -55,20 +58,20 @@ Page({
      * 加载信任 Hero 数据与播报（静默失败，不阻塞主流程）
      */
     async loadHeroAndBroadcast() {
-        // 累计订单数（22.2 实时生效）
-        const cfgRes = await requestSilent({
-            name: 'product',
-            action: 'getConfig',
-            data: { key: 'homepage_order_count' }
-        });
+        const [cfgRes, bcRes] = await Promise.all([
+            requestSilent({
+                name: 'product',
+                action: 'getConfig',
+                data: { key: 'homepage_order_count' }
+            }),
+            requestSilent({
+                name: 'product',
+                action: 'getBroadcast'
+            })
+        ]);
         if (cfgRes.success && cfgRes.data) {
             this.setData({ orderCount: String(cfgRes.data) });
         }
-        // 实时购买播报（22.3/22.4），返回数组直接作为数据源
-        const bcRes = await requestSilent({
-            name: 'product',
-            action: 'getBroadcast'
-        });
         if (bcRes.success && Array.isArray(bcRes.data)) {
             this.setData({ broadcastList: bcRes.data });
         }
@@ -79,6 +82,16 @@ Page({
      * 分类就绪后加载首个 Tab 的商品列表。
      */
     async loadCategories() {
+        const cached = readPageCache(HOME_CATEGORIES_CACHE_KEY, HOME_CACHE_TTL);
+        if (cached && cached.length > 0) {
+            this.setData({ tabs: cached, activeTab: 0 });
+            this.loadProducts(true);
+            this.refreshCategories();
+            return;
+        }
+        await this.refreshCategories();
+    },
+    async refreshCategories() {
         const res = await requestSilent({
             name: 'product',
             action: 'getCategories'
@@ -90,9 +103,15 @@ Page({
                 .sort((a, b) => (a.tabSort || 0) - (b.tabSort || 0))
                 .forEach((c) => tabs.push({ label: this.formatTabLabel(c.name), categoryId: c.categoryId }));
         }
-        this.setData({ tabs, activeTab: 0 });
-        // 加载当前 Tab（热门）商品
-        await this.loadProducts(true);
+        const currentCategoryId = (this.data.tabs[this.data.activeTab] || { categoryId: '' }).categoryId;
+        const nextActive = currentCategoryId
+            ? Math.max(0, tabs.findIndex((tab) => tab.categoryId === currentCategoryId))
+            : 0;
+        this.setData({ tabs, activeTab: nextActive });
+        writePageCache(HOME_CATEGORIES_CACHE_KEY, tabs);
+        // 首次进入或仍在热门 Tab 时刷新当前列表；用户已切到其他 Tab 时不打断其选择。
+        if (!currentCategoryId)
+            await this.loadProducts(true);
     },
     /**
      * 切换分类 Tab：重置分页并刷新商品列表（1.2 仅展示对应分类已上架商品）
@@ -114,14 +133,38 @@ Page({
             this._total = 0;
         }
         const tab = this.data.tabs[this.data.activeTab] || { categoryId: '' };
+        const cacheKey = `home:products:${tab.categoryId || 'all'}`;
+        if (reset) {
+            const cached = readPageCache(cacheKey, HOME_CACHE_TTL);
+            if (cached) {
+                this._total = cached.total;
+                this.setData({
+                    products: cached.products,
+                    hasMore: cached.hasMore,
+                    loadingMore: false,
+                    listState: cached.products.length === 0 ? PageState.EMPTY : PageState.SUCCESS
+                });
+                this.refreshProducts(reset, true);
+                return;
+            }
+        }
+        await this.refreshProducts(reset, false);
+    },
+    async refreshProducts(reset, silent) {
+        const tab = this.data.tabs[this.data.activeTab] || { categoryId: '' };
+        const requestCategoryId = tab.categoryId;
+        const cacheKey = `home:products:${tab.categoryId || 'all'}`;
         const res = await requestSilent({
             name: 'product',
             action: 'getList',
             data: { categoryId: tab.categoryId, page: this._page, pageSize: PAGE_SIZE }
         });
+        const latestTab = this.data.tabs[this.data.activeTab] || { categoryId: '' };
+        if (latestTab.categoryId !== requestCategoryId)
+            return;
         // 加载失败：首页展示异常态（可重试），翻页失败仅复位 loadingMore
         if (!res.success || !res.data) {
-            if (reset) {
+            if (reset && !silent) {
                 this.setData({ listState: PageState.ERROR });
             }
             this.setData({ loadingMore: false });
@@ -138,6 +181,9 @@ Page({
             loadingMore: false,
             listState: products.length === 0 ? PageState.EMPTY : PageState.SUCCESS
         });
+        if (reset) {
+            writePageCache(cacheKey, { products, total, hasMore });
+        }
     },
     /**
      * 触底加载下一页（无更多 / 正在加载 / 非成功态时跳过）

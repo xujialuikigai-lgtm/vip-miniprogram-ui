@@ -359,7 +359,7 @@ const TARGET_SYNC_GROUPS = [
         id: -900002,
         categoryId: 'target_music',
         name: '音乐',
-        keywords: ['汽水音乐', 'QQ音乐', '喜马拉雅', '网易音乐', '全民K歌', '酷狗音乐', '酷我音乐']
+        keywords: ['汽水音乐', 'QQ音乐', '喜马拉雅', '网易云音乐', '全民K歌', '酷狗音乐', '酷我音乐']
     },
     {
         id: -900003,
@@ -389,7 +389,7 @@ const TARGET_SYNC_GROUPS = [
         id: -900007,
         categoryId: 'target_bike',
         name: '共享单车',
-        keywords: ['哈罗', '美团', '青橘']
+        keywords: ['哈啰', '美团单车', '美团电单车', '青桔']
     }
 ];
 const TARGET_SYNC_ITEMS = [];
@@ -401,6 +401,8 @@ for (const group of TARGET_SYNC_GROUPS) {
 const TARGET_CATEGORY_IDS = TARGET_SYNC_GROUPS.map((group) => group.categoryId);
 /** 顺势商品类型：1=卡密，2=直充。直充范围以接口字段为准，便于运营对账。 */
 const SHUNSHI_GOODS_TYPE_DIRECT = 2;
+/** 测试售价倍率：未人工定价的新套餐按成本价 1.1 倍生成售价，用于跑通下单支付链路。 */
+const TEST_PRICE_MARKUP = 1.1;
 /**
  * 带并发上限的 map：以 limit 个 worker 轮流取任务执行，结果按原索引回填（保持顺序）。
  * 用于把原本串行的网络/数据库调用并行化，同时避免一次性发起过多请求。
@@ -506,6 +508,49 @@ async function resetTargetCategoryProductCount() {
     });
 }
 /**
+ * 数据迁移兜底：旧同步模型会把顺势 SKU 直接写成商品（如 productId=prod_72794、
+ * name=【转单资源】腾讯视频...），导致视频会员分类按 SKU 展示，而不是像音乐会员一样按品牌展示。
+ * 新同步逻辑只写 brand_<categoryId>_<brand> 聚合商品；这里把目标分类中的旧 SKU 商品下架，
+ * 保留数据方便回溯，不再出现在用户端分类页。
+ */
+async function offlineLegacyTargetSkuProducts() {
+    const all = [];
+    let skip = 0;
+    while (true) {
+        const res = await db
+            .collection('products')
+            .where({ categoryId: db.command.in(TARGET_CATEGORY_IDS), online: true })
+            .skip(skip)
+            .limit(100)
+            .get();
+        const batch = (res.data || []);
+        all.push(...batch);
+        if (batch.length < 100)
+            break;
+        skip += 100;
+    }
+    const legacyProducts = all.filter(isLegacyTargetSkuProduct);
+    await mapWithConcurrency(legacyProducts, DB_CONCURRENCY, async (product) => {
+        if (!product._id)
+            return;
+        await db.collection('products').doc(product._id).update({
+            data: {
+                online: false,
+                updatedAt: new Date()
+            }
+        });
+    });
+    return legacyProducts.length;
+}
+function isLegacyTargetSkuProduct(product) {
+    const productId = String(product.productId || '');
+    const name = String(product.name || '');
+    const isBrandAggregate = productId.indexOf(`brand_${product.categoryId}_`) === 0;
+    if (isBrandAggregate)
+        return false;
+    return /^prod_\d+$/.test(productId) || /^【[^】]+】/.test(name);
+}
+/**
  * 同步商品（任务 5.3，需求 17.1-17.6）
  * 1. 同步本地目标分类（来自 会员多多.docx）
  * 2. 按目标品牌关键词调用 getProductList({keyword, page, limit:100})，不再遍历顺势全量分类
@@ -525,7 +570,7 @@ async function handleSyncProducts(event = {}) {
         const page = normalizePositiveInt(event.page, 1);
         // 步骤 1：同步本地目标分类，不再拉取顺势全量分类树
         await syncTargetCategories(TARGET_SYNC_GROUPS);
-        const legacyOfflined = 0;
+        const legacyOfflined = !batchMode || cursor === 0 ? await offlineLegacyTargetSkuProducts() : 0;
         let shunshiProducts = [];
         let nextCursor = TARGET_SYNC_ITEMS.length;
         let nextPage = 1;
@@ -612,6 +657,12 @@ function normalizeNonNegativeInt(value, fallback) {
  */
 function shouldSyncTargetProduct(item, keyword) {
     if (!isDirectRechargeProduct(item))
+        return false;
+    // 渠道授权：仅同步可在自有平台销售的商品（can_buy 空或「所有渠道均可销售」）
+    if (!(0, parseGoods_1.isChannelSellable)(item.can_buy))
+        return false;
+    // 排除指定渠道（如转单资源）
+    if ((0, parseGoods_1.isChannelExcluded)(item.goods_name))
         return false;
     const name = normalizeSearchText(item.goods_name || '');
     const key = normalizeSearchText(keyword);
@@ -797,21 +848,51 @@ async function aggregateAndUpsertBrands(rows) {
 function pickRepresentativeItem(items, preferId) {
     return items.find((it) => it.id === preferId) || items[0];
 }
-/** 套餐描述转 Package（新套餐：售价 0、下架，等待管理员配置） */
+function makeTestSalePrice(costPrice) {
+    const cost = Number(costPrice) || 0;
+    const price = cost > 0 ? cost * TEST_PRICE_MARKUP : 0.01;
+    return Math.ceil(price * 100) / 100;
+}
+function fillTestPriceForUnconfiguredPackage(pkg) {
+    if (Number(pkg.price) > 0) {
+        return pkg;
+    }
+    return Object.assign(Object.assign({}, pkg), { price: makeTestSalePrice(pkg.costPrice), online: true });
+}
+/** 套餐描述转 Package（新套餐：测试期按成本 1.1 倍生成售价并可售） */
 function buildPackageFromDescriptor(d, isDefault) {
-    return {
+    const pkg = {
         packageId: `pkg_${d.shunshiGoodsId}`,
         name: d.period || '默认',
         memberType: d.memberType,
-        price: 0,
+        price: makeTestSalePrice(d.costPrice),
         costPrice: d.costPrice,
         faceValue: d.faceValue,
         shunshiGoodsId: d.shunshiGoodsId,
+        shunshiName: d.shunshiName,
         stock: d.stock,
-        online: false,
+        online: true,
         isDefault,
         sortWeight: d.periodDays
     };
+    const variants = buildAccountVariants(d);
+    if (variants.length > 0) {
+        pkg.accountVariants = variants;
+    }
+    return pkg;
+}
+/** 从套餐描述中提取账号形式变体（仅 phone/qq） */
+function buildAccountVariants(d) {
+    return (d.accountVariants || [])
+        .filter((v) => v.accountType === 'phone' || v.accountType === 'qq')
+        .map((v) => ({
+        accountType: v.accountType,
+        shunshiGoodsId: v.shunshiGoodsId,
+        shunshiName: v.shunshiName,
+        costPrice: v.costPrice,
+        faceValue: v.faceValue,
+        stock: v.stock
+    }));
 }
 /** 新建品牌商品 */
 async function createBrandProduct(productId, g, descriptors, repItem) {
@@ -822,8 +903,9 @@ async function createBrandProduct(productId, g, descriptors, repItem) {
         productId,
         // 品牌商品由多 SKU 聚合，product 级 shunshiGoodsId 仅保留代表值（套餐各自绑定真实 SKU）
         shunshiGoodsId: repItem.id,
+        // name 是用户端展示名，shunshiName 是接口原始代表商品名，供管理端对账查看
         name: g.brand,
-        shunshiName: g.brand,
+        shunshiName: repItem.goods_name,
         categoryId: g.categoryId,
         categoryName: g.categoryName,
         brandIcon: await resolveProductBrandIcon(repItem),
@@ -869,7 +951,11 @@ async function mergeBrandProduct(existing, g, descriptors, repItem) {
         const idx = keyToIndex.has(key) ? keyToIndex.get(key) : keyToIndex.get(`sku:${d.shunshiGoodsId}`);
         if (idx !== undefined && packages[idx]) {
             // 更新顺势字段与绑定 SKU，保留管理员售价/上下架/默认标记/名称
-            packages[idx] = Object.assign(Object.assign({}, packages[idx]), { shunshiGoodsId: d.shunshiGoodsId, costPrice: d.costPrice, faceValue: d.faceValue, stock: d.stock });
+            packages[idx] = fillTestPriceForUnconfiguredPackage(Object.assign(Object.assign({}, packages[idx]), { memberType: packages[idx].memberType || d.memberType, shunshiGoodsId: d.shunshiGoodsId, shunshiName: d.shunshiName, costPrice: d.costPrice, faceValue: d.faceValue, stock: d.stock }));
+            const variants = buildAccountVariants(d);
+            if (variants.length > 0) {
+                packages[idx].accountVariants = variants;
+            }
         }
         else {
             const np = buildPackageFromDescriptor(d, false);
@@ -885,6 +971,8 @@ async function mergeBrandProduct(existing, g, descriptors, repItem) {
     const data = {
         packages,
         brandIcon,
+        shunshiName: repItem.goods_name,
+        shunshiGoodsId: repItem.id,
         shunshiImg: repItem.goods_img,
         shunshiStatus: repItem.status,
         stockNum: descriptors.reduce((sum, d) => sum + (d.stock || 0), 0),
@@ -1039,7 +1127,7 @@ async function updateExistingProduct(existing, item, categoryId, categoryName) {
     return offlinedDelta;
 }
 /**
- * 新增商品：默认 online=false，生成默认套餐 price=0，
+ * 新增商品：默认 online=true，生成默认套餐测试价（成本价 * 1.1），
  * 顺势字段（进货价/面值/库存/上游状态）写入对应位置。
  * 不拉取商品详情：attachTemplate 留空、description 留空，由管理员在商品编辑页按需配置，
  * 以避免首次全量同步时逐个详情请求导致 60s 超时。
@@ -1047,18 +1135,20 @@ async function updateExistingProduct(existing, item, categoryId, categoryName) {
  */
 async function addNewProduct(item, cateId, categoryName, categoryId) {
     const now = new Date();
-    // 默认套餐：售价 price=0，由管理员后续配置；成本/面值/库存来自顺势（字符串转数字）
+    const costPrice = parseFloat(item.goods_price);
+    // 默认套餐：测试期按成本价 1.1 倍生成售价；成本/面值/库存来自顺势（字符串转数字）
     const defaultPackage = {
         packageId: `pkg_${item.id}_default`,
         name: '默认套餐',
         memberType: '',
-        price: 0,
-        costPrice: parseFloat(item.goods_price),
+        price: makeTestSalePrice(costPrice),
+        costPrice,
         faceValue: parseFloat(item.face_value),
         shunshiGoodsId: item.id,
+        shunshiName: item.goods_name,
         stock: Number(item.stock_num),
-        // 初始售价需要人工配置；套餐默认不可售，避免 0 元购买。
-        online: false,
+        // 测试期默认可售，用于跑通下单、支付、订单链路；后续可在管理端改价或下架。
+        online: true,
         isDefault: true,
         sortWeight: 0
     };

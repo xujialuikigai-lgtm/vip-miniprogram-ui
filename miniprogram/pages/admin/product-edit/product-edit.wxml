@@ -32,17 +32,22 @@
       <view class="section-title">基础信息</view>
 
       <view class="field">
-        <view class="field-label">商品名称<text class="req">*</text></view>
+        <view class="field-label">用户端名称<text class="req">*</text></view>
         <view class="field-control">
           <input
             class="ipt"
-            placeholder="请输入商品名称"
+            placeholder="用户看到的商品名称"
             value="{{name}}"
             maxlength="{{nameMaxLength}}"
             bindinput="onNameInput"
           />
           <text class="counter">{{name.length}}/{{nameMaxLength}}</text>
         </view>
+      </view>
+
+      <view wx:if="{{shunshiName}}" class="source-field">
+        <view class="source-field__label">接口原始名</view>
+        <view class="source-field__value">{{shunshiName}}</view>
       </view>
 
       <view class="field" bindtap="openCategoryPicker">
@@ -147,6 +152,7 @@
           </view>
         </view>
         <view wx:if="{{item.price <= 0}}" class="pending-tip">该套餐暂未配置售价，会展示但不能购买</view>
+        <view wx:if="{{item.shunshiName}}" class="sku-source">接口SKU名：{{item.shunshiName}}</view>
         <view wx:if="{{item.price < item.costPrice}}" class="loss-tip">⚠️ 售价低于成本，将产生亏损</view>
       </view>
     </view>

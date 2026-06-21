@@ -86,6 +86,8 @@ Page({
     // 接口未返回 attach 模板时，默认走手机号直充输入
     fallbackPhone: '',
     fallbackPhoneValid: false,
+    // 账号输入占位文案（按所选套餐支持的账号形式动态变化）
+    accountPlaceholder: '请输入绑定手机号',
 
     // —— 购买核对弹窗 ——
     // 弹窗是否可见
@@ -140,10 +142,12 @@ Page({
 
     // 会员类型去重（保留套餐定义顺序）
     const memberTypes: string[] = [];
+    const hasUnspecifiedMemberType = packages.some((p) => !p.memberType);
     packages.forEach((p) => {
-      const t = p.memberType || '默认';
+      const t = p.memberType || '';
       if (memberTypes.indexOf(t) < 0) memberTypes.push(t);
     });
+    const visibleMemberTypes = hasUnspecifiedMemberType ? [] : memberTypes.filter(Boolean);
 
     // 设置导航栏标题为商品名
     if (product.name) {
@@ -156,7 +160,7 @@ Page({
         product,
         productIcon: pickRenderableImageUrl(product.brandIcon, product.shunshiImg),
         attachTemplate: product.attachTemplate || [],
-        memberTypes
+        memberTypes: visibleMemberTypes
       },
       () => {
         // 初始化会员类型与套餐选择
@@ -184,7 +188,7 @@ Page({
     // 3. 首个套餐
     if (!target) target = packages[0];
 
-    const activeMemberType = target ? target.memberType || '默认' : '';
+    const activeMemberType = this.data.memberTypes.length > 0 && target ? target.memberType || '' : '';
 
     this.refreshMemberType(activeMemberType, target ? target.packageId : '');
 
@@ -211,7 +215,7 @@ Page({
   refreshMemberType(this: any, memberType: string, preferPackageId: string) {
     const all: Package[] = this._allPackages || [];
     const visiblePackages = all
-      .filter((p) => (p.memberType || '默认') === memberType)
+      .filter((p) => !memberType || (p.memberType || '') === memberType)
       .map((p) => this.toDisplayPackage(p));
 
     let selected: Package | undefined;
@@ -228,7 +232,9 @@ Page({
       selectedPackage: selected || null,
       dialogPackageName: selected ? selected.name || '' : '',
       dialogAmount: selected && Number(selected.price) > 0 ? Number(selected.price) : 0,
-      amountText: selected && selected.online && selected.price > 0 ? formatPrice(selected.price) : '待配置'
+      amountText: selected && selected.online && selected.price > 0 ? formatPrice(selected.price) : '待配置',
+      accountPlaceholder: this.accountModeOf(selected || null).placeholder,
+      fallbackPhoneValid: this.isAccountValid(this.data.fallbackPhone, selected || null)
     });
   },
 
@@ -247,7 +253,9 @@ Page({
       selectedPackage: selected,
       dialogPackageName: selected.name || '',
       dialogAmount: selected.online && Number(selected.price) > 0 ? Number(selected.price) : 0,
-      amountText: selected.online && selected.price > 0 ? formatPrice(selected.price) : '待配置'
+      amountText: selected.online && selected.price > 0 ? formatPrice(selected.price) : '待配置',
+      accountPlaceholder: this.accountModeOf(selected).placeholder,
+      fallbackPhoneValid: this.isAccountValid(this.data.fallbackPhone, selected)
     });
   },
 
@@ -273,9 +281,41 @@ Page({
     const value = String((e.detail && e.detail.value) || '').replace(/\D/g, '').slice(0, 11);
     this.setData({
       fallbackPhone: value,
-      fallbackPhoneValid: isValidPhone(value),
+      fallbackPhoneValid: this.isAccountValid(value, this.data.selectedPackage),
       formValues: { ...this.data.formValues, phone: value }
     });
+  },
+
+  /**
+   * 计算所选套餐支持的账号形式（手机号/QQ号）及输入占位文案。
+   * 套餐含 accountVariants 时按变体推断；无变体时默认手机号。
+   */
+  accountModeOf(this: any, pkg: Package | null): { phone: boolean; qq: boolean; placeholder: string } {
+    const variants = (pkg && (pkg as any).accountVariants) || [];
+    const hasQQ = variants.some((v: any) => v.accountType === 'qq');
+    const hasPhone = variants.some((v: any) => v.accountType === 'phone');
+    if (hasQQ && hasPhone) return { phone: true, qq: true, placeholder: '请输入手机号或QQ号' };
+    if (hasQQ && !hasPhone) return { phone: false, qq: true, placeholder: '请输入QQ号' };
+    return { phone: true, qq: false, placeholder: '请输入绑定手机号' };
+  },
+
+  /** 按所选套餐支持的账号形式校验输入是否合法 */
+  isAccountValid(this: any, value: string, pkg: Package | null): boolean {
+    const v = String(value || '').trim();
+    const mode = this.accountModeOf(pkg);
+    const phoneOk = isValidPhone(v);
+    const qqOk = /^[1-9]\d{4,9}$/.test(v);
+    if (mode.phone && mode.qq) return phoneOk || qqOk;
+    if (mode.qq && !mode.phone) return qqOk;
+    return phoneOk;
+  },
+
+  /** 当前套餐的账号输入错误提示 */
+  accountInputLabel(this: any, pkg: Package | null): string {
+    const mode = this.accountModeOf(pkg);
+    if (mode.phone && mode.qq) return '手机号或QQ号';
+    if (mode.qq && !mode.phone) return 'QQ号';
+    return '手机号';
   },
 
   /**
@@ -342,7 +382,10 @@ Page({
       }
       this.setData({ formValues: result.values });
     } else if (!this.data.fallbackPhoneValid) {
-      wx.showToast({ title: '请输入11位手机号', icon: 'none' });
+      wx.showToast({
+        title: '请输入正确的' + this.accountInputLabel(this.data.selectedPackage),
+        icon: 'none'
+      });
       return;
     } else {
       this.setData({ formValues: { phone: this.data.fallbackPhone } });

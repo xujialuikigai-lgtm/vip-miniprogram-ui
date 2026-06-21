@@ -94,6 +94,20 @@
     </view>
 
     <!-- 关键须知（售前规则，Req 2.1） -->
+    <view wx:if="{{product.goodsNotice}}" class="section">
+      <view class="section__title">购买须知</view>
+      <view class="interface-content">
+        <rich-text nodes="{{product.goodsNotice}}"></rich-text>
+      </view>
+    </view>
+
+    <view wx:if="{{product.goodsInfo}}" class="section">
+      <view class="section__title">商品信息</view>
+      <view class="interface-content">
+        <rich-text nodes="{{product.goodsInfo}}"></rich-text>
+      </view>
+    </view>
+
     <view wx:if="{{product.rules}}" class="section">
       <view class="section__title">关键须知</view>
       <view class="rules">
@@ -161,7 +175,7 @@
             type="number"
             maxlength="11"
             value="{{fallbackPhone}}"
-            placeholder="请输入绑定手机号"
+            placeholder="{{accountPlaceholder}}"
             bindinput="onFallbackPhoneInput"
           />
         </view>

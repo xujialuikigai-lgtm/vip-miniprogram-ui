@@ -4,9 +4,11 @@
 //       再买一次（先调 rebuyCheck 校验是否上架，已下架弹窗提示）→ 空态/异常态 → 登录态处理。
 // Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 16.1
 import { requestSilent, request } from '../../utils/request';
+import { readPageCache, writePageCache } from '../../utils/pageCache';
 import { ORDER_TAB_LIST, PAGE_SIZE, PRIMARY_COLOR } from '../../utils/constants';
 /** 合法的状态 Tab 值（与云函数 order.list 的 status 入参对齐） */
 const VALID_TABS = ORDER_TAB_LIST.map((t) => t.value);
+const ORDERS_CACHE_TTL = 30 * 1000;
 Page({
     data: {
         /** 主题色，供 wxml 内联使用 */
@@ -93,13 +95,33 @@ Page({
      */
     async loadList(reset) {
         if (reset) {
+            const cacheKey = `orders:list:${this.data.activeTab}`;
+            const cached = readPageCache(cacheKey, ORDERS_CACHE_TTL);
+            if (cached) {
+                this.setData({
+                    list: cached.list,
+                    total: cached.total,
+                    page: cached.page,
+                    hasMore: cached.hasMore,
+                    state: cached.list.length > 0 ? 'success' : 'empty'
+                });
+                this.refreshList(true, true);
+                return;
+            }
             this.setData({ state: 'loading', page: 1, list: [], total: 0, hasMore: false });
         }
+        await this.refreshList(reset, false);
+    },
+    async refreshList(reset, silent) {
+        const requestTab = this.data.activeTab;
+        const page = reset ? 1 : this.data.page + 1;
         const res = await requestSilent({
             name: 'order',
             action: 'list',
-            data: { status: this.data.activeTab, page: 1, pageSize: PAGE_SIZE }
+            data: { status: requestTab, page, pageSize: PAGE_SIZE }
         });
+        if (this.data.activeTab !== requestTab)
+            return;
         if (!res.success) {
             // 登录态异常单独提示，其余按网络异常处理
             if (res.errCode === 'UNAUTHORIZED') {
@@ -107,43 +129,40 @@ Page({
                 wx.showToast({ title: '请重新进入小程序后再试', icon: 'none' });
                 return;
             }
-            this.setData({ state: 'error' });
+            if (!reset) {
+                this.setData({ loadingMore: false });
+                wx.showToast({ title: '加载失败，请稍后重试', icon: 'none' });
+                return;
+            }
+            if (!silent)
+                this.setData({ state: 'error' });
             return;
         }
         const list = (res.data && res.data.list) || [];
         const total = (res.data && res.data.total) || 0;
+        const nextList = reset ? list : this.data.list.concat(list);
+        const hasMore = nextList.length < total;
         this.setData({
-            list,
+            list: nextList,
             total,
-            page: 1,
-            hasMore: list.length < total,
-            state: list.length > 0 ? 'success' : 'empty'
+            page,
+            hasMore,
+            loadingMore: false,
+            state: nextList.length > 0 ? 'success' : 'empty'
         });
+        if (reset) {
+            writePageCache(`orders:list:${requestTab}`, {
+                list: nextList,
+                total,
+                page,
+                hasMore
+            });
+        }
     },
     /** 触底加载下一页 */
     async loadMore() {
-        const nextPage = this.data.page + 1;
         this.setData({ loadingMore: true });
-        const res = await requestSilent({
-            name: 'order',
-            action: 'list',
-            data: { status: this.data.activeTab, page: nextPage, pageSize: PAGE_SIZE }
-        });
-        if (!res.success) {
-            this.setData({ loadingMore: false });
-            wx.showToast({ title: '加载失败，请稍后重试', icon: 'none' });
-            return;
-        }
-        const more = (res.data && res.data.list) || [];
-        const total = (res.data && res.data.total) || this.data.total;
-        const list = this.data.list.concat(more);
-        this.setData({
-            list,
-            total,
-            page: nextPage,
-            hasMore: list.length < total,
-            loadingMore: false
-        });
+        await this.refreshList(false, false);
     },
     /** 骨架屏超时 / 异常态重试 */
     onRetry() {

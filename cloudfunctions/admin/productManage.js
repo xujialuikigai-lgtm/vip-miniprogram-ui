@@ -79,15 +79,22 @@ async function handleProductList(db, event) {
         const pkg = pickDefaultPackage(p.packages);
         const price = pkg ? round2(pkg.price) : 0;
         const costPrice = pkg ? round2(pkg.costPrice) : 0;
+        const packages = p.packages || [];
+        const sellablePackages = packages.filter((item) => item.online !== false && typeof item.price === 'number' && item.price > 0).length;
+        const pendingPackages = packages.filter((item) => !item.price || item.price <= 0 || item.online === false).length;
         return {
             productId: p.productId,
             name: p.name,
+            shunshiName: p.shunshiName || '',
             online: !!p.online,
             price,
             costPrice,
             // 单单利润 = 售价 - 接口成本
             profit: round2(price - costPrice),
             shunshiGoodsId: p.shunshiGoodsId,
+            categoryName: p.categoryName || '',
+            pendingPackages,
+            sellablePackages,
             todaySales: p.todaySales || 0,
             sortWeight: p.sortWeight || 0,
         };
@@ -98,7 +105,7 @@ async function handleProductList(db, event) {
  * 商品编辑保存入口
  *
  * 校验顺序：
- * 1. 复用 validateProductForm 做必填项 / 套餐数量 / 默认套餐 / 售价>0 校验（9.6）
+ * 1. 复用 validateProductForm 做必填项 / 套餐数量 / 默认套餐 / 上架套餐售价校验（9.6）
  * 2. 管理端补充校验：商品名长度、排序权重范围、套餐售价上限（9.5、9.6）
  * 3. 售价低于成本仅返回亏损警告，不阻止保存（9.9）
  *

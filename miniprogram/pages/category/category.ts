@@ -5,8 +5,9 @@
 // - 商品分页触底加载；加载态用骨架屏，空态/异常分别提示
 // Requirements: 1.4, 1.5, 16.2
 
-import { request } from '../../utils/request';
+import { requestSilent } from '../../utils/request';
 import { PAGE_SIZE } from '../../utils/constants';
+import { readPageCache, writePageCache } from '../../utils/pageCache';
 import { Category, Product, PageState } from '../../utils/types';
 
 interface CategoryPageData {
@@ -34,6 +35,16 @@ interface CategoryPageData {
   listState: PageState;
 }
 
+interface CategoryProductsCache {
+  products: Product[];
+  total: number;
+  page: number;
+  hasMore: boolean;
+}
+
+const CATEGORY_CACHE_TTL = 60 * 1000;
+const CATEGORY_LIST_CACHE_KEY = 'category:list';
+
 Page<CategoryPageData, WechatMiniprogram.IAnyObject>({
   data: {
     categories: [],
@@ -59,41 +70,65 @@ Page<CategoryPageData, WechatMiniprogram.IAnyObject>({
    */
   async loadCategories() {
     this.setData({ pageLoading: true, categoryError: false });
-    try {
-      const res = await request<{ categories: Category[] }>({
-        name: 'product',
-        action: 'getCategories'
-      });
 
-      const all = (res && res.categories) || [];
-      // 优先取顶级分类；若无层级信息则回退展示全部
-      const topLevel = all.filter((c) => !c.parentId || c.level <= 1);
-      const categories = topLevel.length > 0 ? topLevel : all;
-
-      if (categories.length === 0) {
-        // 无分类数据：整页空态
-        this.setData({
-          categories: [],
-          pageLoading: false,
-          listState: PageState.EMPTY
-        });
-        return;
-      }
-
-      const first = categories[0];
+    const cached = readPageCache<Category[]>(CATEGORY_LIST_CACHE_KEY, CATEGORY_CACHE_TTL);
+    if (cached && cached.length > 0) {
+      const first = cached[0];
       this.setData({
-        categories,
+        categories: cached,
         activeCategoryId: first.categoryId,
         activeCategoryName: first.name,
         pageLoading: false
       });
-
-      // 加载首个分类的商品
       this.loadProducts(true);
-    } catch (e) {
-      // 分类加载失败：展示异常态，提供重试
-      this.setData({ pageLoading: false, categoryError: true });
+      this.refreshCategories();
+      return;
     }
+
+    await this.refreshCategories();
+  },
+
+  async refreshCategories() {
+    const res = await requestSilent<{ categories: Category[] }>({
+      name: 'product',
+      action: 'getCategories'
+    });
+
+    if (!res.success || !res.data) {
+      if (this.data.categories.length === 0) {
+        this.setData({ pageLoading: false, categoryError: true });
+      }
+      return;
+    }
+
+    const all = res.data.categories || [];
+    // 优先取顶级分类；若无层级信息则回退展示全部
+    const topLevel = all.filter((c) => !c.parentId || c.level <= 1);
+    const categories = topLevel.length > 0 ? topLevel : all;
+
+    if (categories.length === 0) {
+      // 无分类数据：整页空态
+      this.setData({
+        categories: [],
+        pageLoading: false,
+        listState: PageState.EMPTY
+      });
+      return;
+    }
+
+    const currentId = this.data.activeCategoryId;
+    const active = categories.find((c) => c.categoryId === currentId) || categories[0];
+    this.setData({
+      categories,
+      activeCategoryId: active.categoryId,
+      activeCategoryName: active.name,
+      pageLoading: false,
+      categoryError: false
+    });
+    writePageCache(CATEGORY_LIST_CACHE_KEY, categories);
+
+    // 首次进入时加载首个分类；缓存后台刷新时不打断当前列表
+    if (!currentId) this.loadProducts(true);
   },
 
   /**
@@ -123,8 +158,22 @@ Page<CategoryPageData, WechatMiniprogram.IAnyObject>({
     if (!categoryId) return;
 
     const page = reset ? 1 : this.data.page + 1;
+    const cacheKey = `category:products:${categoryId}`;
 
     if (reset) {
+      const cached = readPageCache<CategoryProductsCache>(cacheKey, CATEGORY_CACHE_TTL);
+      if (cached) {
+        this.setData({
+          products: cached.products,
+          total: cached.total,
+          page: cached.page,
+          hasMore: cached.hasMore,
+          loadingMore: false,
+          listState: cached.products.length === 0 ? PageState.EMPTY : PageState.SUCCESS
+        });
+        this.refreshProducts(true, true);
+        return;
+      }
       this.setData({ listState: PageState.LOADING });
     } else {
       // 触底加载更多：防重复
@@ -132,36 +181,53 @@ Page<CategoryPageData, WechatMiniprogram.IAnyObject>({
       this.setData({ loadingMore: true });
     }
 
-    try {
-      const res = await request<{ list: Product[]; total: number }>({
-        name: 'product',
-        action: 'getList',
-        data: { categoryId, page, pageSize: PAGE_SIZE }
-      });
+    await this.refreshProducts(reset, false, page);
+  },
 
-      const list = (res && res.list) || [];
-      const total = (res && res.total) || 0;
-      const decorated = this.decorateProducts(list);
-      const products = reset ? decorated : this.data.products.concat(decorated);
-      const hasMore = products.length < total;
+  async refreshProducts(reset: boolean, silent: boolean, requestedPage?: number) {
+    const categoryId = this.data.activeCategoryId;
+    if (!categoryId) return;
 
-      this.setData({
-        products,
-        total,
-        page,
-        hasMore,
-        loadingMore: false,
-        // 重置加载后若无商品则空态，否则成功态
-        listState: products.length === 0 ? PageState.EMPTY : PageState.SUCCESS
-      });
-    } catch (e) {
-      if (reset) {
+    const requestCategoryId = categoryId;
+    const page = requestedPage || (reset ? 1 : this.data.page + 1);
+    const cacheKey = `category:products:${categoryId}`;
+    const res = await requestSilent<{ list: Product[]; total: number }>({
+      name: 'product',
+      action: 'getList',
+      data: { categoryId, page, pageSize: PAGE_SIZE }
+    });
+
+    if (this.data.activeCategoryId !== requestCategoryId) return;
+
+    if (!res.success || !res.data) {
+      if (reset && !silent) {
         // 首次加载失败：右侧异常态
         this.setData({ listState: PageState.ERROR, loadingMore: false });
       } else {
         // 加载更多失败：恢复可继续触底，页码不前进
         this.setData({ loadingMore: false });
       }
+      return;
+    }
+
+    const list = res.data.list || [];
+    const total = res.data.total || 0;
+    const decorated = this.decorateProducts(list);
+    const products = reset ? decorated : this.data.products.concat(decorated);
+    const hasMore = products.length < total;
+
+    this.setData({
+      products,
+      total,
+      page,
+      hasMore,
+      loadingMore: false,
+      // 重置加载后若无商品则空态，否则成功态
+      listState: products.length === 0 ? PageState.EMPTY : PageState.SUCCESS
+    });
+
+    if (reset) {
+      writePageCache<CategoryProductsCache>(cacheKey, { products, total, page, hasMore });
     }
   },
 

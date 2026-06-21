@@ -20,6 +20,47 @@ function generateOrderId() {
     return `${constants_1.ORDER_ID_PREFIX}${timestamp}${random}`;
 }
 /**
+ * 从用户填写的开通参数中提取充值账号字符串。
+ * 兼容常见 key：recharge_account / phone / account / mobile / qq；
+ * 找不到约定 key 时取首个字符串值。
+ */
+function extractAccountFromAttach(attach) {
+    if (!attach || typeof attach !== 'object')
+        return '';
+    const preferKeys = ['recharge_account', 'phone', 'account', 'mobile', 'qq'];
+    for (const k of preferKeys) {
+        if (typeof attach[k] === 'string' && attach[k].trim())
+            return attach[k].trim();
+    }
+    for (const k of Object.keys(attach)) {
+        if (typeof attach[k] === 'string' && attach[k].trim())
+            return attach[k].trim();
+    }
+    return '';
+}
+/**
+ * 按用户输入的账号格式选择账号形式变体：
+ * - 1 开头 11 位数字 → phone；5~10 位纯数字 → qq
+ * - 套餐无变体或无匹配时返回 undefined（调用方用套餐主 SKU）
+ */
+function pickAccountVariant(variants, account) {
+    if (!variants || variants.length === 0)
+        return undefined;
+    const s = String(account || '').trim();
+    let type = '';
+    if (/^1\d{10}$/.test(s))
+        type = 'phone';
+    else if (/^[1-9]\d{4,9}$/.test(s))
+        type = 'qq';
+    if (type) {
+        const matched = variants.find((v) => v.accountType === type);
+        if (matched)
+            return matched;
+    }
+    // 无法判断或无精确匹配：回退首个变体
+    return variants[0];
+}
+/**
  * 创建订单
  *
  * 业务流程：
@@ -71,7 +112,11 @@ async function createOrder(db, openid, params) {
     }
     // 3. 锁定当前价格：下单时套餐 price 即为用户实付金额，写入订单后不再变更
     const amount = pkg.price;
-    const costPrice = pkg.costPrice;
+    // 3.1 账号形式路由：套餐同时支持手机号/QQ号时，按用户输入的账号格式选对应上游 SKU
+    const account = extractAccountFromAttach(attach);
+    const variant = pickAccountVariant(pkg.accountVariants, account);
+    const shunshiGoodsId = variant ? variant.shunshiGoodsId : pkg.shunshiGoodsId;
+    const costPrice = variant ? variant.costPrice : pkg.costPrice;
     const now = new Date();
     // 4. 生成唯一订单号
     const orderId = generateOrderId();
@@ -94,7 +139,7 @@ async function createOrder(db, openid, params) {
         amount,
         costPrice,
         status: order_1.OrderStatus.PENDING_PAY,
-        shunshiGoodsId: pkg.shunshiGoodsId,
+        shunshiGoodsId,
         retryCount: 0,
         timeline: [firstTimelineNode],
         createdAt: now,

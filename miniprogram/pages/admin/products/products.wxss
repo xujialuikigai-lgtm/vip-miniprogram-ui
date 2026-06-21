@@ -209,6 +209,17 @@
   line-height: 1.45;
 }
 
+.product-card__source {
+  margin-top: 10rpx;
+  padding: 12rpx 14rpx;
+  border-radius: 12rpx;
+  background: #f7f9fb;
+  color: #617084;
+  font-size: 23rpx;
+  line-height: 1.45;
+  word-break: break-all;
+}
+
 .product-card__prices {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

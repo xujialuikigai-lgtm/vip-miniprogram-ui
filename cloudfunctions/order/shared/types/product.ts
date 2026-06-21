@@ -1,5 +1,14 @@
 // 商品相关类型定义
 
+/** 套餐账号形式变体（手机号/QQ号对应不同上游 SKU） */
+export interface PackageAccountVariant {
+  accountType: 'phone' | 'qq';
+  shunshiGoodsId: number;
+  costPrice: number;
+  faceValue: number;
+  stock: number;
+}
+
 /** 套餐接口 */
 export interface Package {
   packageId: string;
@@ -13,6 +22,8 @@ export interface Package {
   online: boolean;
   isDefault: boolean;
   sortWeight: number;
+  /** 账号形式变体；存在多个时表示同时支持手机号/QQ号充值，下单按输入路由 */
+  accountVariants?: PackageAccountVariant[];
 }
 
 /** 售前规则 */

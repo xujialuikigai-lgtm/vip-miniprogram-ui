@@ -35,10 +35,12 @@ interface EditPackage {
   costPrice: number;
   faceValue: number;
   shunshiGoodsId: number;
+  shunshiName?: string;
   stock: number;
   online: boolean;
   isDefault: boolean;
   sortWeight: number;
+  accountVariants?: any[];
 }
 
 Page({
@@ -52,6 +54,7 @@ Page({
 
     // —— 基础信息 ——
     name: '',
+    shunshiName: '',
     categoryId: '',
     categoryName: '',
     rechargeMethod: '',
@@ -181,6 +184,7 @@ Page({
     this.setData({
       pageState: PageState.SUCCESS,
       name: product.name || '',
+      shunshiName: product.shunshiName || '',
       categoryId: product.categoryId || '',
       categoryName: product.categoryName || '',
       rechargeMethod: product.rechargeMethod || '',
@@ -208,10 +212,12 @@ Page({
       costPrice: Number(p.costPrice) || 0,
       faceValue: Number(p.faceValue) || 0,
       shunshiGoodsId: Number(p.shunshiGoodsId) || 0,
+      shunshiName: p.shunshiName || '',
       stock: p.stock === undefined ? -1 : Number(p.stock),
       online: p.online !== false,
       isDefault: !!p.isDefault,
-      sortWeight: Number(p.sortWeight) || 0
+      sortWeight: Number(p.sortWeight) || 0,
+      accountVariants: Array.isArray(p.accountVariants) ? p.accountVariants : undefined
     };
   },
 
@@ -426,10 +432,12 @@ Page({
       // 编辑时保留原 faceValue，新增默认0
       faceValue: existing ? existing.faceValue : 0,
       shunshiGoodsId,
+      shunshiName: existing ? existing.shunshiName : '',
       stock: isNaN(stock) ? -1 : stock,
       online: !!f.online,
       isDefault: !!f.isDefault,
-      sortWeight: existing ? existing.sortWeight : 0
+      sortWeight: existing ? existing.sortWeight : 0,
+      accountVariants: existing ? existing.accountVariants : undefined
     };
 
     let packages: EditPackage[] = this.data.packages.map((p: any) => this.stripPackage(p));
@@ -463,10 +471,12 @@ Page({
       costPrice: p.costPrice,
       faceValue: p.faceValue,
       shunshiGoodsId: p.shunshiGoodsId,
+      shunshiName: p.shunshiName,
       stock: p.stock,
       online: p.online,
       isDefault: p.isDefault,
-      sortWeight: p.sortWeight
+      sortWeight: p.sortWeight,
+      accountVariants: p.accountVariants
     };
   },
 

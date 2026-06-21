@@ -1,18 +1,36 @@
 // 商品相关类型定义
 
+/** 套餐账号形式变体（手机号/QQ号对应不同上游 SKU） */
+export interface PackageAccountVariant {
+  accountType: 'phone' | 'qq';
+  shunshiGoodsId: number;
+  shunshiName?: string;
+  costPrice: number;
+  faceValue: number;
+  stock: number;
+}
+
 /** 套餐接口 */
 export interface Package {
   packageId: string;
   name: string;
   memberType: string;
+  /** 顺势 goods_info，来自 /api/v1/goods/info */
+  goodsInfo?: string;
+  /** 顺势 goods_notice，来自 /api/v1/goods/info */
+  goodsNotice?: string;
   price: number;
   costPrice: number;
   faceValue: number;
   shunshiGoodsId: number;
+  /** 顺势接口原始 SKU 商品名，仅供管理端对账查看 */
+  shunshiName?: string;
   stock: number;
   online: boolean;
   isDefault: boolean;
   sortWeight: number;
+  /** 账号形式变体；存在多个时表示同时支持手机号/QQ号充值，下单按输入路由 */
+  accountVariants?: PackageAccountVariant[];
 }
 
 /** 售前规则 */
@@ -43,6 +61,10 @@ export interface Product {
   categoryName: string;
   brandIcon: string;
   shunshiImg: string;
+  /** 顺势 goods_info，来自代表 SKU 的 /api/v1/goods/info */
+  goodsInfo?: string;
+  /** 顺势 goods_notice，来自代表 SKU 的 /api/v1/goods/info */
+  goodsNotice?: string;
   tags: string[];
   description: string;
   rechargeMethod: string;

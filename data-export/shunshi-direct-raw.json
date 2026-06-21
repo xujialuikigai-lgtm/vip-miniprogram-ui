@@ -1,0 +1,2862 @@
+{
+  "brand_target_video_腾讯视频": {
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "腾讯视频",
+    "skuCount": 22,
+    "skus": [
+      {
+        "id": 70399,
+        "goods_name": "【账号直充】腾讯视频VIP升级 SVIP 『1个月』",
+        "goods_price": "16.02",
+        "face_value": "20.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70397,
+        "goods_name": "【账号直充】腾讯视频VIP升级 SVIP 『12个月』",
+        "goods_price": "193.17",
+        "face_value": "193.17",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70386,
+        "goods_name": "【人工代充】腾讯视频VIP会员 『7天丨手机号下单』",
+        "goods_price": "11.13",
+        "face_value": "17.46",
+        "stock_num": 10000,
+        "status": 1
+      },
+      {
+        "id": 58257,
+        "goods_name": "【零售直充】腾讯视频VIP会员『7天』",
+        "goods_price": "12.13",
+        "face_value": "19.69",
+        "stock_num": 10000,
+        "status": 1
+      },
+      {
+        "id": 58260,
+        "goods_name": "【零售直充】腾讯视频VIP会员『3个月』",
+        "goods_price": "47.68",
+        "face_value": "52.13",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58261,
+        "goods_name": "【零售直充】腾讯视频VIP会员『12个月』",
+        "goods_price": "141.59",
+        "face_value": "177.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70329,
+        "goods_name": "【零售直充】腾讯视频VIP会员『1个月丨稳定版』",
+        "goods_price": "20.16",
+        "face_value": "25.37",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70330,
+        "goods_name": "【零售直充】腾讯视频VIP会员『1个月丨手机号下单』",
+        "goods_price": "20.37",
+        "face_value": "22.50",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70331,
+        "goods_name": "【零售直充】腾讯视频VIP会员『1个月丨仅支持新用户』",
+        "goods_price": "16.61",
+        "face_value": "22.50",
+        "stock_num": 1053,
+        "status": 1
+      },
+      {
+        "id": 70332,
+        "goods_name": "【零售直充】腾讯视频VIP会员『1个月丨微信·QQ·手机号下单』",
+        "goods_price": "19.22",
+        "face_value": "22.50",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58264,
+        "goods_name": "【闲鱼渠道】腾讯视频VIP会员『7天』",
+        "goods_price": "12.49",
+        "face_value": "19.77",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58290,
+        "goods_name": "【闲鱼渠道】腾讯视频VIP会员『3个月』",
+        "goods_price": "47.83",
+        "face_value": "50.04",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58262,
+        "goods_name": "【淘淘渠道】腾讯视频VIP会员『7天』",
+        "goods_price": "12.49",
+        "face_value": "19.77",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58287,
+        "goods_name": "【淘淘渠道】腾讯视频VIP会员『3个月』",
+        "goods_price": "47.83",
+        "face_value": "50.04",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58258,
+        "goods_name": "【多多渠道】腾讯视频VIP会员『7天』",
+        "goods_price": "12.49",
+        "face_value": "19.16",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58291,
+        "goods_name": "【闲鱼渠道】腾讯视频VIP会员『12个月』",
+        "goods_price": "141.59",
+        "face_value": "170.68",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58288,
+        "goods_name": "【淘淘渠道】腾讯视频VIP会员『12个月』",
+        "goods_price": "141.59",
+        "face_value": "171.34",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70328,
+        "goods_name": "【零售直充】腾讯视频VIP会员 『12个月丨仅手机号下单』",
+        "goods_price": "144.09",
+        "face_value": "177.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70325,
+        "goods_name": "【零售直充】腾讯视频VIP会员『7天丨有失败率』",
+        "goods_price": "12.09",
+        "face_value": "17.93",
+        "stock_num": 10000,
+        "status": 1
+      },
+      {
+        "id": 70327,
+        "goods_name": "【零售直充】腾讯视频VIP会员 『12个月丨高失败率』",
+        "goods_price": "141.56",
+        "face_value": "177.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70396,
+        "goods_name": "【账号直充】腾讯视频VIP升级 SVIP『1天』",
+        "goods_price": "1001999.00",
+        "face_value": "1001999.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 70326,
+        "goods_name": "【零售直充】腾讯视频VIP会员『7天丨手机号下单』",
+        "goods_price": "8.93",
+        "face_value": "18.91",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_video_腾讯体育": {
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "腾讯体育",
+    "skuCount": 12,
+    "skus": [
+      {
+        "id": 70469,
+        "goods_name": "【账号直充】W腾讯体育普通会员『1个月』",
+        "goods_price": "17.62",
+        "face_value": "30.00",
+        "stock_num": 9991,
+        "status": 1
+      },
+      {
+        "id": 70468,
+        "goods_name": "【账号直充】B-腾讯体育普通会员『3个月』",
+        "goods_price": "54.90",
+        "face_value": "68.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70467,
+        "goods_name": "【账号直充】B-腾讯体育普通会员『12个月』",
+        "goods_price": "181.43",
+        "face_value": "233.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70466,
+        "goods_name": "【账号直充】W腾讯体育超级会员『1个月』",
+        "goods_price": "24.46",
+        "face_value": "60.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70465,
+        "goods_name": "【账号直充】B-腾讯体育超级会员『3个月』",
+        "goods_price": "73.65",
+        "face_value": "198.00",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 70464,
+        "goods_name": "【账号直充】W腾讯体育超级会员『12个月』",
+        "goods_price": "260.82",
+        "face_value": "698.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58433,
+        "goods_name": "【零售直充】腾讯体育VIP会员『1个月』",
+        "goods_price": "17.62",
+        "face_value": "18.50",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58435,
+        "goods_name": "【零售直充】腾讯体育VIP会员『3个月』",
+        "goods_price": "46.85",
+        "face_value": "52.55",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58436,
+        "goods_name": "【零售直充】腾讯体育VIP会员『12个月』",
+        "goods_price": "201.53",
+        "face_value": "201.53",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 58434,
+        "goods_name": "【零售直充】腾讯体育超级会员『1个月』",
+        "goods_price": "24.46",
+        "face_value": "40.68",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58437,
+        "goods_name": "【零售直充】腾讯体育超级会员『3个月』",
+        "goods_price": "73.63",
+        "face_value": "77.33",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58438,
+        "goods_name": "【零售直充】腾讯体育超级会员『12个月』",
+        "goods_price": "260.50",
+        "face_value": "362.69",
+        "stock_num": 9999,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_video_爱奇艺": {
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "爱奇艺",
+    "skuCount": 30,
+    "skus": [
+      {
+        "id": 58350,
+        "goods_name": "【零售直充】爱奇艺星钻VIP会员『1个月』",
+        "goods_price": "26.04",
+        "face_value": "26.46",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58307,
+        "goods_name": "【零售直充】爱奇艺黄金会员『7天』",
+        "goods_price": "11.48",
+        "face_value": "12.06",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58318,
+        "goods_name": "【零售直充】爱奇艺黄金会员『1个月』",
+        "goods_price": "15.78",
+        "face_value": "16.48",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 58319,
+        "goods_name": "【零售直充】爱奇艺黄金会员『3个月』",
+        "goods_price": "43.86",
+        "face_value": "43.86",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70338,
+        "goods_name": "【零售直充】爱奇艺黄金VIP升级白金VIP『1个月』",
+        "goods_price": "18.12",
+        "face_value": "18.12",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70339,
+        "goods_name": "【零售直充】爱奇艺黄金VIP升级白金VIP『3个月』",
+        "goods_price": "37.66",
+        "face_value": "37.66",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70340,
+        "goods_name": "【零售直充】爱奇艺黄金VIP升级白金VIP『12个月』",
+        "goods_price": "144.77",
+        "face_value": "144.77",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 58353,
+        "goods_name": "【闲鱼渠道】爱奇艺星钻VIP会员『1个月』",
+        "goods_price": "26.03",
+        "face_value": "26.47",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58360,
+        "goods_name": "【闲鱼渠道】爱奇艺星钻VIP会员『3个月』",
+        "goods_price": "72.83",
+        "face_value": "74.16",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58352,
+        "goods_name": "【淘淘渠道】爱奇艺星钻VIP会员『1个月』",
+        "goods_price": "26.02",
+        "face_value": "26.47",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58358,
+        "goods_name": "【淘淘渠道】爱奇艺星钻VIP会员『3个月』",
+        "goods_price": "72.83",
+        "face_value": "74.16",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58351,
+        "goods_name": "【多多渠道】爱奇艺星钻VIP会员『1个月』",
+        "goods_price": "26.01",
+        "face_value": "26.47",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58356,
+        "goods_name": "【多多渠道】爱奇艺星钻VIP会员『3个月』",
+        "goods_price": "72.85",
+        "face_value": "74.34",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58354,
+        "goods_name": "【零售直充】爱奇艺星钻VIP会员『3个月』",
+        "goods_price": "72.85",
+        "face_value": "73.76",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70341,
+        "goods_name": "【零售直充】爱奇艺星钻VIP会员 『6个月』",
+        "goods_price": "142.29",
+        "face_value": "142.29",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58361,
+        "goods_name": "【闲鱼渠道】爱奇艺星钻VIP会员『12个月』",
+        "goods_price": "267.94",
+        "face_value": "272.89",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 58359,
+        "goods_name": "【淘淘渠道】爱奇艺星钻VIP会员『12个月』",
+        "goods_price": "267.94",
+        "face_value": "267.94",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 58357,
+        "goods_name": "【多多渠道】爱奇艺星钻VIP会员『12个月』",
+        "goods_price": "267.94",
+        "face_value": "272.89",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 58355,
+        "goods_name": "【零售直充】爱奇艺星钻VIP会员『12个月』",
+        "goods_price": "267.93",
+        "face_value": "267.93",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 58334,
+        "goods_name": "【闲鱼渠道 】爱奇艺白金VIP会员『1个月』",
+        "goods_price": "22.03",
+        "face_value": "22.03",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58343,
+        "goods_name": "【闲鱼渠道 】爱奇艺白金VIP会员『3个月』",
+        "goods_price": "64.21",
+        "face_value": "64.21",
+        "stock_num": 9996,
+        "status": 1
+      },
+      {
+        "id": 58337,
+        "goods_name": "【人工代充】爱奇艺白金VIP会员 『3个月』",
+        "goods_price": "62.75",
+        "face_value": "128.00",
+        "stock_num": 10000,
+        "status": 1
+      },
+      {
+        "id": 58330,
+        "goods_name": "【零售直充】爱奇艺白金VIP会员『1个月』",
+        "goods_price": "22.03",
+        "face_value": "22.03",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58344,
+        "goods_name": "【闲鱼渠道 】爱奇艺白金VIP会员『12个月』",
+        "goods_price": "216.84",
+        "face_value": "216.84",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58333,
+        "goods_name": "【零售直充】爱奇艺白金VIP会员『3个月』",
+        "goods_price": "64.31",
+        "face_value": "64.31",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58335,
+        "goods_name": "【零售直充】爱奇艺白金VIP会员『12个月』",
+        "goods_price": "216.84",
+        "face_value": "216.84",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58311,
+        "goods_name": "【闲鱼渠道】爱奇艺黄金会员『7天』",
+        "goods_price": "11.49",
+        "face_value": "13.02",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58327,
+        "goods_name": "【闲鱼渠道】爱奇艺黄金会员『1个月』",
+        "goods_price": "16.02",
+        "face_value": "16.32",
+        "stock_num": 9995,
+        "status": 1
+      },
+      {
+        "id": 58328,
+        "goods_name": "【闲鱼渠道】爱奇艺黄金会员『3个月』",
+        "goods_price": "43.86",
+        "face_value": "43.86",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70333,
+        "goods_name": "【零售直充】爱奇艺黄金会员『6个月』",
+        "goods_price": "84.61",
+        "face_value": "84.61",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_video_芒果TV": {
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "芒果TV",
+    "skuCount": 3,
+    "skus": [
+      {
+        "id": 70367,
+        "goods_name": "【零售直充】芒果TV会员升级芒果TV全屏『1个月』",
+        "goods_price": "6.73",
+        "face_value": "7.26",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70368,
+        "goods_name": "【零售直充】芒果TV会员升级芒果TV全屏『3个月』",
+        "goods_price": "20.43",
+        "face_value": "21.12",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70369,
+        "goods_name": "【零售直充】芒果TV会员升级芒果TV全屏『12个月』",
+        "goods_price": "84.66",
+        "face_value": "86.33",
+        "stock_num": 9999,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_video_优酷视频": {
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "优酷视频",
+    "skuCount": 18,
+    "skus": [
+      {
+        "id": 70447,
+        "goods_name": "【账号直充】优酷视频VIP会员升级SVIP会员『2天』",
+        "goods_price": "1.89",
+        "face_value": "14.00",
+        "stock_num": 99990,
+        "status": 1
+      },
+      {
+        "id": 70446,
+        "goods_name": "【账号直充】优酷视频VIP会员升级SVIP会员『3天』",
+        "goods_price": "2.62",
+        "face_value": "14.00",
+        "stock_num": 99997,
+        "status": 1
+      },
+      {
+        "id": 70440,
+        "goods_name": "【账号直充】优酷视频VIP会员升级SVIP会员『5天』",
+        "goods_price": "5.62",
+        "face_value": "10.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70445,
+        "goods_name": "【账号直充】优酷视频VIP会员升级SVIP会员『7天』",
+        "goods_price": "5.85",
+        "face_value": "14.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70444,
+        "goods_name": "【账号直充】优酷视频VIP升级SVIP『1个月』",
+        "goods_price": "9.69",
+        "face_value": "20.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70443,
+        "goods_name": "【账号直充】优酷视频VIP升级SVIP『3个月』",
+        "goods_price": "29.17",
+        "face_value": "60.00",
+        "stock_num": 49999,
+        "status": 1
+      },
+      {
+        "id": 70442,
+        "goods_name": "【账号直充】优酷视频VIP升级SVIP『6个月』",
+        "goods_price": "46.63",
+        "face_value": "60.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70441,
+        "goods_name": "【账号直充】优酷视频VIP升级SVIP『12个月』",
+        "goods_price": "92.97",
+        "face_value": "240.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70438,
+        "goods_name": "【官方直充】优酷视频VIP会员『1个月』",
+        "goods_price": "14.93",
+        "face_value": "20.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70437,
+        "goods_name": "【官方直充】优酷视频VIP会员『3个月』",
+        "goods_price": "31.55",
+        "face_value": "56.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70436,
+        "goods_name": "【官方直充】优酷视频VIP会员『12个月』",
+        "goods_price": "97.30",
+        "face_value": "198.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70435,
+        "goods_name": "【官方直充】优酷视频SVIP会员『1个月』",
+        "goods_price": "19.42",
+        "face_value": "49.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70434,
+        "goods_name": "【官方直充】优酷视频SVIP会员『3个月』",
+        "goods_price": "57.55",
+        "face_value": "139.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70433,
+        "goods_name": "【官方直充】优酷视频SVIP会员『12个月』",
+        "goods_price": "173.98",
+        "face_value": "479.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70429,
+        "goods_name": "【零售直充】优酷视频SVIP会员『3个月』",
+        "goods_price": "53.42",
+        "face_value": "139.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70428,
+        "goods_name": "【零售直充】优酷视频SVIP会员『12个月』",
+        "goods_price": "161.83",
+        "face_value": "498.00",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 70424,
+        "goods_name": "【零售直充】优酷视频VIP会员升级SVIP会员『365天』",
+        "goods_price": "92.97",
+        "face_value": "97.97",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70439,
+        "goods_name": "【账号直充】优酷视频VIP升级SVIP『2个月』",
+        "goods_price": "18.98",
+        "face_value": "20.13",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_video_哔哩哔哩": {
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "哔哩哔哩",
+    "skuCount": 18,
+    "skus": [
+      {
+        "id": 73796,
+        "goods_name": "【账号直充】哔哩哔哩电池1元10电池",
+        "goods_price": "0.99",
+        "face_value": "1.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 62495,
+        "goods_name": "【多多渠道】哔哩哔哩大会员『1个月』",
+        "goods_price": "11.29",
+        "face_value": "13.74",
+        "stock_num": 9975,
+        "status": 1
+      },
+      {
+        "id": 62496,
+        "goods_name": "【多多渠道】哔哩哔哩大会员『3个月』",
+        "goods_price": "36.00",
+        "face_value": "41.16",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 62497,
+        "goods_name": "【多多渠道】哔哩哔哩大会员『12个月』",
+        "goods_price": "101.68",
+        "face_value": "122.38",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 62498,
+        "goods_name": "【多多渠道】哔哩哔哩超级大会员『1个月』",
+        "goods_price": "17.98",
+        "face_value": "20.79",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 62499,
+        "goods_name": "【多多渠道】哔哩哔哩超级大会员『3个月』",
+        "goods_price": "45.63",
+        "face_value": "46.35",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 62500,
+        "goods_name": "【多多渠道】哔哩哔哩超级大会员『12个月』",
+        "goods_price": "138.43",
+        "face_value": "144.08",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58421,
+        "goods_name": "【闲鱼渠道】哔哩哔哩大会员『3个月』｜限价销售45元",
+        "goods_price": "37.12",
+        "face_value": "40.37",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58417,
+        "goods_name": "【零售直充】哔哩哔哩大会员『1个月』",
+        "goods_price": "11.29",
+        "face_value": "13.60",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58422,
+        "goods_name": "【闲鱼渠道】哔哩哔哩大会员『12个月』｜限价销售168元",
+        "goods_price": "103.39",
+        "face_value": "126.49",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58425,
+        "goods_name": "【闲鱼渠道】哔哩哔哩超级大会员『1个月』丨限价销售30元",
+        "goods_price": "18.49",
+        "face_value": "146.41",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58426,
+        "goods_name": "【闲鱼渠道】哔哩哔哩超级大会员『3个月』丨限价销售83元",
+        "goods_price": "46.67",
+        "face_value": "179.24",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58418,
+        "goods_name": "【零售直充】哔哩哔哩大会员『3个月』",
+        "goods_price": "36.00",
+        "face_value": "42.02",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58419,
+        "goods_name": "【零售直充】哔哩哔哩大会员『12个月』",
+        "goods_price": "101.68",
+        "face_value": "126.72",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58414,
+        "goods_name": "【零售直充】哔哩哔哩超级大会员『1个月』",
+        "goods_price": "27.96",
+        "face_value": "146.25",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58423,
+        "goods_name": "【零售直充】哔哩哔哩超级大会员『3个月』",
+        "goods_price": "55.61",
+        "face_value": "179.20",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58427,
+        "goods_name": "【闲鱼渠道】哔哩哔哩超级大会员『12个月』丨限价销售188元",
+        "goods_price": "140.00",
+        "face_value": "257.64",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 58424,
+        "goods_name": "【零售直充】哔哩哔哩超级大会员『12个月』",
+        "goods_price": "148.15",
+        "face_value": "270.01",
+        "stock_num": 9998,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_video_咪咕视频": {
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "咪咕视频",
+    "skuCount": 14,
+    "skus": [
+      {
+        "id": 58510,
+        "goods_name": "【零售直充】咪咕视频钻石会员1天",
+        "goods_price": "2.05",
+        "face_value": "2.05",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 58512,
+        "goods_name": "【零售直充】咪咕视频钻石会员1个月",
+        "goods_price": "11.82",
+        "face_value": "11.82",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58514,
+        "goods_name": "【零售直充】咪咕视频钻石会员12个月",
+        "goods_price": "102.29",
+        "face_value": "102.29",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 58537,
+        "goods_name": "【零售直充】咪咕视频UFC会员1个月",
+        "goods_price": "22.86",
+        "face_value": "22.86",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 58538,
+        "goods_name": "【零售直充】咪咕视频UFC会员12个月",
+        "goods_price": "114.62",
+        "face_value": "114.62",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58531,
+        "goods_name": "【零售直充】咪咕视频NBA联盟通1个月",
+        "goods_price": "48.63",
+        "face_value": "53.12",
+        "stock_num": 99998,
+        "status": 1
+      },
+      {
+        "id": 58532,
+        "goods_name": "【零售直充】咪咕视频NBA联盟通3个月",
+        "goods_price": "73.24",
+        "face_value": "79.12",
+        "stock_num": 99967,
+        "status": 1
+      },
+      {
+        "id": 58533,
+        "goods_name": "【零售直充】咪咕视频NBA联盟通12个月",
+        "goods_price": "202.63",
+        "face_value": "202.63",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58525,
+        "goods_name": "【零售直充】咪咕视频NBA球队通1个月",
+        "goods_price": "19.05",
+        "face_value": "19.05",
+        "stock_num": 99995,
+        "status": 1
+      },
+      {
+        "id": 58522,
+        "goods_name": "【零售直充】咪咕视频足球通12个月",
+        "goods_price": "252.66",
+        "face_value": "252.66",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 58541,
+        "goods_name": "【零售直充】咪咕视频兵乓球会员1个月",
+        "goods_price": "19.94",
+        "face_value": "19.94",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 58542,
+        "goods_name": "【零售直充】咪咕视频兵乓球会员3个月",
+        "goods_price": "43.50",
+        "face_value": "43.50",
+        "stock_num": 9996,
+        "status": 1
+      },
+      {
+        "id": 58543,
+        "goods_name": "【零售直充】咪咕视频兵乓球会员12个月",
+        "goods_price": "195.15",
+        "face_value": "195.15",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70474,
+        "goods_name": "【账号直充】咪咕视频NBA篮球通『12个月丨豪华版』",
+        "goods_price": "286.90",
+        "face_value": "368.00",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_video_央视频": {
+    "categoryId": "target_video",
+    "categoryName": "视频会员",
+    "brand": "央视频",
+    "skuCount": 3,
+    "skus": [
+      {
+        "id": 58576,
+        "goods_name": "【零售直充】央视频VIP会员『7天』",
+        "goods_price": "6.87",
+        "face_value": "6.87",
+        "stock_num": 13,
+        "status": 1
+      },
+      {
+        "id": 58577,
+        "goods_name": "【零售直充】央视频VIP会员『15天』",
+        "goods_price": "11.85",
+        "face_value": "11.85",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 58579,
+        "goods_name": "【零售直充】央视频VIP会员『3个月』",
+        "goods_price": "43.67",
+        "face_value": "43.68",
+        "stock_num": 9991,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_music_汽水音乐": {
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "汽水音乐",
+    "skuCount": 0,
+    "skus": []
+  },
+  "brand_target_music_QQ音乐": {
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "QQ音乐",
+    "skuCount": 8,
+    "skus": [
+      {
+        "id": 70662,
+        "goods_name": "【多多专用】QQ音乐豪华绿钻『1个月』",
+        "goods_price": "12.68",
+        "face_value": "15.30",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70659,
+        "goods_name": "【账号直充】QQ音乐豪华绿钻『1天』",
+        "goods_price": "3.23",
+        "face_value": "18.04",
+        "stock_num": 9988,
+        "status": 1
+      },
+      {
+        "id": 70658,
+        "goods_name": "【账号直充】QQ音乐豪华绿钻『3天』",
+        "goods_price": "3.59",
+        "face_value": "35.86",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70657,
+        "goods_name": "【账号直充】QQ音乐豪华绿钻『7天』",
+        "goods_price": "3.69",
+        "face_value": "39.38",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70656,
+        "goods_name": "【账号直充】QQ音乐豪华绿钻『1个月』",
+        "goods_price": "12.05",
+        "face_value": "15.68",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70654,
+        "goods_name": "【账号直充】QQ音乐豪华绿钻『12个月』",
+        "goods_price": "119.39",
+        "face_value": "180.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70650,
+        "goods_name": "【账号直充】QQ音乐超级会员『12个月』",
+        "goods_price": "180.41",
+        "face_value": "275.05",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70653,
+        "goods_name": "【账号直充】QQ音乐超级会员『1天』",
+        "goods_price": "6.41",
+        "face_value": "40.00",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_music_喜马拉雅": {
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "喜马拉雅",
+    "skuCount": 19,
+    "skus": [
+      {
+        "id": 70758,
+        "goods_name": "【账号直充】喜马拉雅儿童VIP会员『3天丨1号1次』",
+        "goods_price": "0.78",
+        "face_value": "2.81",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70757,
+        "goods_name": "【转单直充】W-喜马拉雅儿童会员『1个月』",
+        "goods_price": "17.97",
+        "face_value": "40.00",
+        "stock_num": 9994,
+        "status": 1
+      },
+      {
+        "id": 70756,
+        "goods_name": "【转单直充】W-喜马拉雅儿童会员『3个月』",
+        "goods_price": "42.90",
+        "face_value": "98.00",
+        "stock_num": 9994,
+        "status": 1
+      },
+      {
+        "id": 70755,
+        "goods_name": "【转单直充】W-喜马拉雅儿童会员『12个月』",
+        "goods_price": "149.85",
+        "face_value": "298.00",
+        "stock_num": 999,
+        "status": 1
+      },
+      {
+        "id": 70752,
+        "goods_name": "【官方直充】喜马拉雅儿童VIP会员『1个月』",
+        "goods_price": "30.02",
+        "face_value": "40.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70751,
+        "goods_name": "【官方直充】喜马拉雅儿童VIP会员『3个月』",
+        "goods_price": "55.11",
+        "face_value": "55.11",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70750,
+        "goods_name": "【官方直充】喜马拉雅儿童VIP会员『12个月』",
+        "goods_price": "198.40",
+        "face_value": "198.40",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70730,
+        "goods_name": "【账号直充】A-喜马拉雅VIP会员『7天』",
+        "goods_price": "3.14",
+        "face_value": "5.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70728,
+        "goods_name": "【账号直充】喜马拉雅VIP会员『15天』",
+        "goods_price": "8.00",
+        "face_value": "20.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70727,
+        "goods_name": "【账号直充】喜马拉雅VIP会员『1个月』",
+        "goods_price": "11.87",
+        "face_value": "275.77",
+        "stock_num": 9996,
+        "status": 1
+      },
+      {
+        "id": 70726,
+        "goods_name": "【账号直充】喜马拉雅VIP会员『3个月』",
+        "goods_price": "34.84",
+        "face_value": "400.40",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 70725,
+        "goods_name": "【账号直充】喜马拉雅VIP会员『6个月』",
+        "goods_price": "69.53",
+        "face_value": "138.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70724,
+        "goods_name": "【账号直充】喜马拉雅VIP会员『12个月』",
+        "goods_price": "99.69",
+        "face_value": "63043.98",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70761,
+        "goods_name": "【账号直充】喜马拉雅儿童VIP会员『1个月』",
+        "goods_price": "14.43",
+        "face_value": "14.43",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 70760,
+        "goods_name": "【账号直充】喜马拉雅儿童VIP会员『3个月』",
+        "goods_price": "42.19",
+        "face_value": "42.19",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 70759,
+        "goods_name": "【账号直充】喜马拉雅儿童VIP会员『12个月』",
+        "goods_price": "152.37",
+        "face_value": "152.37",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 70754,
+        "goods_name": "【账号直充】喜马拉雅儿童VIP会员『1天丨1号1次』",
+        "goods_price": "0.26",
+        "face_value": "2.81",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 70753,
+        "goods_name": "【账号直充】喜马拉雅儿童VIP会员『5天丨1号1次』",
+        "goods_price": "0.76",
+        "face_value": "2.81",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 70723,
+        "goods_name": "【账号直充】喜马拉雅VIP会员『3天』",
+        "goods_price": "1.46",
+        "face_value": "2906.31",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_music_网易云音乐": {
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "网易云音乐",
+    "skuCount": 10,
+    "skus": [
+      {
+        "id": 70686,
+        "goods_name": "【账号直充】网易云音乐VIP会员『7天』",
+        "goods_price": "4.37",
+        "face_value": "5.55",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 70685,
+        "goods_name": "【账号直充】网易云音乐VIP会员『1个月』",
+        "goods_price": "7.40",
+        "face_value": "18.00",
+        "stock_num": 1,
+        "status": 1
+      },
+      {
+        "id": 70684,
+        "goods_name": "【账号直充】网易云音乐VIP会员『3个月』",
+        "goods_price": "23.51",
+        "face_value": "54.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70683,
+        "goods_name": "【账号直充】网易云音乐VIP会员『12个月』",
+        "goods_price": "55.69",
+        "face_value": "216.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70679,
+        "goods_name": "【账号直充】网易云音乐SVIP会员『1个月』有失败率",
+        "goods_price": "12.33",
+        "face_value": "30.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70678,
+        "goods_name": "【账号直充】网易云音乐SVIP会员『3个月』有失败率",
+        "goods_price": "35.68",
+        "face_value": "120.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70677,
+        "goods_name": "【账号直充】网易云音乐SVIP会员『12个月』有失败率",
+        "goods_price": "91.83",
+        "face_value": "120.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70675,
+        "goods_name": "【账号直充】网易云音乐黑胶VIP升级黑胶SVIP『1个月』（需31天以上）",
+        "goods_price": "9.83",
+        "face_value": "12.48",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70674,
+        "goods_name": "【账号直充】网易云音乐黑胶VIP升级黑胶SVIP『3个月』（需93天以上）",
+        "goods_price": "30.03",
+        "face_value": "37.44",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70673,
+        "goods_name": "【账号直充】网易云音乐黑胶VIP升级黑胶SVIP『12个月』（需372天以上）",
+        "goods_price": "90.23",
+        "face_value": "144.00",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_music_全民K歌": {
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "全民K歌",
+    "skuCount": 9,
+    "skus": [
+      {
+        "id": 73751,
+        "goods_name": "【账号直充】全民K歌币10K币丨10倍数下单",
+        "goods_price": "1.03",
+        "face_value": "1.03",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 70631,
+        "goods_name": "【账号直充】全民K歌TV会员『1个月』",
+        "goods_price": "15.34",
+        "face_value": "20.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70630,
+        "goods_name": "【账号直充】全民K歌TV版会员『3个月』",
+        "goods_price": "40.56",
+        "face_value": "60.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70629,
+        "goods_name": "【账号直充】全民K歌TV版会员『12个月』",
+        "goods_price": "162.18",
+        "face_value": "240.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 50243,
+        "goods_name": "全民K歌男生代唱助手-自助操作",
+        "goods_price": "1.33",
+        "face_value": "1.33",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 50242,
+        "goods_name": "全民K歌女生代唱助手-自助操作",
+        "goods_price": "1.33",
+        "face_value": "1.33",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70628,
+        "goods_name": "【账号直充】全民K歌会员『1天』",
+        "goods_price": "2.70",
+        "face_value": "5.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 70627,
+        "goods_name": "【账号直充】全民K歌会员『3天』",
+        "goods_price": "4.21",
+        "face_value": "5.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 70626,
+        "goods_name": "【账号直充】全民K歌会员『7天』",
+        "goods_price": "20.05",
+        "face_value": "20.23",
+        "stock_num": 9999,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_music_酷狗音乐": {
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "酷狗音乐",
+    "skuCount": 6,
+    "skus": [
+      {
+        "id": 70706,
+        "goods_name": "【账号直充】酷狗音乐豪华会员『7天』",
+        "goods_price": "4.67",
+        "face_value": "10.00",
+        "stock_num": 9996,
+        "status": 1
+      },
+      {
+        "id": 70704,
+        "goods_name": "【账号直充】酷狗音乐豪华会员『3个月』",
+        "goods_price": "31.77",
+        "face_value": "45.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 70703,
+        "goods_name": "【账号直充】酷狗音乐豪华会员『12个月』",
+        "goods_price": "109.93",
+        "face_value": "180.00",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 70702,
+        "goods_name": "【账号直充】酷狗音乐超级SVIP会员『1个月』",
+        "goods_price": "21.84",
+        "face_value": "27.88",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70699,
+        "goods_name": "【账号直充】酷狗音乐豪华会员『1天』",
+        "goods_price": "2.06",
+        "face_value": "5.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 70698,
+        "goods_name": "【账号直充】酷狗音乐豪华会员『3天』",
+        "goods_price": "2.25",
+        "face_value": "12.12",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_music_酷我音乐": {
+    "categoryId": "target_music",
+    "categoryName": "音乐",
+    "brand": "酷我音乐",
+    "skuCount": 3,
+    "skus": [
+      {
+        "id": 70720,
+        "goods_name": "【账号直充】酷我音乐豪华会员『7天』",
+        "goods_price": "3.40",
+        "face_value": "9.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70719,
+        "goods_name": "【账号直充】酷我音乐豪华会员『1个月』",
+        "goods_price": "11.06",
+        "face_value": "15.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 70718,
+        "goods_name": "【账号直充】酷我音乐豪华会员『3个月』",
+        "goods_price": "33.75",
+        "face_value": "45.00",
+        "stock_num": 9999,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_audio_book_懒人听书": {
+    "categoryId": "target_audio_book",
+    "categoryName": "阅读听书",
+    "brand": "懒人听书",
+    "skuCount": 2,
+    "skus": [
+      {
+        "id": 73096,
+        "goods_name": "【官方直充】懒人听书会员『1个月』",
+        "goods_price": "9.43",
+        "face_value": "15.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 73095,
+        "goods_name": "【官方直充】懒人听书会员『3个月』",
+        "goods_price": "26.97",
+        "face_value": "42.00",
+        "stock_num": 9999,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_audio_book_蜻蜓FM": {
+    "categoryId": "target_audio_book",
+    "categoryName": "阅读听书",
+    "brand": "蜻蜓FM",
+    "skuCount": 0,
+    "skus": []
+  },
+  "brand_target_audio_book_QQ阅读": {
+    "categoryId": "target_audio_book",
+    "categoryName": "阅读听书",
+    "brand": "QQ阅读",
+    "skuCount": 4,
+    "skus": [
+      {
+        "id": 58210,
+        "goods_name": "【零售直充】安卓QQ阅读书币10元",
+        "goods_price": "9.46",
+        "face_value": "9.46",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 58211,
+        "goods_name": "【零售直充】安卓QQ阅读书币20元",
+        "goods_price": "18.81",
+        "face_value": "18.81",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 58213,
+        "goods_name": "【零售直充】安卓QQ阅读书币50元",
+        "goods_price": "46.61",
+        "face_value": "46.62",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 58214,
+        "goods_name": "【零售直充】安卓QQ阅读书币100元",
+        "goods_price": "93.69",
+        "face_value": "95.28",
+        "stock_num": 99999,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_audio_book_樊登读书": {
+    "categoryId": "target_audio_book",
+    "categoryName": "阅读听书",
+    "brand": "樊登读书",
+    "skuCount": 0,
+    "skus": []
+  },
+  "brand_target_cloud_百度网盘": {
+    "categoryId": "target_cloud",
+    "categoryName": "网盘",
+    "brand": "百度网盘",
+    "skuCount": 15,
+    "skus": [
+      {
+        "id": 72004,
+        "goods_name": "【账号直充】A 百度网盘普通会员『1个月』",
+        "goods_price": "13.52",
+        "face_value": "20.00",
+        "stock_num": 9996,
+        "status": 1
+      },
+      {
+        "id": 72003,
+        "goods_name": "【账号直充】A  百度网盘普通会员『3个月』",
+        "goods_price": "41.47",
+        "face_value": "45.03",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 72002,
+        "goods_name": "【账号直充】A 百度网盘普通会员『12个月』",
+        "goods_price": "128.47",
+        "face_value": "169.24",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 72001,
+        "goods_name": "【账号直充】A-百度网盘超级会员『1天』",
+        "goods_price": "13.00",
+        "face_value": "18.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 72000,
+        "goods_name": "【账号直充】A-百度网盘超级会员『3天』",
+        "goods_price": "13.00",
+        "face_value": "25.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71999,
+        "goods_name": "【账号直充】A-百度网盘超级会员『7天』",
+        "goods_price": "13.47",
+        "face_value": "28.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71998,
+        "goods_name": "【账号直充】A-百度网盘超级会员『1个月』",
+        "goods_price": "18.64",
+        "face_value": "40.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71997,
+        "goods_name": "【账号直充】A-百度网盘超级会员『3个月』",
+        "goods_price": "47.78",
+        "face_value": "120.00",
+        "stock_num": 9996,
+        "status": 1
+      },
+      {
+        "id": 71996,
+        "goods_name": "【账号直充】A-百度网盘超级会员『12个月』",
+        "goods_price": "158.57",
+        "face_value": "360.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71995,
+        "goods_name": "【账号直充】B 百度网盘普通会员『1个月丨有失败率』",
+        "goods_price": "13.22",
+        "face_value": "26.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71994,
+        "goods_name": "【账号直充】B 百度网盘普通会员『3个月丨有失败率』",
+        "goods_price": "41.67",
+        "face_value": "47.04",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71993,
+        "goods_name": "【账号直充】B 百度网盘普通会员『12个月丨有失败率』",
+        "goods_price": "129.76",
+        "face_value": "146.75",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71992,
+        "goods_name": "【账号直充】B-百度网盘超级会员『1个月丨有失败率』",
+        "goods_price": "18.64",
+        "face_value": "40.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71991,
+        "goods_name": "【账号直充】B-百度网盘超级会员『3个月』",
+        "goods_price": "47.78",
+        "face_value": "120.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71990,
+        "goods_name": "【账号直充】B-百度网盘超级会员『12个月』",
+        "goods_price": "158.72",
+        "face_value": "360.00",
+        "stock_num": 9996,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_cloud_夸克": {
+    "categoryId": "target_cloud",
+    "categoryName": "网盘",
+    "brand": "夸克",
+    "skuCount": 35,
+    "skus": [
+      {
+        "id": 73153,
+        "goods_name": "【账号直充】夸克小说会员『7天』",
+        "goods_price": "2.85",
+        "face_value": "218.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73152,
+        "goods_name": "【账号直充】夸克小说会员『1个月』",
+        "goods_price": "7.62",
+        "face_value": "218.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 73151,
+        "goods_name": "【官方直充】夸克小说会员『3个月』",
+        "goods_price": "24.62",
+        "face_value": "32.40",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73150,
+        "goods_name": "【账号直充】夸克小说会员『12个月』",
+        "goods_price": "75.15",
+        "face_value": "218.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73149,
+        "goods_name": "【官方直充】夸克小说会员『7天』限价5.8元",
+        "goods_price": "3.15",
+        "face_value": "6.53",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73148,
+        "goods_name": "【官方直充】夸克小说会员『1个月』限价12元",
+        "goods_price": "8.84",
+        "face_value": "12.50",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73147,
+        "goods_name": "【官方直充】夸克小说会员『3个月』限价30元",
+        "goods_price": "24.70",
+        "face_value": "32.40",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73146,
+        "goods_name": "【官方直充】夸克小说会员『12个月』限价108元",
+        "goods_price": "76.00",
+        "face_value": "96.20",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72053,
+        "goods_name": "【账号直充】夸克网盘超级会员『12个月丨淘系专用』限价95元",
+        "goods_price": "82.70",
+        "face_value": "198.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72051,
+        "goods_name": "【账号直充】夸克网盘超级会员『1天』限价5元",
+        "goods_price": "4.27",
+        "face_value": "10.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72050,
+        "goods_name": "【账号直充】夸克网盘超级会员『3天』限价7元",
+        "goods_price": "6.31",
+        "face_value": "15.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72049,
+        "goods_name": "【账号直充】夸克网盘超级会员『7天』限价9元",
+        "goods_price": "8.45",
+        "face_value": "18.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72048,
+        "goods_name": "【账号直充】夸克网盘超级会员『1个月』限价12元",
+        "goods_price": "9.66",
+        "face_value": "20.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72047,
+        "goods_name": "【账号直充】夸克网盘超级会员『3个月』限价34元",
+        "goods_price": "29.88",
+        "face_value": "58.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 72046,
+        "goods_name": "【账号直充】夸克网盘超级会员『12个月』限价95元",
+        "goods_price": "85.14",
+        "face_value": "198.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71894,
+        "goods_name": "【账号直充】夸克Ai会员『1个月』",
+        "goods_price": "604.58",
+        "face_value": "604.58",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71893,
+        "goods_name": "【账号直充】夸克Ai会员『3个月』",
+        "goods_price": "617.21",
+        "face_value": "617.21",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71892,
+        "goods_name": "【账号直充】夸克Ai会员『12个月』",
+        "goods_price": "662.80",
+        "face_value": "662.80",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71891,
+        "goods_name": "【账号直充】夸克Ai会员『1个月丨拼多多专用』",
+        "goods_price": "603.85",
+        "face_value": "604.46",
+        "stock_num": 99996,
+        "status": 1
+      },
+      {
+        "id": 71890,
+        "goods_name": "【账号直充】夸克Ai会员『3个月丨拼多多专用』",
+        "goods_price": "615.64",
+        "face_value": "615.64",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 71889,
+        "goods_name": "【账号直充】夸克Ai会员『12个月丨拼多多专用』",
+        "goods_price": "658.19",
+        "face_value": "658.19",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 71322,
+        "goods_name": "【账号直充】夸克扫描会员『1个月』",
+        "goods_price": "9.78",
+        "face_value": "25.00",
+        "stock_num": 99997,
+        "status": 1
+      },
+      {
+        "id": 71321,
+        "goods_name": "【账号直充】夸克扫描会员『3个月』",
+        "goods_price": "28.38",
+        "face_value": "68.00",
+        "stock_num": 99995,
+        "status": 1
+      },
+      {
+        "id": 71319,
+        "goods_name": "【账号直充】夸克扫描会员『1个月丨拼多多专用』",
+        "goods_price": "15.47",
+        "face_value": "25.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71318,
+        "goods_name": "【账号直充】夸克扫描会员『3个月丨拼多多专用』",
+        "goods_price": "43.30",
+        "face_value": "68.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71317,
+        "goods_name": "【账号直充】夸克扫描会员『12个月丨拼多多专用』",
+        "goods_price": "120.34",
+        "face_value": "268.00",
+        "stock_num": 9990,
+        "status": 1
+      },
+      {
+        "id": 71316,
+        "goods_name": "【账号直充】夸克扫描会员『3天』",
+        "goods_price": "3.45",
+        "face_value": "10.00",
+        "stock_num": 9988,
+        "status": 1
+      },
+      {
+        "id": 71315,
+        "goods_name": "【账号直充】夸克扫描会员『7天』",
+        "goods_price": "5.27",
+        "face_value": "25.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71320,
+        "goods_name": "【账号直充】夸克扫描会员『12个月』",
+        "goods_price": "125.10",
+        "face_value": "268.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71314,
+        "goods_name": "【账号直充】夸克扫描会员『24个月』",
+        "goods_price": "222.57",
+        "face_value": "268.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71113,
+        "goods_name": "【官方直充】夸克学习会员『1个月』",
+        "goods_price": "11.16",
+        "face_value": "30.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71112,
+        "goods_name": "【官方直充】夸克学习会员『3个月』",
+        "goods_price": "19.64",
+        "face_value": "56.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71111,
+        "goods_name": "【官方直充】夸克学习会员『12个月』",
+        "goods_price": "44.36",
+        "face_value": "198.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71110,
+        "goods_name": "【官方直充】夸克学习会员『24个月』",
+        "goods_price": "62.12",
+        "face_value": "366.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71109,
+        "goods_name": "【官方直充】夸克学习会员『36个月』",
+        "goods_price": "93.56",
+        "face_value": "544.00",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_cloud_迅雷": {
+    "categoryId": "target_cloud",
+    "categoryName": "网盘",
+    "brand": "迅雷",
+    "skuCount": 14,
+    "skus": [
+      {
+        "id": 73031,
+        "goods_name": "【账号直充】迅雷加速器VIP会员『1个月』",
+        "goods_price": "18.52",
+        "face_value": "25.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 73030,
+        "goods_name": "【账号直充】迅雷加速器VIP会员『3个月』",
+        "goods_price": "57.42",
+        "face_value": "75.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 73029,
+        "goods_name": "【账号直充】迅雷加速器VIP会员『6个月』",
+        "goods_price": "56.12",
+        "face_value": "99.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 73028,
+        "goods_name": "【账号直充】迅雷加速器VIP会员『12个月』",
+        "goods_price": "175.73",
+        "face_value": "300.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 72041,
+        "goods_name": "【账号直充】A -  迅雷超级会员『7天』",
+        "goods_price": "9.38",
+        "face_value": "15.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 72040,
+        "goods_name": "【账号直充】A -  迅雷超级会员『1个月』",
+        "goods_price": "19.23",
+        "face_value": "30.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72038,
+        "goods_name": "【账号直充】A -  迅雷超级会员『12个月』",
+        "goods_price": "148.18",
+        "face_value": "360.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72036,
+        "goods_name": "【账号直充】B- 迅雷白金会员『3个月』",
+        "goods_price": "26.77",
+        "face_value": "30.77",
+        "stock_num": 99995,
+        "status": 1
+      },
+      {
+        "id": 72035,
+        "goods_name": "【账号直充】B- 迅雷白金会员『12个月』",
+        "goods_price": "85.06",
+        "face_value": "85.25",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72034,
+        "goods_name": "【账号直充】B- 迅雷超级会员『1个月』",
+        "goods_price": "19.23",
+        "face_value": "25.23",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 72032,
+        "goods_name": "【账号直充】B- 迅雷超级会员『12个月』",
+        "goods_price": "153.31",
+        "face_value": "240.20",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 72031,
+        "goods_name": "【账号直充】C -迅雷超级会员『2个月丨早上7.00~凌晨1.00』",
+        "goods_price": "43.02",
+        "face_value": "45.14",
+        "stock_num": 991,
+        "status": 1
+      },
+      {
+        "id": 73027,
+        "goods_name": "【账号直充】迅雷加速器VIP会员『2个月』",
+        "goods_price": "15.52",
+        "face_value": "99.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 72037,
+        "goods_name": "【账号直充】B- 迅雷白金会员『1个月』",
+        "goods_price": "10.12",
+        "face_value": "12.56",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_tool_剪映": {
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "剪映",
+    "skuCount": 13,
+    "skus": [
+      {
+        "id": 71282,
+        "goods_name": "【账号直充】W-剪映VIP会员『7天丨手机端』",
+        "goods_price": "11.60",
+        "face_value": "16.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71281,
+        "goods_name": "【账号直充】W-剪映VIP会员『1个月丨手机端』",
+        "goods_price": "16.78",
+        "face_value": "30.00",
+        "stock_num": 9982,
+        "status": 1
+      },
+      {
+        "id": 71280,
+        "goods_name": "【账号直充】W-剪映VIP会员『12个月丨手机端』",
+        "goods_price": "82.51",
+        "face_value": "258.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71279,
+        "goods_name": "【账号直充】W-剪映SVIP会员『7天』",
+        "goods_price": "21.88",
+        "face_value": "42.00",
+        "stock_num": 99996,
+        "status": 1
+      },
+      {
+        "id": 71278,
+        "goods_name": "【账号直充】W-剪映SVIP会员『1个月』",
+        "goods_price": "34.51",
+        "face_value": "79.00",
+        "stock_num": 99997,
+        "status": 1
+      },
+      {
+        "id": 71277,
+        "goods_name": "【账号直充】W-剪映SVIP会员『12个月』",
+        "goods_price": "207.41",
+        "face_value": "758.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71276,
+        "goods_name": "【账号直充】C-剪映SVIP会员『12个月』",
+        "goods_price": "209.32",
+        "face_value": "758.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71275,
+        "goods_name": "【账号直充】W-剪映SVIP会员『1个月丨仅支持新用户』",
+        "goods_price": "26.54",
+        "face_value": "79.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 71273,
+        "goods_name": "【官方直充】剪映VIP会员『7天丨手机端』",
+        "goods_price": "11.45",
+        "face_value": "16.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71272,
+        "goods_name": "【官方直充】剪映VIP会员『1个月丨手机端』",
+        "goods_price": "16.52",
+        "face_value": "30.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71270,
+        "goods_name": "【官方直充】剪映SVIP会员『7天丨电脑+手机端』",
+        "goods_price": "21.56",
+        "face_value": "30.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71269,
+        "goods_name": "【官方直充】剪映SVIP会员『1个月丨电脑+手机端』",
+        "goods_price": "34.26",
+        "face_value": "50.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71268,
+        "goods_name": "【官方直充】剪映SVIP会员『12个月丨电脑+手机端』",
+        "goods_price": "208.51",
+        "face_value": "488.00",
+        "stock_num": 9998,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_tool_WPS": {
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "WPS",
+    "skuCount": 30,
+    "skus": [
+      {
+        "id": 71264,
+        "goods_name": "【账号直充】WPS大会员『7天』",
+        "goods_price": "8.15",
+        "face_value": "18.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71263,
+        "goods_name": "【账号直充】WPS大会员『1个月』",
+        "goods_price": "24.47",
+        "face_value": "60.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71262,
+        "goods_name": "【账号直充】WPS大会员『3个月』",
+        "goods_price": "65.56",
+        "face_value": "180.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71261,
+        "goods_name": "【账号直充】WPS大会员『12个月』",
+        "goods_price": "136.01",
+        "face_value": "360.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71259,
+        "goods_name": "【账号直充】B-WPS大会员『7天』",
+        "goods_price": "8.17",
+        "face_value": "18.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71258,
+        "goods_name": "【账号直充】B-WPS大会员『1个月』",
+        "goods_price": "24.48",
+        "face_value": "60.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71257,
+        "goods_name": "【账号直充】B-WPS大会员『3个月』",
+        "goods_price": "65.56",
+        "face_value": "180.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71256,
+        "goods_name": "【账号直充】B-WPS大会员『12个月』",
+        "goods_price": "136.01",
+        "face_value": "360.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71255,
+        "goods_name": "【账号直充】B-WPS大会员『24个月』",
+        "goods_price": "299.60",
+        "face_value": "360.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 71254,
+        "goods_name": "【账号直充】WPS AI会员『3个月』",
+        "goods_price": "51.92",
+        "face_value": "90.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 71253,
+        "goods_name": "【账号直充】WPS AI会员『12个月』",
+        "goods_price": "200.42",
+        "face_value": "365.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 71251,
+        "goods_name": "【账号直充】A-WPS超级会员『7天丨无限制』",
+        "goods_price": "7.58",
+        "face_value": "11.39",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71250,
+        "goods_name": "【账号直充】A-WPS超级会员『1个月丨无限制』",
+        "goods_price": "15.30",
+        "face_value": "30.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71249,
+        "goods_name": "【账号直充】A-WPS超级会员『3个月丨无限制』",
+        "goods_price": "36.84",
+        "face_value": "69.00",
+        "stock_num": 9995,
+        "status": 1
+      },
+      {
+        "id": 71248,
+        "goods_name": "【账号直充】A-WPS超级会员『12个月丨无限制』",
+        "goods_price": "94.18",
+        "face_value": "179.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71245,
+        "goods_name": "【账号直充】WPS超级会员『7天丨无限制』",
+        "goods_price": "7.58",
+        "face_value": "20.31",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71244,
+        "goods_name": "【账号直充】WPS超级会员『7天丨有失败率』",
+        "goods_price": "7.49",
+        "face_value": "10.86",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71243,
+        "goods_name": "【账号直充】WPS超级会员『1个月』",
+        "goods_price": "13.32",
+        "face_value": "20.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71242,
+        "goods_name": "【账号直充】WPS超级会员『3个月』",
+        "goods_price": "36.70",
+        "face_value": "69.00",
+        "stock_num": 1101,
+        "status": 1
+      },
+      {
+        "id": 71241,
+        "goods_name": "【账号直充】WPS超级会员『12个月』",
+        "goods_price": "89.78",
+        "face_value": "179.00",
+        "stock_num": 9992,
+        "status": 1
+      },
+      {
+        "id": 71238,
+        "goods_name": "【账号直充】G-WPS超级会员『12个月』",
+        "goods_price": "88.07",
+        "face_value": "179.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71237,
+        "goods_name": "【账号直充】WPS普通会员『12个月』",
+        "goods_price": "83.34",
+        "face_value": "90.72",
+        "stock_num": 9992,
+        "status": 1
+      },
+      {
+        "id": 71266,
+        "goods_name": "【账号直充】WPS PDF套餐包『1个月』",
+        "goods_price": "13.47",
+        "face_value": "15.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71265,
+        "goods_name": "【账号直充】WPS图片套餐包『1个月』",
+        "goods_price": "13.47",
+        "face_value": "15.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71260,
+        "goods_name": "【账号直充】WPS大会员『24个月』",
+        "goods_price": "248.64",
+        "face_value": "360.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71252,
+        "goods_name": "【账号直充】WPS AI会员『1个月』",
+        "goods_price": "50.70",
+        "face_value": "51.35",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71247,
+        "goods_name": "【账号直充】WPS超级会员『24个月』",
+        "goods_price": "159.72",
+        "face_value": "418.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71246,
+        "goods_name": "【账号直充】WPS超级会员『48个月』",
+        "goods_price": "296.44",
+        "face_value": "418.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71240,
+        "goods_name": "【账号直充】A-WPS超级会员『24个月』",
+        "goods_price": "161.56",
+        "face_value": "179.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71239,
+        "goods_name": "【账号直充】G-WPS超级会员『1个月』",
+        "goods_price": "14.13",
+        "face_value": "30.00",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_tool_醒图": {
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "醒图",
+    "skuCount": 5,
+    "skus": [
+      {
+        "id": 71287,
+        "goods_name": "【账号直充】醒图VIP会员『1个月』",
+        "goods_price": "9.19",
+        "face_value": "17.16",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71286,
+        "goods_name": "【账号直充】醒图VIP会员『12个月』",
+        "goods_price": "53.08",
+        "face_value": "75.30",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71285,
+        "goods_name": "【账号直充】醒图SVIP会员『7天』",
+        "goods_price": "8.85",
+        "face_value": "16.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 71284,
+        "goods_name": "【账号直充】醒图SVIP会员『1个月』",
+        "goods_price": "8.79",
+        "face_value": "30.00",
+        "stock_num": 9984,
+        "status": 1
+      },
+      {
+        "id": 71283,
+        "goods_name": "【账号直充】醒图SVIP会员『12个月』",
+        "goods_price": "69.84",
+        "face_value": "230.00",
+        "stock_num": 9996,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_tool_百度文库": {
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "百度文库",
+    "skuCount": 6,
+    "skus": [
+      {
+        "id": 71234,
+        "goods_name": "【账号直充】百度文库VIP会员『1个月』",
+        "goods_price": "17.65",
+        "face_value": "117.01",
+        "stock_num": 10000,
+        "status": 1
+      },
+      {
+        "id": 71233,
+        "goods_name": "【账号直充】百度文库VIP会员『3个月』",
+        "goods_price": "26.49",
+        "face_value": "51.74",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 71232,
+        "goods_name": "【账号直充】百度文库VIP会员『12个月』",
+        "goods_price": "66.51",
+        "face_value": "100.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 71236,
+        "goods_name": "【账号直充】百度文库VIP会员『3天丨早8-晚1点』",
+        "goods_price": "6.94",
+        "face_value": "19.17",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71235,
+        "goods_name": "【账号直充】百度文库VIP会员『7天丨早8-晚1点』",
+        "goods_price": "10.94",
+        "face_value": "107.69",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 71228,
+        "goods_name": "【账号直充】百度文库VIP会员『14天丨早8-晚1点』",
+        "goods_price": "13.95",
+        "face_value": "19.17",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_tool_乐播投屏": {
+    "categoryId": "target_tool",
+    "categoryName": "办公工具",
+    "brand": "乐播投屏",
+    "skuCount": 0,
+    "skus": []
+  },
+  "brand_target_bike_哈啰": {
+    "categoryId": "target_bike",
+    "categoryName": "共享单车",
+    "brand": "哈啰",
+    "skuCount": 5,
+    "skus": [
+      {
+        "id": 73168,
+        "goods_name": "【账号直充】哈啰助力车『7天60分钟』",
+        "goods_price": "9.55",
+        "face_value": "18.37",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 73167,
+        "goods_name": "【账号直充】哈啰单车骑行『7天』",
+        "goods_price": "8.96",
+        "face_value": "15.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 73166,
+        "goods_name": "【账号直充】哈啰单车骑行『1个月』",
+        "goods_price": "20.23",
+        "face_value": "25.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 73165,
+        "goods_name": "【账号直充】哈啰单车骑行『3个月』",
+        "goods_price": "65.47",
+        "face_value": "75.00",
+        "stock_num": 99999,
+        "status": 1
+      },
+      {
+        "id": 73164,
+        "goods_name": "【账号直充】哈啰单车骑行『12个月』",
+        "goods_price": "4040.76",
+        "face_value": "4040.76",
+        "stock_num": 9999,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_bike_美团单车": {
+    "categoryId": "target_bike",
+    "categoryName": "共享单车",
+    "brand": "美团单车",
+    "skuCount": 2,
+    "skus": [
+      {
+        "id": 73196,
+        "goods_name": "【账号直充】美团单车骑行卡『30天90次』",
+        "goods_price": "16.92",
+        "face_value": "60.00",
+        "stock_num": 9997,
+        "status": 1
+      },
+      {
+        "id": 73195,
+        "goods_name": "【账号直充】美团单车骑行卡『1个月』",
+        "goods_price": "15.98",
+        "face_value": "35.00",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  },
+  "brand_target_bike_美团电单车": {
+    "categoryId": "target_bike",
+    "categoryName": "共享单车",
+    "brand": "美团电单车",
+    "skuCount": 2,
+    "skus": [
+      {
+        "id": 73193,
+        "goods_name": "【账号直充】美团电单车骑行卡『7天5次丨单次最高抵扣3元』",
+        "goods_price": "9.75",
+        "face_value": "15.00",
+        "stock_num": 9995,
+        "status": 1
+      },
+      {
+        "id": 73192,
+        "goods_name": "【账号直充】美团电单车骑行卡『15天5次丨单次最高抵扣3元』",
+        "goods_price": "10.33",
+        "face_value": "18.00",
+        "stock_num": 9998,
+        "status": 1
+      }
+    ]
+  },
+  "brand_target_bike_青桔": {
+    "categoryId": "target_bike",
+    "categoryName": "共享单车",
+    "brand": "青桔",
+    "skuCount": 19,
+    "skus": [
+      {
+        "id": 73187,
+        "goods_name": "【账号直充】滴滴青桔单车骑行『7天』",
+        "goods_price": "6.94",
+        "face_value": "10.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73186,
+        "goods_name": "【账号直充】滴滴青桔单车骑行『30天30次』",
+        "goods_price": "13.11",
+        "face_value": "20.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73185,
+        "goods_name": "【账号直充】滴滴青桔单车骑行『1个月』限价16元",
+        "goods_price": "14.36",
+        "face_value": "25.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 73184,
+        "goods_name": "【账号直充】滴滴青桔单车骑行『12个月』限价158元",
+        "goods_price": "150.79",
+        "face_value": "300.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73183,
+        "goods_name": "【账号直充】滴滴青桔单车骑行『3个月』限价47元",
+        "goods_price": "40.82",
+        "face_value": "75.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73182,
+        "goods_name": "【账号直充】青桔电单车骑行卡『7天6次』限价6.8元",
+        "goods_price": "5.95",
+        "face_value": "10.59",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73181,
+        "goods_name": "【账号直充】青桔电单车骑行卡『15天15次』限价16.8元",
+        "goods_price": "14.31",
+        "face_value": "45.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73180,
+        "goods_name": "【账号直充】青桔电单车骑行卡『30天90次』限价64元",
+        "goods_price": "60.07",
+        "face_value": "180.00",
+        "stock_num": 9998,
+        "status": 1
+      },
+      {
+        "id": 73179,
+        "goods_name": "【账号直充】青桔电单车骑行卡1个月（限4次/日）限价55.8元",
+        "goods_price": "48.29",
+        "face_value": "120.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73178,
+        "goods_name": "【账号直充】青桔电单车骑行卡2个月（限4次/日）限价108元",
+        "goods_price": "100.02",
+        "face_value": "240.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73177,
+        "goods_name": "【账号直充】青桔电单车骑行卡3个月（限4次/日）限价158元",
+        "goods_price": "146.57",
+        "face_value": "360.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73176,
+        "goods_name": "【账号直充】青桔电单车骑行卡6个月（限4次/日）限价289元",
+        "goods_price": "269.32",
+        "face_value": "720.00",
+        "stock_num": 9999,
+        "status": 1
+      },
+      {
+        "id": 73175,
+        "goods_name": "【账号直充】青桔电单车骑行卡『7天5次』",
+        "goods_price": "5.27",
+        "face_value": "11.45",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 73174,
+        "goods_name": "【账号直充】青桔电单车骑行卡『30天15次』",
+        "goods_price": "26.40",
+        "face_value": "48.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 73173,
+        "goods_name": "【账号直充】青桔电单车30天卡夜间卡（限核销20次/日）",
+        "goods_price": "95.18",
+        "face_value": "360.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 73172,
+        "goods_name": "【账号直充】青桔电单车骑行卡7天（限4次/日）",
+        "goods_price": "15.11",
+        "face_value": "21.74",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 73171,
+        "goods_name": "【账号直充】青桔电单车骑行卡14天（限4次/日）",
+        "goods_price": "28.10",
+        "face_value": "50.00",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 73170,
+        "goods_name": "【账号直充】青桔电单车骑行卡『15天10次』",
+        "goods_price": "21.30",
+        "face_value": "21.74",
+        "stock_num": 0,
+        "status": 2
+      },
+      {
+        "id": 73169,
+        "goods_name": "【账号直充】青桔电单车骑行卡『30天35次』",
+        "goods_price": "59.57",
+        "face_value": "105.00",
+        "stock_num": 0,
+        "status": 2
+      }
+    ]
+  }
+}
