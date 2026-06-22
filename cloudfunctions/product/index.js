@@ -859,12 +859,28 @@ function fillTestPriceForUnconfiguredPackage(pkg) {
     }
     return Object.assign(Object.assign({}, pkg), { price: makeTestSalePrice(pkg.costPrice), online: true });
 }
+async function loadPackageDetails(client, descriptors) {
+    const ids = Array.from(new Set(descriptors.map((d) => d.shunshiGoodsId).filter((id) => id > 0)));
+    const map = new Map();
+    await mapWithConcurrency(ids, IMAGE_CACHE_CONCURRENCY, async (id) => {
+        try {
+            const detail = await client.getProductDetail(id);
+            map.set(id, detail);
+        }
+        catch (err) {
+            console.warn('[product.syncProducts] 获取商品详情失败，跳过 goods_info/goods_notice:', id, err);
+        }
+    });
+    return map;
+}
 /** 套餐描述转 Package（新套餐：测试期按成本 1.1 倍生成售价并可售） */
-function buildPackageFromDescriptor(d, isDefault) {
+function buildPackageFromDescriptor(d, isDefault, detail) {
     const pkg = {
         packageId: `pkg_${d.shunshiGoodsId}`,
-        name: d.period || '默认',
+        name: d.period || d.shunshiName || `SKU ${d.shunshiGoodsId}`,
         memberType: d.memberType,
+        goodsInfo: detail ? detail.goods_info || '' : '',
+        goodsNotice: detail ? detail.goods_notice || '' : '',
         price: makeTestSalePrice(d.costPrice),
         costPrice: d.costPrice,
         faceValue: d.faceValue,
@@ -897,8 +913,11 @@ function buildAccountVariants(d) {
 /** 新建品牌商品 */
 async function createBrandProduct(productId, g, descriptors, repItem) {
     const now = new Date();
-    const packages = descriptors.map((d, i) => buildPackageFromDescriptor(d, i === 0));
+    const client = (0, shunshi_1.getShunshiClient)();
+    const detailMap = await loadPackageDetails(client, descriptors);
+    const packages = descriptors.map((d, i) => buildPackageFromDescriptor(d, i === 0, detailMap.get(d.shunshiGoodsId)));
     const stockNum = descriptors.reduce((sum, d) => sum + (d.stock || 0), 0);
+    const repDetail = detailMap.get(repItem.id) || detailMap.get(descriptors[0].shunshiGoodsId);
     const product = {
         productId,
         // 品牌商品由多 SKU 聚合，product 级 shunshiGoodsId 仅保留代表值（套餐各自绑定真实 SKU）
@@ -910,8 +929,10 @@ async function createBrandProduct(productId, g, descriptors, repItem) {
         categoryName: g.categoryName,
         brandIcon: await resolveProductBrandIcon(repItem),
         shunshiImg: repItem.goods_img,
+        goodsInfo: repDetail ? repDetail.goods_info || '' : '',
+        goodsNotice: repDetail ? repDetail.goods_notice || '' : '',
         tags: [],
-        description: '',
+        description: repDetail ? repDetail.goods_info || '' : '',
         rechargeMethod: '手机号直充',
         accountType: '',
         autoActivate: false,
@@ -938,7 +959,10 @@ async function createBrandProduct(productId, g, descriptors, repItem) {
  * - 商品级仅更新顺势字段，不覆盖管理员配置（name/online/sortWeight/rules 等）
  */
 async function mergeBrandProduct(existing, g, descriptors, repItem) {
+    var _a, _b;
     const packages = (existing.packages || []).map((p) => (Object.assign({}, p)));
+    const client = (0, shunshi_1.getShunshiClient)();
+    const detailMap = await loadPackageDetails(client, descriptors);
     // 已有套餐按去重键建索引（品牌套餐 name 即周期）
     const keyToIndex = new Map();
     packages.forEach((p, i) => {
@@ -951,14 +975,14 @@ async function mergeBrandProduct(existing, g, descriptors, repItem) {
         const idx = keyToIndex.has(key) ? keyToIndex.get(key) : keyToIndex.get(`sku:${d.shunshiGoodsId}`);
         if (idx !== undefined && packages[idx]) {
             // 更新顺势字段与绑定 SKU，保留管理员售价/上下架/默认标记/名称
-            packages[idx] = fillTestPriceForUnconfiguredPackage(Object.assign(Object.assign({}, packages[idx]), { memberType: packages[idx].memberType || d.memberType, shunshiGoodsId: d.shunshiGoodsId, shunshiName: d.shunshiName, costPrice: d.costPrice, faceValue: d.faceValue, stock: d.stock }));
+            packages[idx] = fillTestPriceForUnconfiguredPackage(Object.assign(Object.assign({}, packages[idx]), { memberType: packages[idx].memberType || d.memberType, goodsInfo: ((_a = detailMap.get(d.shunshiGoodsId)) === null || _a === void 0 ? void 0 : _a.goods_info) || packages[idx].goodsInfo || '', goodsNotice: ((_b = detailMap.get(d.shunshiGoodsId)) === null || _b === void 0 ? void 0 : _b.goods_notice) || packages[idx].goodsNotice || '', shunshiGoodsId: d.shunshiGoodsId, shunshiName: d.shunshiName, costPrice: d.costPrice, faceValue: d.faceValue, stock: d.stock }));
             const variants = buildAccountVariants(d);
             if (variants.length > 0) {
                 packages[idx].accountVariants = variants;
             }
         }
         else {
-            const np = buildPackageFromDescriptor(d, false);
+            const np = buildPackageFromDescriptor(d, false, detailMap.get(d.shunshiGoodsId));
             packages.push(np);
             keyToIndex.set(key, packages.length - 1);
         }
@@ -968,12 +992,15 @@ async function mergeBrandProduct(existing, g, descriptors, repItem) {
         packages[0].isDefault = true;
     }
     const brandIcon = await resolveProductBrandIcon(repItem, existing);
+    const repDetail = detailMap.get(repItem.id) || detailMap.get(descriptors[0].shunshiGoodsId);
     const data = {
         packages,
         brandIcon,
         shunshiName: repItem.goods_name,
         shunshiGoodsId: repItem.id,
         shunshiImg: repItem.goods_img,
+        goodsInfo: repDetail ? repDetail.goods_info || '' : existing.goodsInfo || '',
+        goodsNotice: repDetail ? repDetail.goods_notice || '' : existing.goodsNotice || '',
         shunshiStatus: repItem.status,
         stockNum: descriptors.reduce((sum, d) => sum + (d.stock || 0), 0),
         categoryId: g.categoryId,
@@ -1135,12 +1162,21 @@ async function updateExistingProduct(existing, item, categoryId, categoryName) {
  */
 async function addNewProduct(item, cateId, categoryName, categoryId) {
     const now = new Date();
+    let detail;
+    try {
+        detail = await (0, shunshi_1.getShunshiClient)().getProductDetail(item.id);
+    }
+    catch (err) {
+        console.warn('[product.syncProducts] 获取商品详情失败，跳过 goods_info/goods_notice:', item.id, err);
+    }
     const costPrice = parseFloat(item.goods_price);
     // 默认套餐：测试期按成本价 1.1 倍生成售价；成本/面值/库存来自顺势（字符串转数字）
     const defaultPackage = {
         packageId: `pkg_${item.id}_default`,
-        name: '默认套餐',
+        name: item.goods_name,
         memberType: '',
+        goodsInfo: detail ? detail.goods_info || '' : '',
+        goodsNotice: detail ? detail.goods_notice || '' : '',
         price: makeTestSalePrice(costPrice),
         costPrice,
         faceValue: parseFloat(item.face_value),
@@ -1161,8 +1197,10 @@ async function addNewProduct(item, cateId, categoryName, categoryId) {
         categoryName,
         brandIcon: await resolveProductBrandIcon(item),
         shunshiImg: item.goods_img,
+        goodsInfo: detail ? detail.goods_info || '' : '',
+        goodsNotice: detail ? detail.goods_notice || '' : '',
         tags: [],
-        description: '',
+        description: detail ? detail.goods_info || '' : '',
         rechargeMethod: '手机号直充',
         accountType: '',
         autoActivate: false,

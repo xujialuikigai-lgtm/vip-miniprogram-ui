@@ -1391,13 +1391,21 @@ async function addNewProduct(
   categoryId?: string
 ): Promise<void> {
   const now = new Date();
+  let detail: ShunshiProductDetail | undefined;
+  try {
+    detail = await getShunshiClient().getProductDetail(item.id);
+  } catch (err) {
+    console.warn('[product.syncProducts] 获取商品详情失败，跳过 goods_info/goods_notice:', item.id, err);
+  }
 
   const costPrice = parseFloat(item.goods_price);
   // 默认套餐：测试期按成本价 1.1 倍生成售价；成本/面值/库存来自顺势（字符串转数字）
   const defaultPackage: Package = {
     packageId: `pkg_${item.id}_default`,
-    name: '默认套餐',
+    name: item.goods_name,
     memberType: '',
+    goodsInfo: detail ? detail.goods_info || '' : '',
+    goodsNotice: detail ? detail.goods_notice || '' : '',
     price: makeTestSalePrice(costPrice),
     costPrice,
     faceValue: parseFloat(item.face_value),
@@ -1419,8 +1427,10 @@ async function addNewProduct(
     categoryName,
     brandIcon: await resolveProductBrandIcon(item),
     shunshiImg: item.goods_img,
+    goodsInfo: detail ? detail.goods_info || '' : '',
+    goodsNotice: detail ? detail.goods_notice || '' : '',
     tags: [],
-    description: '',
+    description: detail ? detail.goods_info || '' : '',
     rechargeMethod: '手机号直充',
     accountType: '',
     autoActivate: false,

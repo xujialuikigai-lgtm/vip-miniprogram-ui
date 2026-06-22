@@ -234,6 +234,16 @@
   color: #555e6c;
 }
 
+.interface-content {
+  padding: 24rpx;
+  color: #555e6c;
+  background: #fbfcfc;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
 .compare {
   overflow: hidden;
   background: #fbfcfc;

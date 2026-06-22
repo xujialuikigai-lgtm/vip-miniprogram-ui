@@ -106,11 +106,13 @@ Page({
         const packages = res.data.packages || product.packages || [];
         // 会员类型去重（保留套餐定义顺序）
         const memberTypes = [];
+        const hasUnspecifiedMemberType = packages.some((p) => !p.memberType);
         packages.forEach((p) => {
-            const t = p.memberType || '会员';
+            const t = p.memberType || '';
             if (memberTypes.indexOf(t) < 0)
                 memberTypes.push(t);
         });
+        const visibleMemberTypes = hasUnspecifiedMemberType ? [] : memberTypes.filter(Boolean);
         // 设置导航栏标题为商品名
         if (product.name) {
             wx.setNavigationBarTitle({ title: product.name });
@@ -120,7 +122,7 @@ Page({
             product,
             productIcon: pickRenderableImageUrl(product.brandIcon, product.shunshiImg),
             attachTemplate: product.attachTemplate || [],
-            memberTypes
+            memberTypes: visibleMemberTypes
         }, () => {
             // 初始化会员类型与套餐选择
             this.initSelection(packages, keepForm);
@@ -144,7 +146,7 @@ Page({
         // 3. 首个套餐
         if (!target)
             target = packages[0];
-        const activeMemberType = target ? target.memberType || '会员' : '';
+        const activeMemberType = this.data.memberTypes.length > 0 && target ? target.memberType || '' : '';
         this.refreshMemberType(activeMemberType, target ? target.packageId : '');
         // 非保留场景重置表单
         if (!keepForm) {
@@ -168,7 +170,7 @@ Page({
     refreshMemberType(memberType, preferPackageId) {
         const all = this._allPackages || [];
         const visiblePackages = all
-            .filter((p) => (p.memberType || '会员') === memberType)
+            .filter((p) => !memberType || (p.memberType || '') === memberType)
             .map((p) => this.toDisplayPackage(p));
         let selected;
         if (preferPackageId) {

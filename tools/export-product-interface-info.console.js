@@ -181,6 +181,8 @@
       stockNum: p.stockNum,
       tags: p.tags || [],
       description: p.description || '',
+      goodsInfo: p.goodsInfo || '',
+      goodsNotice: p.goodsNotice || '',
       rules: p.rules || {},
       attachTemplate: p.attachTemplate || [],
       images: {
@@ -194,6 +196,8 @@
         packageId: pkg.packageId,
         name: pkg.name,
         memberType: pkg.memberType,
+        goodsInfo: pkg.goodsInfo || '',
+        goodsNotice: pkg.goodsNotice || '',
         price: pkg.price,
         costPrice: pkg.costPrice,
         faceValue: pkg.faceValue,
@@ -224,9 +228,33 @@
         shunshiImg: p.images.shunshiImg,
         price: p.packages && p.packages[0] ? p.packages[0].price : 0,
         costPrice: p.packages && p.packages[0] ? p.packages[0].costPrice : 0,
+        goodsInfo: p.goodsInfo || '',
+        goodsNotice: p.goodsNotice || '',
         packageCount: p.packages.length
       }))
   }));
+
+  const interfaceFieldSamples = okProducts
+    .filter((p) => p.goodsInfo || p.goodsNotice || (p.packages || []).some((pkg) => pkg.goodsInfo || pkg.goodsNotice))
+    .slice(0, 12)
+    .map((p) => ({
+      productId: p.productId,
+      name: p.name,
+      shunshiName: p.shunshiName,
+      goodsInfo: p.goodsInfo || '',
+      goodsNotice: p.goodsNotice || '',
+      packages: (p.packages || [])
+        .filter((pkg) => pkg.goodsInfo || pkg.goodsNotice)
+        .slice(0, 4)
+        .map((pkg) => ({
+          packageId: pkg.packageId,
+          name: pkg.name,
+          shunshiGoodsId: pkg.shunshiGoodsId,
+          shunshiName: pkg.shunshiName,
+          goodsInfo: pkg.goodsInfo || '',
+          goodsNotice: pkg.goodsNotice || ''
+        }))
+    }));
 
   const exportData = {
     exportedAt: new Date().toISOString(),
@@ -243,6 +271,8 @@
         'goods_type',
         'face_value',
         'goods_price',
+        'goods_info',
+        'goods_notice',
         'status',
         'stock_num'
       ],
@@ -255,6 +285,8 @@
         'categoryName',
         'brandIcon',
         'shunshiImg',
+        'goodsInfo',
+        'goodsNotice',
         'tags',
         'description',
         'rechargeMethod',
@@ -274,6 +306,8 @@
         'packageId',
         'name',
         'memberType',
+        'goodsInfo',
+        'goodsNotice',
         'price',
         'costPrice',
         'faceValue',
@@ -296,6 +330,7 @@
     },
     categories,
     sampleByCategory,
+    interfaceFieldSamples,
     failedProducts,
     products
   };
@@ -325,7 +360,8 @@
     localFilePath,
     cloudFile,
     counts: exportData.counts,
-    samples: sampleByCategory
+    samples: sampleByCategory,
+    interfaceFieldSamples
   };
 
   wx.setClipboardData({
@@ -338,5 +374,6 @@
   console.log('[export] 云文件：', cloudFile);
   console.log('[export] 统计：', exportData.counts);
   console.log('[export] 分类样例：', sampleByCategory);
+  console.log('[export] goods_info / goods_notice 样例：', interfaceFieldSamples);
   return exportData;
 })();

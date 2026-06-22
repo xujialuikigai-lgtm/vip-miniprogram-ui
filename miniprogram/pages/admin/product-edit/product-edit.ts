@@ -31,6 +31,8 @@ interface EditPackage {
   packageId: string;
   name: string;
   memberType: string;
+  goodsInfo?: string;
+  goodsNotice?: string;
   price: number;
   costPrice: number;
   faceValue: number;
@@ -208,6 +210,8 @@ Page({
       packageId: p.packageId || '',
       name: p.name || '',
       memberType: p.memberType || '',
+      goodsInfo: p.goodsInfo || '',
+      goodsNotice: p.goodsNotice || '',
       price: Number(p.price) || 0,
       costPrice: Number(p.costPrice) || 0,
       faceValue: Number(p.faceValue) || 0,
@@ -427,6 +431,8 @@ Page({
       packageId: f.packageId || this.generatePackageId(),
       name,
       memberType: (f.memberType || '').trim(),
+      goodsInfo: existing ? existing.goodsInfo : '',
+      goodsNotice: existing ? existing.goodsNotice : '',
       price,
       costPrice,
       // 编辑时保留原 faceValue，新增默认0
@@ -467,6 +473,8 @@ Page({
       packageId: p.packageId,
       name: p.name,
       memberType: p.memberType,
+      goodsInfo: p.goodsInfo,
+      goodsNotice: p.goodsNotice,
       price: p.price,
       costPrice: p.costPrice,
       faceValue: p.faceValue,
